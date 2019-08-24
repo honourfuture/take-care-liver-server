@@ -1,0 +1,13 @@
+body {
+  font-family: "Microsoft Yahei", 微软雅黑, "PingFang SC", "Myriad Pro", "Hiragino Sans GB", sans-serif;
+  font-size:14px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Microsoft Yahei", 微软雅黑, "PingFang SC", "Myriad Pro", "Hiragino Sans GB", sans-serif;
+}
+
+div.user-panel>.info>p {
+    font-weight: 600;
+    line-height: 35px;
+}

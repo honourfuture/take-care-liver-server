@@ -1,0 +1,38 @@
+body {
+  font-family: "Microsoft Yahei", 微软雅黑, "PingFang SC", "Myriad Pro", "Hiragino Sans GB", sans-serif;
+  font-size:14px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Microsoft Yahei", 微软雅黑, "PingFang SC", "Myriad Pro", "Hiragino Sans GB", sans-serif;
+}
+
+div.user-panel>.info>p {
+    font-weight: 600;
+    line-height: 35px;
+}
+
+
+.main-header .logo{
+    font-family: "Microsoft Yahei", 微软雅黑, "PingFang SC", "Myriad Pro", "Hiragino Sans GB", sans-serif;
+}
+
+.skin-blue .sidebar-menu>li>.treeview-menu{margin:0 1px;}
+.sidebar-menu .treeview-menu>li{padding-left:20px;}
+
+
+
+/* Validation */
+label.error {
+  color: #cc5965;
+  display: inline-block;
+  margin-left: 5px;
+}
+.form-control.error {
+  border: 1px dotted #cc5965;
+}
+
+.table>tbody>tr>td.no-data{text-align:center;line-height:100px;}
+
+
+.detail-horizontal .form-control{border:0;padding: 8px 0;}
