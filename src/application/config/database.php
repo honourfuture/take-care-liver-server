@@ -64,10 +64,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '47.112.199.225',
 	'username' => 'root',
-	'password' => 'root',
-	'database' => 'edb_kuaima_ci',
+	'password' => 'Yingjian888_',
+	'database' => 'jkjc',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
