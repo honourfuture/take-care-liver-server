@@ -7,9 +7,7 @@ class User extends REST_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->model('user_model');
-        $this->load->model('sms_model');
-
+        $this->load->model('User_model');
     }
 
 	/**
@@ -64,7 +62,6 @@ class User extends REST_Controller {
             {
                 $ret['ret']= -2;
                 $ret['msg']="验证码错误";
-
             }
         }
         else
@@ -89,13 +86,6 @@ class User extends REST_Controller {
      *     required=true,
      *     type="string"
      *   ),
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="password",
-     *     description="密码",
-     *     required=true,
-     *     type="string"
-     *   ),
 	 *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -105,18 +95,36 @@ class User extends REST_Controller {
 
         $ret = array();
 
-        //$paramData = file_get_contents('php://input');
-        //$paramData = json_decode($paramData,true);
-        //$phone = $paramData["phone"];
         $phone = $this->input->post('phone');
 
-        $passwd = $this->input->post('password');
+        $user = $this->User_model->find_by_mobile($phone);
+        if(!$user){
+            $result['msg'] = '未找到该用户!';
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
+        }
 
-        $result = $this->user_model->login($phone,$passwd);
-        $ret["ret"]=$result?0:-1;//true or false
-        $ret["id"]=$result;
+        //生成token
+        $token = create_uuid();
 
-        $this->response($ret);
+        $update_data = array(
+            'token' => $token,
+            'expir_time' => date('Y-m-d H:i:s', strtotime('+' . $this->config->item('token_expire') . ' second'))
+        );
+
+        $update = $this->User_model->update($user['id'], $update_data);
+        if($update){
+            $this->session->set_userdata('user_id', $user['id']);
+            $result['msg'] = '登陆成功!';
+            $result['status'] = '200';
+            $result['data']['token'] = $token;
+        }else{
+            $result['msg'] = '登陆成功!';
+            $result['status'] = '200';
+            $result['data'] = [];
+        }
+        return $this->response($result);
     }
 
 
@@ -308,16 +316,9 @@ class User extends REST_Controller {
      * @SWG\Post(path="/user/update_info",
 	 *   consumes={"multipart/form-data"},
      *   tags={"User"},
-     *   summary="更新用户信息by电话号码",
-     *   description="更新用户信息by电话号码",
+     *   summary="更新用户信息",
+     *   description="更新用户",
      *   operationId="userUpdateInfo",
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
 	 *   @SWG\Parameter(
      *     in="formData",
      *     name="gender",
@@ -334,8 +335,8 @@ class User extends REST_Controller {
      *   ),
 	 *   @SWG\Parameter(
      *     in="formData",
-     *     name="name",
-     *     description="姓名",
+     *     name="weight",
+     *     description="体重",
      *     required=false,
      *     type="string"
      *   ),
@@ -343,20 +344,13 @@ class User extends REST_Controller {
      *     in="formData",
      *     name="username",
      *     description="昵称",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   @SWG\Parameter(
-     *     in="formData",
-     *     name="info",
-     *     description="简介",
      *     required=false,
      *     type="string"
      *   ),
 	 *   @SWG\Parameter(
      *     in="formData",
-     *     name="birthday",
-     *     description="出生年月",
+     *     name="id_card",
+     *     description="身份证",
      *     required=false,
      *     type="string"
      *   ),
@@ -368,28 +362,37 @@ class User extends REST_Controller {
     {
         $ret = array();
         $in = array();
-        $phone = $this->input->post('phone');
-        if($phone)
-        {
-            if($this->input->post('gender'))
-                $in["gender"] = $this->input->post('gender');
-            if($this->input->post('head_pic'))
-                $in["head_pic"] = $this->input->post('head_pic');
-            if($this->input->post('name'))
-                $in["name"] = $this->input->post('name');
-            if($this->input->post('username'))
-                $in["username"] = $this->input->post('username');
-            if($this->input->post('info'))
-                $in["info"] = $this->input->post('info');
-            if($this->input->post('birthday'))
-                $in["birthday"] = $this->input->post('birthday');
-
-            $result = $this->user_model->update_info($phone, $in);
-            $ret["ret"]=0;
+        $user_id = $this->session->userdata('user_id');
+        if(!$user_id){
+            $result['msg'] = '请登录后操作!';
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
         }
-        else
-            $ret["ret"]=-1;
-        $this->response($ret);
+
+        if($this->input->post('gender'))
+            $in["gender"] = $this->input->post('gender');
+        if($this->input->post('head_pic'))
+            $in["head_pic"] = $this->input->post('head_pic');
+        if($this->input->post('weight'))
+            $in["weight"] = $this->input->post('weight');
+        if($this->input->post('username'))
+            $in["username"] = $this->input->post('username');
+        if($this->input->post('id_card'))
+            $in["id_card"] = $this->input->post('id_card');
+
+        $updateStatus = $this->User_model->update_info($user_id, $in);
+
+        if($updateStatus){
+            $result['msg'] = '修改用户信息成功!';
+            $result['status'] = '200';
+            $result['data'] = [];
+        }else{
+            $result['msg'] = '修改用户信息失败!';
+            $result['status'] = '500';
+            $result['data'] = [];
+        }
+        return $this->response($result);
     }
 
 	/**
@@ -405,21 +408,19 @@ class User extends REST_Controller {
     public function get_info_get(){
         $user = array();
         $user_id = $this->session->userdata('user_id');
-		$user_id = 1;
-
         if($user_id){
-            $result = $this->user_model->find($user_id);
+            $result = $this->User_model->find($user_id);
             if(!empty($result)){
                 //定义返回的信息
                 $user = array(
-                    'name'     => $result->name,
                     'username'	=> $result->username,
                     'mobile'	=> $result->mobile,
                     'gender'	=> $result->gender,//性别   0:女  1:男'
-                    'birthday'	=> $result->birthday,
                     'active'	=> $result->active,//态状  1:正常    -1:冻结'
                     'info'	    => $result->info,
                     'head_pic'	    => $result->head_pic,
+                    'weight'	    => $result->weight,
+                    'id_card'	    => $result->id_card,
                 );
             }
         }

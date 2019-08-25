@@ -496,3 +496,8 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/**
+ * token过期时间（单位：秒）
+ */
+$config['token_expire'] = 7 * 24 * 60 * 60;

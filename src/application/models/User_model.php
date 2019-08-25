@@ -28,6 +28,17 @@ class User_Model extends CI_Model
         return $ip;
     }
 
+    /*
+    * 编辑
+    */
+    function update($id, $values)
+    {
+        $values['updated'] = date('Y-m-d H:i:s');
+        $this->db->where('id', $id);
+        $rslt = $this->db->update('users', $values);
+        return $rslt;
+    }
+
     public function login_check($phone,$passwd)
     {
         $this->db->select('*');
@@ -103,12 +114,12 @@ class User_Model extends CI_Model
     }
 
     //编辑用户信息
-    function update_info($phone, $values)
+    function update_info($id, $values)
     {
 
         $values["updated"]=time();
 
-        $this->db->where('mobile', $phone);
+        $this->db->where('id', $id);
         $this->db->update('users', $values);
     }
 
@@ -159,7 +170,6 @@ class User_Model extends CI_Model
 		$query = $this->db->where('id', $id);
 		$query = $this->db->get('users');
 		return $query->row();		
-
 	}
 	/*
 	* 创建
@@ -177,22 +187,6 @@ class User_Model extends CI_Model
 		$this->db->insert('users', $values);
 
 		return $this->db->insert_id();
-	}
-	
-	/*
-	* 编辑
-	*/	
-	function update($id, $values)
-	{
-		/*$data = array(
-			'name'     		=> $values['name'],
-			'description'	=> $values['description'],
-			'updated_at'	=> date('Y-m-d H:i:s')
-		);*/
-
-		$this->db->where('id', $id);
-        $rslt = $this->db->update('users', $values);
-		return $rslt;
 	}
 	
 	/*

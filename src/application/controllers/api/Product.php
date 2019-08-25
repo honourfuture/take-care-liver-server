@@ -3,16 +3,17 @@ defined('BASEPATH') or exit ('No direct script access allowed');
 
 use Restserver\Libraries\REST_Controller;
 
-class Notice extends REST_Controller
+class Product extends REST_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Product_model');
         $this->user_id = $this->session->userdata('user_id');
     }
 
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '获取数据成功!')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -21,19 +22,18 @@ class Notice extends REST_Controller
     }
 
     /**
-     * @SWG\Get(path="/notice/list",
-     *   tags={"Notice"},
-     *   summary="通知列表",
-     *   description="通知列表",
-     *   operationId="noticeList",
+     * @SWG\Get(path="/product/list",
+     *   tags={"Product"},
+     *   summary="商品",
+     *   description="商品列表",
+     *   operationId="productList",
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function list_get()
     {
-        $this->load->model('Notice_model');
-        $data = $this->Notice_model->getAllByCid();
+        $data = $this->Product_model->getAllByCid();
         if ($data) {
             $this->json($data);
         } else {

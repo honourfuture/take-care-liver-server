@@ -151,7 +151,6 @@ class Users extends Admin_Controller {
 
 		if($this->input->method() == "post")
 		{
-
 			// 表单校验
 			$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
 			$this->form_validation->set_rules('username', '昵称', 'required|min_length[2]|max_length[20]');

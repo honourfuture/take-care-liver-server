@@ -23,7 +23,7 @@ abstract class REST_Controller extends \CI_Controller {
     // Note: Only the widely used HTTP status codes are documented
 
     // Informational
-
+    protected $user_id = null;
     const HTTP_CONTINUE = 100;
     const HTTP_SWITCHING_PROTOCOLS = 101;
     const HTTP_PROCESSING = 102;            // RFC2518
@@ -574,6 +574,13 @@ abstract class REST_Controller extends \CI_Controller {
                 $this->_check_whitelist_auth();
             }
         }
+
+        $token = $this->input->get_post('token');
+        if(empty($token)){
+            $token = $this->input->get_request_header('token', TRUE);
+        }
+
+        $this->_check_token($token);
     }
 
     /**
@@ -2256,6 +2263,30 @@ abstract class REST_Controller extends \CI_Controller {
         if ($this->input->method() === 'options')
         {
             exit;
+        }
+    }
+
+    /**
+     * 检查是否登陆
+     * @param string $token
+     * @return null
+     */
+    protected function _check_token($token = '') {
+        $this->load->database();
+        $this->db->select('id');
+        $this->db->where(array(
+            'token' => $token,
+            'expir_time > ' => date('Y-m-d H:i:s')
+        ));
+        $query = $this->db->get('users');
+        $data = $query->row();
+        if ($data) {
+            $this->user_id = $data->id;
+            //更新token过期时间
+            $this->db->where('id', $this->user_id);
+            $this->db->update('users', array(
+                'expir_time' => date('Y-m-d H:i:s', strtotime('+' . $this->config->item('token_expire') . ' second'))
+            ));
         }
     }
 }
