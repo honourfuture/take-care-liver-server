@@ -417,7 +417,6 @@ class User extends REST_Controller {
                     'mobile'	=> $result->mobile,
                     'gender'	=> $result->gender,//性别   0:女  1:男'
                     'active'	=> $result->active,//态状  1:正常    -1:冻结'
-                    'info'	    => $result->info,
                     'head_pic'	    => $result->head_pic,
                     'weight'	    => $result->weight,
                     'id_card'	    => $result->id_card,
