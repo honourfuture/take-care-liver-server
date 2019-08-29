@@ -10,7 +10,6 @@ class Feedback extends REST_Controller
     {
         parent::__construct();
         $this->user_id = $this->session->userdata('user_id');
-//        $this->user_id = 1;
     }
 
     private function json($data, $code = 0, $message = '')
