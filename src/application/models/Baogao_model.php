@@ -101,10 +101,12 @@ class Baogao_model extends CI_Model
     * 获取详情
     */
 
-    function findByUserId($id, $user_id)
+    function findByUserId($id, $user_id=0)
     {
         $this->db->where('id', $id);
-        $this->db->where('user_id', $user_id);
+        if($user_id) {
+            $this->db->where('user_id', $user_id);
+        }
         $query = $this->db->get($this->table);
         return $query->row();
     }

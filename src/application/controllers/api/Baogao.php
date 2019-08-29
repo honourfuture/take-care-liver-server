@@ -45,10 +45,11 @@ class Baogao extends REST_Controller
     }
     /**
      * @SWG\Get(path="/baogao/info",
+     *   consumes={"multipart/form-data"},
      *   tags={"Baogao"},
-     *   summary="详情",
+     *   summary="报告的详情",
      *   description="报告的内容详情",
-     *   operationId="baogaodata",
+     *   operationId="baogaoinfo",
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
