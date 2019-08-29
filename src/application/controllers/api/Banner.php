@@ -33,7 +33,7 @@ class Banner extends REST_Controller
     public function data_get()
     {
         $this->load->model('Banner_model');
-        $data = $this->Help_model->getShowAllData();
+        $data = $this->Banner_model->getShowAllData();
         if ($data) {
             $this->json($data);
         } else {

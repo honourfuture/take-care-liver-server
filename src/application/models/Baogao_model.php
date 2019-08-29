@@ -20,7 +20,7 @@ class Baogao_model extends CI_Model
         if($user_id) {
             $this->db->where('user_id',$user_id);
         }
-        $this->db->limit($offset,$limit);
+        $this->db->limit($limit, $offset);
         $this->db->from($this->table);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get();

@@ -36,7 +36,7 @@ class Baogao extends REST_Controller
         $limit = $this->input->get('limit');
         $user_id = $this->session->userdata('user_id');
         $this->load->model('Baogao_model');
-        $data = $this->session->getAllData($user_id, $offset, $limit);
+        $data = $this->Baogao_model->getAllData($user_id, $offset, $limit);
         if ($data) {
             $this->json($data);
         } else {

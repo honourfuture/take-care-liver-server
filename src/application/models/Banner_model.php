@@ -18,11 +18,10 @@ class Banner_model extends CI_Model
     {
         $this->db->select('picture_url,url');
         $this->db->where('status',1);
-        $this->db->limit(0,5);
+        $this->db->limit(5,0);
         $this->db->from($this->table);
         $this->db->order_by('sort', 'desc');
         $query = $this->db->get();
-
         return $query->result();
     }
 
