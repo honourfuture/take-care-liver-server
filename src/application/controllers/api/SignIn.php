@@ -88,7 +88,7 @@ class SignIn extends REST_Controller
             }
         }
         array_values($results);
-        $this->json($results);
+        return $this->json($results);
 
     }
 

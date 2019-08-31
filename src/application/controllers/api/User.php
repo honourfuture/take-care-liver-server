@@ -7,70 +7,16 @@ class User extends REST_Controller {
 
     function __construct(){
         parent::__construct();
+        $this->load->model('Record_model');
         $this->load->model('User_model');
     }
 
-	/**
-     * @SWG\Post(path="/user/register",
-	 *   consumes={"multipart/form-data"},
-     *   tags={"User"},
-     *   summary="注册用户",
-     *   description="注册用户",
-     *   operationId="userRegister",
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="password",
-     *     description="密码",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="verify",
-     *     description="验证码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   produces={"application/json"},
-     *   @SWG\Response(response="200", description="成功")
-     * )
-     */
-    public function register_post()
+    private function json($data, $code = 200, $message = '')
     {
-        $ret = array();
-        $phone = $this->input->post('phone');
-        $passwd = $this->input->post('password');
-        if( !$this->user_model->phone_check($phone))//确定未注册过
-        {
-            $verify = $this->input->post('verify');
-            $lastVerify = $this->sms_model->getLastVerify($phone);
-            if($verify == $lastVerify && $verify!=null) //验证码通过才能修改
-            {
-                $lastid = $this->user_model->create_user($phone, $passwd);
-                $ret['ret']=0;
-                $ret['msg']="注册成功";
-                $ret["id"]=$lastid;//最后的id
-            }
-            else
-            {
-                $ret['ret']= -2;
-                $ret['msg']="验证码错误";
-            }
-        }
-        else
-        {
-            $ret['ret']=-1;
-            $ret['msg']="注册过的账号";
-        }
-
-        $this->response($ret);
+        $res['status'] = $code;
+        $res['data'] = $data;
+        $res['msg'] = $message;
+        $this->response($res);
     }
 	/**
      * @SWG\Post(path="/user/login",
@@ -92,7 +38,6 @@ class User extends REST_Controller {
      */
     public function login_post()
     {
-
         $ret = array();
 
         $phone = $this->input->post('phone');
@@ -126,190 +71,95 @@ class User extends REST_Controller {
         }
         return $this->response($result);
     }
-
-
-	/**
-     * @SWG\Post(path="/user/password_modify",
-	 *   consumes={"multipart/form-data"},
+    /**
+     * @SWG\Post(path="/user/apply_operator",
+     *   consumes={"multipart/form-data"},
      *   tags={"User"},
-     *   summary="密码修改",
-     *   description="密码修改",
-     *   operationId="userPasswordModify",
+     *   summary="申请成为经营者",
+     *   description="申请成为经营者",
+     *   operationId="userApplyOperator",
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
+     *     name="mobile",
+     *     description="电话",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="old_password",
-     *     description="旧密码",
+     *     name="username",
+     *     description="姓名",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="new_password",
-     *     description="新密码",
+     *     name="id_card",
+     *     description="身份证号码",
      *     required=true,
      *     type="string"
      *   ),
-	 *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="id_card",
+     *     description="身份证正面",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="id_card",
+     *     description="身份证反面",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
-    public function password_modify_post()
+    public function apply_operator_post()
     {
-        $phone = $this->input->post('phone');
-        $old_passwd = $this->input->post('old_password');
-        $new_passwd = $this->input->post('new_password');
-        if($this->User_Model->login_check($phone,$old_passwd))//旧密码正确
-        {
-            $result = $this->User_Model->change_password($phone, $new_passwd);
-            $ret = array();
-            $ret["ret"] = $result ? 0 : -1;
+        $in = array();
+        $user_id = $this->session->userdata('user_id');
+        if(!$user_id){
+            $result['msg'] = '请登录后操作!';
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
         }
-        else
-            $ret["ret"] = 0;
-        $this->response($ret);
-    }
 
-	/**
-     * @SWG\Post(path="/user/send_verify_code",
-	 *   consumes={"multipart/form-data"},
-     *   tags={"User"},
-     *   summary="用户需要发一条短信，注册或找回密码用",
-     *   description="用户需要发一条短信，注册或找回密码用",
-     *   operationId="userSendVerifyCode",
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   produces={"application/json"},
-     *   @SWG\Response(response="200", description="成功")
-     * )
-     */
-    public function send_verify_code_post()
-    {
-        $ret = array();
-        $phone = $this->input->post('phone');
-        $result=$this->sms_model->send_msg($phone);
-        $ret['ret']=$result?0:-1;
-        $ret['msg']=$result?"发送成功":"发送失败";
-        $this->response($ret);
-    }
-
-    //用户最近的一条验证码记录是否一致
-    //@param phone
-    //@return 1，0
-
-	/**
-     * @SWG\Post(path="/user/check_verify_code",
-	 *   consumes={"multipart/form-data"},
-     *   tags={"User"},
-     *   summary="用户最近的一条验证码记录是否一致",
-     *   description="用户最近的一条验证码记录是否一致",
-     *   operationId="userCheckVerifyCode",
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   @SWG\Parameter(
-     *     in="formData",
-     *     name="verify",
-     *     description="验证码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   produces={"application/json"},
-     *   @SWG\Response(response="200", description="成功")
-     * )
-     */
-    public function check_verify_code_post()
-    {
-        $ret = array();
-
-        $phone = $this->input->post('phone');
-        $verify = $this->input->post('verify');
-        $lastVerify = $this->sms_model->getLastVerify($phone);
-
-        if($lastVerify==null)
-        {
-            $ret['ret']=-1;
-            $ret['msg']="验证码过期";
+        $user = $this->User_model->find($user_id);
+        if($user->is_operator == 1){
+            return $this->json([], 500, '您已经是经营者');
         }
-        else if($verify!=$lastVerify){
-            $ret['ret'] = -2;
-            $ret['msg'] ="验证码不正确";
-        }
-        else
-        {
-            $ret['ret'] = 0;
-            $ret['msg'] ="验证通过";
-        }
-        $this->response($ret);
-    }
 
-	/**
-     * @SWG\Post(path="/user/password_forgot",
-	 *   consumes={"multipart/form-data"},
-     *   tags={"User"},
-     *   summary="忘记密码，用验证码修改密码",
-     *   description="忘记密码，用验证码修改密码",
-     *   operationId="userPasswordForgot",
-     *   @SWG\Parameter(
-     *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   @SWG\Parameter(
-     *     in="formData",
-     *     name="new_password",
-     *     description="新密码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   @SWG\Parameter(
-     *     in="formData",
-     *     name="verify",
-     *     description="验证码",
-     *     required=true,
-     *     type="string"
-     *   ),
-	 *   produces={"application/json"},
-     *   @SWG\Response(response="200", description="成功")
-     * )
-     */
-    public function password_forgot_post()
-    {
-        $ret = array();
-        //get posted username,password,phone,
-        $phone = $this->input->post('phone');
-        $new_passwd = $this->input->post('new_password');
-        $verify = $this->input->post('verify');
-        $lastVerify = $this->sms_model->getLastVerify($phone);
-        if ($verify == $lastVerify && $verify != null) //验证码通过才能修改
-        {
-            $result = $this->user_model->change_password($phone, $new_passwd);
-            $ret["ret"] = $result ? 0 : -2;
-            $ret["msg"] = $result ? "修改成功" : "修改失败";
-        } else
-        {
-
-        $ret["ret"] = -1;
-        $ret["msg"] = "验证码不正确" ;
+        if($user->is_operator == 2){
+            return $this->json([], 500, '您的审核已提交，请耐心等待审核');
         }
-        $this->response($ret);
+
+        if($this->input->post('username'))
+            $in["username"] = $this->input->post('username');
+        if($this->input->post('id_card'))
+            $in["id_card"] = $this->input->post('id_card');
+        if($this->input->post('mobile'))
+            $in["id_card"] = $this->input->post('mobile');
+        if($this->input->post('id_front_pic'))
+            $in["id_card"] = $this->input->post('id_front_pic');
+        if($this->input->post('id_back_pic'))
+            $in["id_card"] = $this->input->post('id_back_pic');
+
+        $in['is_operator'] = 2;
+        $updateStatus = $this->User_model->update_info($user_id, $in);
+        if($updateStatus){
+            $result['msg'] = '申请成功请等待审核!';
+            $result['status'] = '200';
+            $result['data'] = [];
+        }else{
+            $result['msg'] = '申请失败!';
+            $result['status'] = '500';
+            $result['data'] = [];
+        }
+        return $this->response($result);
     }
 
 	/**
@@ -420,12 +270,63 @@ class User extends REST_Controller {
                     'head_pic'	    => $result->head_pic,
                     'weight'	    => $result->weight,
                     'id_card'	    => $result->id_card,
+                    'is_operator'	    => $result->is_operator, //是否是经营者 0 否 1 是 2 待审核
                 );
             }
         }
         $this->response($user);
     }
+    /**
+     * @SWG\Post(path="/user/send_verify_code",
+     *   consumes={"multipart/form-data"},
+     *   tags={"User"},
+     *   summary="发送验证码",
+     *   description="发送验证码",
+     *   operationId="sendVerifyCode",
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="phone",
+     *     description="电话号码",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="type",
+     *     description="功能标识[login, addCardBank, changePhone]",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function send_verify_code_post()
+    {
+        $phone = $this->input->post('phone');
+        $type = $this->input->post('type');
 
+        if(!$this->_verify($phone )){
+            return $this->json([], 500, '验证码发送失败！');
+        }
+
+        //发送信息
+        $result = $this->Record_model->sendMessage($phone, $type);
+        if ($result) {
+            return $this->json([], 200, '验证码发送成功！');
+        } else {
+            return $this->json([], 500, ‘验证码发送失败！);
+        }
+    }
+
+    private function _verify($accountNumber)
+    {
+        if(preg_match("/^1[34578]\d{9}$/", $accountNumber)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 ?>

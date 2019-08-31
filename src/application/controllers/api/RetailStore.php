@@ -9,7 +9,7 @@ class RetailStore extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('SignIn_model');
+        $this->load->model('User_model');
         $this->user_id = $this->session->userdata('user_id');
     }
 
@@ -21,6 +21,81 @@ class RetailStore extends REST_Controller
         $this->response($res);
     }
 
+    /**
+     * @SWG\Get(path="/retailStore/info",
+     *   tags={"RetailStore"},
+     *   summary="我的分销",
+     *   description="获取我的分销数据",
+     *   operationId="retailStoreInfo",
+     *   produces={"application/json"},
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="limit",
+     *     description="每页显示条数默认10条",
+     *     required=false,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="page",
+     *     description="当前页数",
+     *     required=false,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function info_get()
+    {
+        $this->config->config['base_url'];
+
+        $page = $this->input->get('page');
+
+        if(!$page){
+            $page = 1;
+        }
+
+        $limit = $this->input->get('limit');
+        if(!$limit){
+            $limit = 10;
+        }
+        if(!$this->user_id){
+            return  $this->json([], 500, '请登录');
+        }
+
+        $offset = ($page - 1) * $limit;
+
+        $user = $this->User_model->find($this->user_id);
+        $results = [];
+        $results['shareCode'] = $user->mobile;
+        $results['shareUrl'] = $this->config->config['base_url'].'/user_id='.$user->id;
+
+        $where = [
+            'parent_id' => $this->user_id,
+        ];
+
+        $total = $this->User_model->getAllPageTotal($where);
+        $sonUsers = $this->User_model->getAllPage($where, $offset, $limit);
+        $nextMembers = [];
+
+        foreach ($sonUsers as $sonUser){
+            $nextMembers[] = [
+                'name' => $sonUsers['username'],
+                'createDate' => date('Y-m-d', strtotime($sonUsers['create_time'])),
+                'is_vip' => $sonUser['is_vip']
+            ];
+        }
+
+        $where['is_vip'] = 1;
+        $totalVip = $this->User_model->getAllPageTotal($where);
+
+        $results['nextMember'] = $nextMembers;
+        $results['memberTotal'] = $total;
+        $results['urineTotal'] = $totalVip;
+
+        return $this->json($results);
+
+    }
 }
 
 ?>

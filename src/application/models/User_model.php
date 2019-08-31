@@ -13,7 +13,14 @@ class User_Model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
+    private $table = 'users';
 
+    private function _select()
+    {
+        return  $select = array(
+            '*'
+        );
+    }
     private function getIP() {
 
         if (getenv("HTTP_CLIENT_IP"))
@@ -116,11 +123,10 @@ class User_Model extends CI_Model
     //编辑用户信息
     function update_info($id, $values)
     {
-
         $values["updated"]=time();
 
         $this->db->where('id', $id);
-        $this->db->update('users', $values);
+        return $this->db->update('users', $values);
     }
 
     //#########   for admin panel begin   ########
@@ -231,30 +237,54 @@ class User_Model extends CI_Model
         }
         return 0;
     }
-
-    /*
-	* 查找用户乘车记录
-	*/
-    function find_rides_by_mobile($num=30, $offset=0, $keyword='')
+    /**
+     * @param $wheres
+     * @return mixed
+     */
+    public function getAllPageTotal($wheres)
     {
-        if (!empty($keyword)) {
-            //查询拼车和快车订单
-            $sql = "select a.id as order_id,'1' as order_type, a.user_id, b.username, start_point, end_point, miles, minutes,create_time, update_time,create_time as order_datetime,
-                    money,pay_type,status from kuaiche_orders_info a, users b where a.user_id = b.id and b.mobile = "
-                .$keyword;
-            $sql2 = "select a.id as order_id,'2' as order_type, a.user_id, b.username, from_address as start_point, to_address as end_point, null as miles, null as minutes,create_time, null as update_time,order_datetime,
-                    null as money, null as pay_type, null as status from pinche_order a, users b where a.user_id = b.id and b.mobile = "
-                .$keyword;
-            $param = ' limit '.$offset.','.$num;
-            $sql = 'select * from('.$sql.' union '.$sql2.' ) c'.$param;
-            $query = $this->db->query($sql);
-            $total = $query->result_array();
-            return $total;
+        $this->db->select('*');
+
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
         }
-        return array();
+
+        $this->db->order_by('id', 'desc');
+
+        $this->db->from($this->table);
+        $total = $this->db->count_all_results();
+
+        return $total;
     }
+    /**
+     * @param $wheres
+     * @return mixed
+     */
+    public function getAllPage($wheres, $offset, $limit)
+    {
+        $select = $this->_select();
 
+        $this->db->select($select);
 
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+        $this->db->order_by('id', 'desc');
+        $this->db->limit($offset, $limit);
+
+        $this->db->from($this->table);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }
 
 ?>
