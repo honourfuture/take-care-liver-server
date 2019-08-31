@@ -178,45 +178,9 @@ class CardGrantRecord extends REST_Controller
         $valid_end_time = trim($this->input->post('valid_end_time'));//体检卡有效结束时间
         $user_id = trim($this->input->post('user_id'));
         $source = intval($this->input->post('source'));
-        $data = [];
-        if(!$type || !in_array($type,[1,2])) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        if($times<=0) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        if(!$source || !in_array($source,[1,2,3])) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        if(empty($valid_start_time)) {
-            $valid_start_time = date('Y-m-d H:i:s');
-        }
-        if(empty($valid_end_time)) {
-            $valid_end_time = date("Y-m-d H:i:s",strtotime("+1years"));
-        }
-        if(strtotime($valid_start_time)<=0 || strtotime($valid_end_time) <= strtotime($valid_start_time)) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        if(empty($user_id)) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        $data['type'] = $type;
-        $data['times'] = $times;
-        $data['user_id'] = $user_id;
-        $data['source'] = $source;
-        $data['valid_start_time'] = date("Y-m-d H:i:s",strtotime($valid_start_time));
-        $data['valid_end_time'] = date("Y-m-d H:i:s",strtotime($valid_end_time));
-        if (!empty($data)) {
-            $this->load->model('CardGrantRecord_model');
-            $data = $this->CardGrantRecord_model->add($data);
-            if ($data) {
-                $this->json($data);
-            } else {
-                $this->json([], 500, $message = '发放失败');
-            }
-        } else {
-            $this->json([], 500, $message = '发放失败');
-        }
+        $this->load->model('CardGrantRecord_model');
+        $data = $this->CardGrantRecord_model->grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times, $source);
+        echo json_encode($data);die;
     }
 }
 
