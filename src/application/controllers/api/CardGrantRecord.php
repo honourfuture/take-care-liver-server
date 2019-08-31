@@ -52,7 +52,7 @@ class CardGrantRecord extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $open_id = $this->input->get('open_id');
+        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +60,8 @@ class CardGrantRecord extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($open_id) {
-            $where['open_id'] = $open_id;
+        if($user_id) {
+            $where['user_id'] = $user_id;
         }
         $this->load->model('CardGrantRecord_model');
         $orwhere = [];
@@ -81,9 +81,9 @@ class CardGrantRecord extends REST_Controller
      *  @SWG\Parameter(
      *     in="query",
      *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
+     *     description="当前用户的标识user_id",
      *     required=false,
-     *     type="string"
+     *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
@@ -98,13 +98,13 @@ class CardGrantRecord extends REST_Controller
      */
     public function info_get() {
         $id = intval($this->input->get('id'));
-        $open_id = $this->input->get('open_id');
+        $user_id = $this->input->get('user_id');
         $where = [];
         if($id) {
             $where['id'] = $id;
         }
-        if($open_id) {
-            $where['open_id'] = $open_id;
+        if($user_id) {
+            $where['user_id'] = $user_id;
         }
         if ($where) {
             $this->load->model('CardGrantRecord_model');
@@ -127,10 +127,10 @@ class CardGrantRecord extends REST_Controller
      *   operationId="cardgrantrecordadd",
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
+     *     name="user_id",
+     *     description="当前用户的标识user_id",
      *     required=true,
-     *     type="string"
+     *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -169,7 +169,7 @@ class CardGrantRecord extends REST_Controller
         $times = intval($this->input->post('times'));//体检卡发放次数
         $valid_start_time = trim($this->input->post('valid_start_time'));//体检卡有效开始时间
         $valid_end_time = trim($this->input->post('valid_end_time'));//体检卡有效结束时间
-        $open_id = trim($this->input->post('open_id'));
+        $user_id = trim($this->input->post('user_id'));
         $data = [];
         if(!$type || !in_array($type,[1,2])) {
             $this->json([], 500, $message = '请求数据不合法');
@@ -191,19 +191,19 @@ class CardGrantRecord extends REST_Controller
         }
         $data['type'] = $type;
         $data['times'] = $times;
-        $data['open_id'] = $open_id;
+        $data['user_id'] = $user_id;
         $data['valid_start_time'] = $valid_start_time;
         $data['valid_end_time'] = $valid_end_time;
-        if (empty($data)) {
+        if (!empty($data)) {
             $this->load->model('CardGrantRecord_model');
             $data = $this->CardGrantRecord_model->add($data);
             if ($data) {
                 $this->json($data);
             } else {
-                $this->json([], 500, $message = '没有数据');
+                $this->json([], 500, $message = '发放失败');
             }
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 500, $message = '发放失败');
         }
     }
 }

@@ -25,8 +25,8 @@ class CardUseRecord extends REST_Controller
      *   operationId="carduserecordlist",
      *  @SWG\Parameter(
      *     in="query",
-     *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
+     *     name="user_id",
+     *     description="当前用户的user_id",
      *     required=false,
      *     type="string"
      *   ),
@@ -52,7 +52,7 @@ class CardUseRecord extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $open_id = $this->input->get('open_id');
+        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +60,8 @@ class CardUseRecord extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($open_id) {
-            $where['open_id'] = $open_id;
+        if($user_id) {
+            $where['user_id'] = $user_id;
         }
         $this->load->model('CardUseRecord_model');
         $orwhere = [];
@@ -80,10 +80,10 @@ class CardUseRecord extends REST_Controller
      *   operationId="carduserecordinfo",
      *  @SWG\Parameter(
      *     in="query",
-     *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
-     *     required=false,
-     *     type="string"
+     *     name="user_id",
+     *     description="当前用户的user_id",
+     *     required=true,
+     *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
@@ -98,13 +98,13 @@ class CardUseRecord extends REST_Controller
      */
     public function info_get() {
         $id = intval($this->input->get('id'));
-        $open_id = $this->input->get('open_id');
+        $user_id = $this->input->get('user_id');
         $where = [];
         if($id) {
             $where['id'] = $id;
         }
-        if($open_id) {
-            $where['open_id'] = $open_id;
+        if($user_id) {
+            $where['user_id'] = $user_id;
         }
         if ($where) {
             $this->load->model('CardUseRecord_model');
@@ -127,10 +127,10 @@ class CardUseRecord extends REST_Controller
      *   operationId="carduserecorddd",
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
+     *     name="user_id",
+     *     description="当前用户的user_id",
      *     required=true,
-     *     type="string"
+     *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -151,7 +151,7 @@ class CardUseRecord extends REST_Controller
      * )
      */
     public function add_post() {
-        $open_id = trim($this->input->post('open_id'));
+        $user_id = intval($this->input->post('user_id'));
         $card_grand_record_id = intval($this->input->post('card_grand_record_id'));//使用体检卡的id
         $status = intval($this->input->post('status'));//使用记录状态【1已使用，0未使用、2退回】
         if($card_grand_record_id<=0) {
@@ -164,31 +164,34 @@ class CardUseRecord extends REST_Controller
         if(empty($data)) {
             $this->json([], 500, $message = '请求数据不合法');
         }
-        if(isset($data['times']) && $data['times']<=0) {
+        if(isset($data->times) && $data->times<=0) {
             $this->json([], 500, $message = '当前体检卡次数已用完');
         }
-        if(isset($data['valid_end_time']) && strtotime($data['valid_end_time'])<=time()) {
+        if(isset($data->valid_end_time) && strtotime($data->valid_end_time)<=time()) {
             $this->json([], 500, $message = '该体检卡已过期');
         }
-        $type = isset($data['type']) ? $data['type'] : 0;
+        $type = isset($data->type) ? $data->type : 0;
+        $insertData = [];
         $insertData['type'] = $type;
-        $insertData['open_id'] = $open_id;
+//        $insertData['open_id'] = $open_id;
+        $insertData['user_id'] = $user_id;
         $insertData['card_grand_record_id'] = $card_grand_record_id;
         $insertData['status'] = $status;
-        if (empty($insertData)) {
+        if (!empty($insertData)) {
             $this->load->model('CardUseRecord_model');
-            $data = $this->CardUseRecord_model->add($data);
+            $data = $this->CardUseRecord_model->add($insertData);
             if ($data) {
-                $update = $this->db->query('update card_grant_record set times=times-1 where id=$card_grand_record_id');
+                $update = $this->db->query("update card_grant_record set times=times-1 where id=$card_grand_record_id");
                 if($update) {
-                    $this->json($data);
+                    $this->json(1);
+                }else{
+                    $this->json([], 5001, $message = '使用失败');
                 }
-                $this->json([], 500, $message = '使用失败');
             } else {
-                $this->json([], 500, $message = '使用失败');
+                $this->json([], 5002, $message = '使用失败');
             }
         } else {
-            $this->json([], 500, $message = '使用失败');
+            $this->json([], 5003, $message = '使用失败');
         }
     }
 }
