@@ -184,6 +184,65 @@ class Pay extends REST_Controller
         }
         return $this->json([], 500, $message = '下单异常');
     }
+    /**
+     * @SWG\Get(path="/pay/callback",
+     *   tags={"Pay"},
+     *   summary="支付回调",
+     *   description="支付回调",
+     *   operationId="paycallback",
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="pay_id",
+     *     description="当前支付的唯一标识标识id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="user_id",
+     *     description="当前提交数据的用户唯一标识id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function callback_get() {
+        $pay_id = intval($this->input->get('pay_id'));
+        $user_id = intval($this->input->get('user_id'));
+        $where = [];
+        if($pay_id<=0) {
+            return $this->json([], 500, $message = '请求参数异常');
+        }
+        $where['id'] = $pay_id;
+        if($user_id<=0) {
+            return $this->json([], 500, $message = '请求参数异常');
+        }
+        $where['user_id'] = $user_id;
+        if ($where) {
+            $this->load->model('OrderAndPay_model');
+            $data = $this->OrderAndPay_model->findPayInfoByParams($where);
+            if (!empty($data)) {
+                $this->load->model('User_model');
+                $updateUserInfoData['is_vip'] = 1;
+                $updateUserRet = $this->User_model->update_info($user_id, $updateUserInfoData);
+                $userData = $this->User_model->find($user_id);
+                $parent_id = isset($userData->parent_id) ? $userData->parent_id : 0;
+                if($parent_id) {
+                    $this->load->model('CardGrantRecord_model');
+                    //看到文章列表及详情，点击“转发”，转发到自己的微信好友，若改好友成为了平台的会员，则转发的人获得一次免费的尿检
+                    $grantCardRecord = $this->CardGrantRecord_model->grantCard($parent_id, 2, date('Y-m-d H:i:s'),
+                        date("Y-m-d H:i:s",strtotime("+1years")), 1, 3);
+                }
+                $this->json($updateUserRet);
+            } else {
+                return $this->json([], 500, $message = '没有数据');
+            }
+        } else {
+            return $this->json([], 500, $message = '没有数据');
+        }
+    }
 }
 
 ?>
