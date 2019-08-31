@@ -7,6 +7,7 @@
 class CardUseRecord_model extends CI_Model
 {
     private $table = 'card_use_record';
+    private $grant_table = 'card_grant_record';
 
     public function __construct()
     {
@@ -109,5 +110,66 @@ class CardUseRecord_model extends CI_Model
 			return $query->row();
         }
 		return [];
+    }
+    /**
+     * 使用体检卡
+     * @param $user_id
+     * @param $card_grand_record_id
+     * @param int $status
+     */
+    function useCard($user_id, $card_grand_record_id, $status=1) {
+        $this->db->where('id', $card_grand_record_id);;
+        $data = $this->db->get($this->grant_table)->row();
+        if(empty($data)) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        if(isset($data->times) && $data->times<=0) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "当前体检卡次数已用完";
+            return $res;
+        }
+        if(isset($data->valid_end_time) && strtotime($data->valid_end_time)<=time()) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "该体检卡已过期";
+            return $res;
+        }
+        $type = isset($data->type) ? $data->type : 0;
+        $insertData = [];
+        $insertData['type'] = $type;
+        $insertData['user_id'] = $user_id;
+        $insertData['card_grand_record_id'] = $card_grand_record_id;
+        $insertData['status'] = $status;
+        if (!empty($insertData)) {
+            $data = $this->add($insertData);
+            if ($data) {
+                $update = $this->db->query("update card_grant_record set times=times-1 where id=$card_grand_record_id");
+                if($update) {
+                    $res['status'] = 0;
+                    $res['data'] = $update;
+                    $res['msg'] = "";
+                    return $res;
+                }else{
+                    $res['status'] = 500;
+                    $res['data'] = [];
+                    $res['msg'] = "使用失败";
+                    return $res;
+                }
+            } else {
+                $res['status'] = 500;
+                $res['data'] = [];
+                $res['msg'] = "使用失败";
+                return $res;
+            }
+        } else {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "使用失败";
+            return $res;
+        }
     }
 }

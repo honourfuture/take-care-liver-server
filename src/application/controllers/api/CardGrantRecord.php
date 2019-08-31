@@ -156,7 +156,7 @@ class CardGrantRecord extends REST_Controller
      *  @SWG\Parameter(
      *     in="formData",
      *     name="valid_end_time",
-     *     description="体检卡有效结束时间:2019-09-31 14:28:16",
+     *     description="体检卡有效结束时间:2022-09-30 14:28:16",
      *     required=false,
      *     type="string"
      *   ),
@@ -192,8 +192,8 @@ class CardGrantRecord extends REST_Controller
         $data['type'] = $type;
         $data['times'] = $times;
         $data['user_id'] = $user_id;
-        $data['valid_start_time'] = $valid_start_time;
-        $data['valid_end_time'] = $valid_end_time;
+        $data['valid_start_time'] = date("Y-m-d H:i:s",strtotime($valid_start_time));
+        $data['valid_end_time'] = date("Y-m-d H:i:s",strtotime($valid_end_time));
         if (!empty($data)) {
             $this->load->model('CardGrantRecord_model');
             $data = $this->CardGrantRecord_model->add($data);
