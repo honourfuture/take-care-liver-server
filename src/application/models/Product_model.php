@@ -66,7 +66,7 @@ class Product_model extends CI_Model
     }
 
     /*
-    * 创建
+    * 更新
     */
 
     function update($id, $data)
@@ -77,7 +77,7 @@ class Product_model extends CI_Model
     }
 
     /*
-    * 编辑
+    * 删除
     */
 
     function delete($id)
@@ -86,9 +86,8 @@ class Product_model extends CI_Model
     }
 
     /*
-    * 删除
+    * 查询
     */
-
     function find($id)
     {
         $this->db->where('id', $id);

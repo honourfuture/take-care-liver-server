@@ -111,9 +111,9 @@ class CardGrantRecord_model extends CI_Model
     /**
      * 体检卡发放
      * @param $user_id
-     * @param $type
-     * @param int $times
-     * @param int $source
+     * @param $type 体检卡类型【1、肝检。2尿检】
+     * @param int $times 次数
+     * @param int $source 来源：1: 购买, 2: 分销，3: 转发
      * @return mixed
      */
     function grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times=1, $source=1) {
