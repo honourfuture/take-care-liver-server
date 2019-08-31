@@ -123,8 +123,6 @@ class User_Model extends CI_Model
     //编辑用户信息
     function update_info($id, $values)
     {
-        $values["updated"]=time();
-
         $this->db->where('id', $id);
         return $this->db->update('users', $values);
     }
@@ -173,7 +171,7 @@ class User_Model extends CI_Model
 	*/
 	function find($id)
 	{
-		$query = $this->db->where('id', $id);
+		$this->db->where('id', $id);
 		$query = $this->db->get('users');
 		return $query->row();		
 	}

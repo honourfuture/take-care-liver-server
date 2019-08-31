@@ -157,42 +157,10 @@ class CardUseRecord extends REST_Controller
         if($card_grand_record_id<=0) {
             $this->json([], 500, $message = '请求数据不合法');
         }
-        //检查体验卡是否有效
-        $this->load->model('CardGrantRecord_model');
-        $cardGrantRecordWhere['id'] = $card_grand_record_id;
-        $data = $this->CardGrantRecord_model->findByParams($cardGrantRecordWhere);
-        if(empty($data)) {
-            $this->json([], 500, $message = '请求数据不合法');
-        }
-        if(isset($data->times) && $data->times<=0) {
-            $this->json([], 500, $message = '当前体检卡次数已用完');
-        }
-        if(isset($data->valid_end_time) && strtotime($data->valid_end_time)<=time()) {
-            $this->json([], 500, $message = '该体检卡已过期');
-        }
-        $type = isset($data->type) ? $data->type : 0;
-        $insertData = [];
-        $insertData['type'] = $type;
-//        $insertData['open_id'] = $open_id;
-        $insertData['user_id'] = $user_id;
-        $insertData['card_grand_record_id'] = $card_grand_record_id;
-        $insertData['status'] = $status;
-        if (!empty($insertData)) {
-            $this->load->model('CardUseRecord_model');
-            $data = $this->CardUseRecord_model->add($insertData);
-            if ($data) {
-                $update = $this->db->query("update card_grant_record set times=times-1 where id=$card_grand_record_id");
-                if($update) {
-                    $this->json(1);
-                }else{
-                    $this->json([], 5001, $message = '使用失败');
-                }
-            } else {
-                $this->json([], 5002, $message = '使用失败');
-            }
-        } else {
-            $this->json([], 5003, $message = '使用失败');
-        }
+
+        $this->load->model('CardUseRecord_model');
+        $data = $this->CardUseRecord_model->useCard($user_id, $card_grand_record_id, $status);
+        echo json_encode($data);die;
     }
 }
 

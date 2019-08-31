@@ -3,7 +3,7 @@ defined('BASEPATH') or exit ('No direct script access allowed');
 
 use Restserver\Libraries\REST_Controller;
 
-class CardGrantRecord extends REST_Controller
+class Order extends REST_Controller
 {
 
     public function __construct()
@@ -18,11 +18,11 @@ class CardGrantRecord extends REST_Controller
         $this->response($res);
     }
     /**
-     * @SWG\Get(path="/cardgrantrecord/list",
-     *   tags={"cardgrantrecord"},
+     * @SWG\Get(path="/order/list",
+     *   tags={"Order"},
      *   summary="列表",
-     *   description="体检卡的发放记录列表",
-     *   operationId="cardgrantrecordlist",
+     *   description="订单的发放记录列表",
+     *   operationId="orderlist",
      *  @SWG\Parameter(
      *     in="query",
      *     name="user_id",
@@ -63,9 +63,9 @@ class CardGrantRecord extends REST_Controller
         if($user_id) {
             $where['user_id'] = $user_id;
         }
-        $this->load->model('CardGrantRecord_model');
+        $this->load->model('OrderAndPay_model');
         $orwhere = [];
-        $data = $this->CardGrantRecord_model->getAll($where, $orwhere, $limit, $offset);
+        $data = $this->OrderAndPay_model->getOrderAll($where, $orwhere, $limit, $offset);
         if ($data) {
             $this->json($data);
         } else {
@@ -73,18 +73,11 @@ class CardGrantRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Get(path="/cardgrantrecord/info",
-     *   tags={"cardgrantrecord"},
+     * @SWG\Get(path="/order/info",
+     *   tags={"Order"},
      *   summary="详情记录",
-     *   description="体检卡发放记录详情",
-     *   operationId="cardgrantrecordinfo",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
-     *     required=false,
-     *     type="integer"
-     *   ),
+     *   description="订单记录详情",
+     *   operationId="orderinfo",
      *  @SWG\Parameter(
      *     in="query",
      *     name="id",
@@ -107,8 +100,8 @@ class CardGrantRecord extends REST_Controller
             $where['user_id'] = $user_id;
         }
         if ($where) {
-            $this->load->model('CardGrantRecord_model');
-            $data = $this->CardGrantRecord_model->findByParams($where);
+            $this->load->model('OrderAndPay_model');
+            $data = $this->OrderAndPay_model->findOrderInfoByParams($where);
             if ($data) {
                 $this->json($data);
             } else {
@@ -119,12 +112,12 @@ class CardGrantRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Post(path="/cardgrantrecord/add",
+     * @SWG\Post(path="/order/buy",
      *   consumes={"multipart/form-data"},
-     *   tags={"cardgrantrecord"},
-     *   summary="发放",
-     *   description="体检卡发放",
-     *   operationId="cardgrantrecordadd",
+     *   tags={"Order"},
+     *   summary="产品下单购买",
+     *   description="产品下单",
+     *   operationId="orderbuy",
      *  @SWG\Parameter(
      *     in="formData",
      *     name="user_id",
@@ -134,53 +127,57 @@ class CardGrantRecord extends REST_Controller
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="type",
-     *     description="1 : 肝检, 2 : 尿检",
+     *     name="products_id",
+     *     description="产品唯一标识id",
      *     required=true,
      *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="times",
-     *     description="体检卡发放次数",
+     *     name="pay_from",
+     *     description="支付来源如【1APP，2Web，3微信公众号，4小程序】",
      *     required=true,
      *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="valid_start_time",
-     *     description="体检卡有效开始时间:2019-08-31 14:28:16",
+     *     name="address_id",
+     *     description="收货地址id标识",
      *     required=false,
-     *     type="string"
-     *   ),
-     *  @SWG\Parameter(
-     *     in="formData",
-     *     name="valid_end_time",
-     *     description="体检卡有效结束时间:2022-09-30 14:28:16",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *  @SWG\Parameter(
-     *     in="formData",
-     *     name="source",
-     *     description="1: 购买, 2: 分销，3: 转发",
-     *     required=true,
      *     type="integer"
      *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
-    public function add_post() {
-        $type = intval($this->input->post('type'));//体检卡类型【1、肝检。2尿检】
-        $times = intval($this->input->post('times'));//体检卡发放次数
-        $valid_start_time = trim($this->input->post('valid_start_time'));//体检卡有效开始时间
-        $valid_end_time = trim($this->input->post('valid_end_time'));//体检卡有效结束时间
-        $user_id = trim($this->input->post('user_id'));
-        $source = intval($this->input->post('source'));
-        $this->load->model('CardGrantRecord_model');
-        $data = $this->CardGrantRecord_model->grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times, $source);
-        echo json_encode($data);die;
+    public function buy_post() {
+        $user_id = intval($this->input->post('user_id'));//下单用户id
+        $pay_from = intval($this->input->post('pay_from'));//支付来源如【1APP，2Web，3微信公众号，4小程序】
+        $pay_type = 2;//支付来源如【1APP，2Web，3微信公众号，4小程序】
+        $products_id = trim($this->input->post('products_id'));//产品id
+        $address_id = trim($this->input->post('address_id'));//收货地址id
+        $buy_number = 1;//购买数量
+        $this->load->model('Product_model');
+        $projectData = $this->Product_model->find($products_id);
+        if(empty($projectData)) {
+            $this->json([], 500, $message = '购买产品不存在');
+        }
+        $addOrder['old_price'] =isset($projectData->old_price) ? $projectData->old_price : 0;//原价
+        $addOrder['now_price'] =isset($projectData->price) ? $projectData->price : 0;//现价
+        $addOrder['price'] =isset($projectData->price) ? $projectData->price*$buy_number : 0;//下单金额
+        $addOrder['products_title'] =isset($projectData->name) ? $projectData->name : "体检项目";
+        $addOrder['products_id'] = $products_id;
+        $addOrder['address_id'] = $address_id;
+        $addOrder['pay_from'] = $pay_from;
+        $addOrder['pay_type'] = $pay_type;
+        $addOrder['user_id'] = $user_id;
+        $addOrder['order_no'] = createLongNumberNo(19);
+        $this->load->model('OrderAndPay_model');
+        $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
+        if($addOrder) {
+            return $this->json($addOrder);
+        }
+        return $this->json([], 500, $message = '下单异常');
     }
 }
 

@@ -108,4 +108,75 @@ class CardGrantRecord_model extends CI_Model
         }
 		return [];
     }
+    /**
+     * 体检卡发放
+     * @param $user_id
+     * @param $type 体检卡类型【1、肝检。2尿检】
+     * @param int $times 次数
+     * @param int $source 来源：1: 购买, 2: 分销，3: 转发
+     * @return mixed
+     */
+    function grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times=1, $source=1) {
+        if(!$type || !in_array($type,[1,2])) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        if($times<=0) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        if(!$source || !in_array($source,[1,2,3])) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        if(empty($valid_start_time)) {
+            $valid_start_time = date('Y-m-d H:i:s');
+        }
+        if(empty($valid_end_time)) {
+            $valid_end_time = date("Y-m-d H:i:s",strtotime("+1years"));
+        }
+        if(strtotime($valid_start_time)<=0 || strtotime($valid_end_time) <= strtotime($valid_start_time)) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        if(empty($user_id)) {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "请求数据不合法";
+            return $res;
+        }
+        $data['type'] = $type;
+        $data['times'] = $times;
+        $data['user_id'] = $user_id;
+        $data['source'] = $source;
+        $data['valid_start_time'] = date("Y-m-d H:i:s",strtotime($valid_start_time));
+        $data['valid_end_time'] = date("Y-m-d H:i:s",strtotime($valid_end_time));
+        if (!empty($data)) {
+            $data = $this->add($data);
+            if ($data) {
+                $res['status'] = 0;
+                $res['data'] = $data;
+                $res['msg'] = "请求数据不合法";
+                return $res;
+            } else {
+                $res['status'] = 500;
+                $res['data'] = $data;
+                $res['msg'] = "发放失败";
+                return $res;
+            }
+        } else {
+            $res['status'] = 500;
+            $res['data'] = [];
+            $res['msg'] = "发放失败";
+            return $res;
+        }
+    }
 }
