@@ -25,8 +25,8 @@ class CardGrantRecord extends REST_Controller
      *   operationId="cardgrantrecordlist",
      *  @SWG\Parameter(
      *     in="query",
-     *     name="open_id",
-     *     description="当前用户的小程序登录者用户标识open_id",
+     *     name="user_id",
+     *     description="当前用户的标识user_id",
      *     required=true,
      *     type="string"
      *   ),
@@ -80,7 +80,7 @@ class CardGrantRecord extends REST_Controller
      *   operationId="cardgrantrecordinfo",
      *  @SWG\Parameter(
      *     in="query",
-     *     name="open_id",
+     *     name="user_id",
      *     description="当前用户的标识user_id",
      *     required=false,
      *     type="integer"
@@ -186,7 +186,7 @@ class CardGrantRecord extends REST_Controller
         if(strtotime($valid_start_time)<=0 || strtotime($valid_end_time) <= strtotime($valid_start_time)) {
             $this->json([], 500, $message = '请求数据不合法');
         }
-        if(empty($open_id)) {
+        if(empty($user_id)) {
             $this->json([], 500, $message = '请求数据不合法');
         }
         $data['type'] = $type;

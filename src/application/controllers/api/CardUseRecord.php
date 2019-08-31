@@ -173,7 +173,6 @@ class CardUseRecord extends REST_Controller
         $type = isset($data->type) ? $data->type : 0;
         $insertData = [];
         $insertData['type'] = $type;
-//        $insertData['open_id'] = $open_id;
         $insertData['user_id'] = $user_id;
         $insertData['card_grand_record_id'] = $card_grand_record_id;
         $insertData['status'] = $status;
