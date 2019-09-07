@@ -10,7 +10,6 @@ class Product extends REST_Controller
     {
         parent::__construct();
         $this->load->model('Product_model');
-        $this->user_id = $this->session->userdata('user_id');
     }
 
     private function json($data, $code = 200, $message = '获取数据成功!')
@@ -35,6 +34,10 @@ class Product extends REST_Controller
     {
         $data = $this->Product_model->getAllByCid();
         if ($data) {
+
+            foreach ($data as &$datum){
+                $datum->banner_pic = json_decode($datum->banner_pic);
+            }
             $this->json($data);
         } else {
             $this->json([], 0, $message = '没有数据');
@@ -63,6 +66,7 @@ class Product extends REST_Controller
         $id = $this->input->get('id');
         $data = $this->Product_model->find($id);
         if ($data) {
+            $data->banner_pic = json_decode($data->banner_pic);
             $this->json($data);
         } else {
             $this->json([], 0, $message = '没有数据');

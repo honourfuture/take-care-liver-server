@@ -373,6 +373,9 @@ abstract class REST_Controller extends \CI_Controller {
     {
     }
 
+    protected $cur_page = 0;//当前页
+    protected $per_page = 10;//每页显示条数
+    protected $offset = 0;//偏移量
     /**
      * Constructor for the REST API
      *
@@ -574,6 +577,16 @@ abstract class REST_Controller extends \CI_Controller {
                 $this->_check_whitelist_auth();
             }
         }
+        //处理分页-satart
+        $cur_page = intval($this->input->get_post('cur_page'));
+        $offset = intval($this->input->get_post('offset'));
+        $per_page = intval($this->input->get_post('per_page'));
+        if($cur_page < 1){
+            $cur_page = 1;
+        }
+        $this->cur_page = $cur_page;
+        $this->per_page = $per_page ? $per_page : $this->per_page;
+        $this->offset = $offset ? $offset : ($this->cur_page - 1) * $this->per_page;
 
         $token = $this->input->get_post('token');
         if(empty($token)){

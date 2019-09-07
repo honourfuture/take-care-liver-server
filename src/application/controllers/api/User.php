@@ -110,7 +110,7 @@ class User extends REST_Controller {
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="id_back_pic",
+     *     name="id_back_picf",
      *     description="身份证反面",
      *     required=true,
      *     type="string"
@@ -298,7 +298,8 @@ class User extends REST_Controller {
                     'head_pic'	    => $result->head_pic,
                     'weight'	    => $result->weight,
                     'id_card'	    => $result->id_card,
-                    'is_operator'	    => $result->is_operator, //是否是经营者 0 否 1 是 2 待审核
+                    'is_vip'	    => $result->is_vip,
+                    'is_operator'	=> $result->is_operator, //是否是经营者 0 否 1 是 2 待审核
                 );
             }
         }

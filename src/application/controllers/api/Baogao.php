@@ -19,7 +19,6 @@ class Baogao extends REST_Controller
         $this->response($res);
     }
 
-
     /**
      * @SWG\Get(path="/baogao/data",
      *   tags={"Baogao"},
