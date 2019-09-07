@@ -39,7 +39,9 @@ class Statics extends REST_Controller
      * 肝养护 : liverCuring
      * 小心肝公益 : babyLiver
      * 知识库 : knowledgeWarehouse
-     * 关于我们 : aboutUs",
+     * 转发详情 : aboutShare
+     * 关于我们 : aboutUs
+     * 首页介绍以及价格 : homePage",
      *     required=false,
      *     type="string"
      *   ),
@@ -50,7 +52,7 @@ class Statics extends REST_Controller
     public function find_get()
     {
         $type = $this->input->get('type');
-        $info = ['publicGoodFree', 'liverCheck', 'liverCuring', 'babyLiver', 'babyLiver', 'knowledgeWarehouse', 'aboutUs'];
+        $info = ['publicGoodFree', 'liverCheck', 'liverCuring', 'babyLiver', 'babyLiver', 'knowledgeWarehouse', 'aboutUs', 'aboutShare', 'homePage'];
         if(!in_array($type, $info)){
             return $this->json(null,500, '未找到该数据！');
         }

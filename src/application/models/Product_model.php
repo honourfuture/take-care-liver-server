@@ -10,7 +10,7 @@ class Product_model extends CI_Model
 
     public function getAllByCid()
     {
-        $this->db->select('id,name,price,details,describe');
+        $this->db->select('id,name,price,details,describe,pic,banner_pic');
 
         $this->db->from($this->table);
         $this->db->order_by('id', 'desc');

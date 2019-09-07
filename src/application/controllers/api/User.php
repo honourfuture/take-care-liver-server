@@ -72,6 +72,7 @@ class User extends REST_Controller {
         }
         return $this->response($result);
     }
+
     /**
      * @SWG\Post(path="/user/apply_operator",
      *   consumes={"multipart/form-data"},
@@ -102,14 +103,14 @@ class User extends REST_Controller {
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="id_card",
+     *     name="id_front_pic",
      *     description="身份证正面",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="id_card",
+     *     name="id_back_pic",
      *     description="身份证反面",
      *     required=true,
      *     type="string"
@@ -301,7 +302,7 @@ class User extends REST_Controller {
                 );
             }
         }
-        $this->response($user);
+        $this->json($user);
     }
     /**
      * @SWG\Post(path="/user/send_verify_code",

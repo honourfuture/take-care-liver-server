@@ -41,6 +41,35 @@ class Product extends REST_Controller
         }
     }
 
+    /**
+     * @SWG\Get(path="/product/find",
+     *   tags={"Product"},
+     *   summary="商品",
+     *   description="商品列表",
+     *   operationId="productFind",
+     *   produces={"application/json"},
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="id",
+     *     description="商品id",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function find_get()
+    {
+        $id = $this->input->get('id');
+        $data = $this->Product_model->find($id);
+        if ($data) {
+            $this->json($data);
+        } else {
+            $this->json([], 0, $message = '没有数据');
+        }
+    }
+
+
 }
 
 ?>

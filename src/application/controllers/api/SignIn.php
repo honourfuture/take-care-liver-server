@@ -93,7 +93,7 @@ class SignIn extends REST_Controller
                 $results[$datum['date']]['continue'] = $datum['continue'];
             }
         }
-        array_values($results);
+        $results = array_values($results);
         return $this->json($results);
 
     }
