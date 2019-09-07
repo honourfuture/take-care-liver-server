@@ -10,7 +10,6 @@ class RetailStore extends REST_Controller
     {
         parent::__construct();
         $this->load->model('User_model');
-        $this->user_id = $this->session->userdata('user_id');
     }
 
     private function json($data, $code = 200, $message = '')
@@ -41,6 +40,13 @@ class RetailStore extends REST_Controller
      *     description="当前页数",
      *     required=false,
      *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
      *   ),
      *   @SWG\Response(response="200", description="成功")
      * )

@@ -23,11 +23,11 @@ class CardUseRecord extends REST_Controller
      *   summary="列表",
      *   description="体检卡的使用记录列表",
      *   operationId="carduserecordlist",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的user_id",
-     *     required=false,
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
      *     type="string"
      *   ),
      *  @SWG\Parameter(
@@ -52,7 +52,6 @@ class CardUseRecord extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +59,8 @@ class CardUseRecord extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         $this->load->model('CardUseRecord_model');
         $orwhere = [];
@@ -78,12 +77,12 @@ class CardUseRecord extends REST_Controller
      *   summary="详情记录",
      *   description="体检卡使用记录详情",
      *   operationId="carduserecordinfo",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
@@ -103,8 +102,8 @@ class CardUseRecord extends REST_Controller
         if($id) {
             $where['id'] = $id;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         if ($where) {
             $this->load->model('CardUseRecord_model');
@@ -125,12 +124,12 @@ class CardUseRecord extends REST_Controller
      *   summary="使用",
      *   description="体检卡使用",
      *   operationId="carduserecorddd",
-     *  @SWG\Parameter(
-     *     in="formData",
-     *     name="user_id",
-     *     description="当前用户的user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -151,7 +150,7 @@ class CardUseRecord extends REST_Controller
      * )
      */
     public function add_post() {
-        $user_id = intval($this->input->post('user_id'));
+        $user_id = $this->user_id;
         $card_grand_record_id = intval($this->input->post('card_grand_record_id'));//使用体检卡的id
         $status = intval($this->input->post('status'));//使用记录状态【1已使用，0未使用、2退回】
         if($card_grand_record_id<=0) {

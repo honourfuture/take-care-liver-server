@@ -25,13 +25,6 @@ class CardGrantRecord extends REST_Controller
      *   operationId="cardgrantrecordlist",
      *  @SWG\Parameter(
      *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *  @SWG\Parameter(
-     *     in="query",
      *     name="limit",
      *     description="每页显示条数",
      *     required=false,
@@ -44,6 +37,13 @@ class CardGrantRecord extends REST_Controller
      *     required=false,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -52,7 +52,6 @@ class CardGrantRecord extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +59,8 @@ class CardGrantRecord extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         $this->load->model('CardGrantRecord_model');
         $orwhere = [];
@@ -78,12 +77,12 @@ class CardGrantRecord extends REST_Controller
      *   summary="详情记录",
      *   description="体检卡发放记录详情",
      *   operationId="cardgrantrecordinfo",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
-     *     required=false,
-     *     type="integer"
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
@@ -98,13 +97,12 @@ class CardGrantRecord extends REST_Controller
      */
     public function info_get() {
         $id = intval($this->input->get('id'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($id) {
             $where['id'] = $id;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         if ($where) {
             $this->load->model('CardGrantRecord_model');
@@ -125,12 +123,12 @@ class CardGrantRecord extends REST_Controller
      *   summary="发放",
      *   description="体检卡发放",
      *   operationId="cardgrantrecordadd",
-     *  @SWG\Parameter(
-     *     in="formData",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -176,7 +174,7 @@ class CardGrantRecord extends REST_Controller
         $times = intval($this->input->post('times'));//体检卡发放次数
         $valid_start_time = trim($this->input->post('valid_start_time'));//体检卡有效开始时间
         $valid_end_time = trim($this->input->post('valid_end_time'));//体检卡有效结束时间
-        $user_id = trim($this->input->post('user_id'));
+        $user_id = $this->user_id;
         $source = intval($this->input->post('source'));
         $this->load->model('CardGrantRecord_model');
         $data = $this->CardGrantRecord_model->grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times, $source);

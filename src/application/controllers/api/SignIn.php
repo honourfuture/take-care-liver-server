@@ -10,7 +10,6 @@ class SignIn extends REST_Controller
     {
         parent::__construct();
         $this->load->model('SignIn_model');
-        $this->user_id = $this->session->userdata('user_id');
     }
 
     private function json($data, $code = 200, $message = '')
@@ -40,6 +39,13 @@ class SignIn extends REST_Controller
      *     name="end_date",
      *     description="结束时间(2019-01-02)",
      *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Response(response="200", description="成功")
@@ -100,6 +106,13 @@ class SignIn extends REST_Controller
      *   description="发起签到",
      *   operationId="signInAdd",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */

@@ -23,10 +23,10 @@ class Order extends REST_Controller
      *   summary="列表",
      *   description="订单的发放记录列表",
      *   operationId="orderlist",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
      *     type="string"
      *   ),
@@ -52,7 +52,6 @@ class Order extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +59,8 @@ class Order extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -85,19 +84,25 @@ class Order extends REST_Controller
      *     required=true,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function info_get() {
         $id = intval($this->input->get('id'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($id) {
             $where['id'] = $id;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         if ($where) {
             $this->load->model('OrderAndPay_model');

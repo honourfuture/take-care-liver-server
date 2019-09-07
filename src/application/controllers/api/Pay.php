@@ -23,10 +23,10 @@ class Pay extends REST_Controller
      *   summary="列表",
      *   description="支付记录列表",
      *   operationId="paylist",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
      *     type="string"
      *   ),
@@ -52,7 +52,6 @@ class Pay extends REST_Controller
     {
         $offset = intval($this->input->get('offset'));
         $limit = intval($this->input->get('limit'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($limit<=0) {
             $limit = 10;
@@ -60,8 +59,8 @@ class Pay extends REST_Controller
         if($limit>=100) {
             $limit = 100;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -78,12 +77,12 @@ class Pay extends REST_Controller
      *   summary="支付详情详情记录",
      *   description="支付记录详情",
      *   operationId="payinfo",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
-     *     required=false,
-     *     type="integer"
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
@@ -98,13 +97,12 @@ class Pay extends REST_Controller
      */
     public function info_get() {
         $id = intval($this->input->get('id'));
-        $user_id = $this->input->get('user_id');
         $where = [];
         if($id) {
             $where['id'] = $id;
         }
-        if($user_id) {
-            $where['user_id'] = $user_id;
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
         }
         if ($where) {
             $this->load->model('OrderAndPay_model');
@@ -125,12 +123,12 @@ class Pay extends REST_Controller
      *   summary="订单支付",
      *   description="订单支付",
      *   operationId="paypay",
-     *  @SWG\Parameter(
-     *     in="formData",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -158,7 +156,6 @@ class Pay extends REST_Controller
      * )
      */
     public function pay_post() {
-        $user_id = intval($this->input->post('user_id'));//用户id
         $pay_from = intval($this->input->post('pay_from'));//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $pay_type = 2;//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $order_id = trim($this->input->post('order_id'));//订单id
@@ -174,7 +171,7 @@ class Pay extends REST_Controller
         $addPay['address_id'] = $address_id;
         $addPay['pay_from'] = $pay_from;
         $addPay['pay_type'] = $pay_type;
-        $addPay['user_id'] = $user_id;
+        $addPay['user_id'] = $this->user_id;
         $addPay['app_id'] = "1495338032";
         $addPay['my_trade_no'] = createLongNumberNo(18);
         $this->load->model('OrderAndPay_model');
@@ -197,12 +194,12 @@ class Pay extends REST_Controller
      *     required=true,
      *     type="integer"
      *   ),
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="当前提交数据的用户唯一标识id",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
@@ -210,16 +207,16 @@ class Pay extends REST_Controller
      */
     public function callback_get() {
         $pay_id = intval($this->input->get('pay_id'));
-        $user_id = intval($this->input->get('user_id'));
+
         $where = [];
         if($pay_id<=0) {
             return $this->json([], 500, $message = '请求参数异常');
         }
         $where['id'] = $pay_id;
-        if($user_id<=0) {
+        if($this->user_id<=0) {
             return $this->json([], 500, $message = '请求参数异常');
         }
-        $where['user_id'] = $user_id;
+        $where['user_id'] = $this->user_id;
         if ($where) {
             $this->load->model('OrderAndPay_model');
             $data = $this->OrderAndPay_model->findPayInfoByParams($where);

@@ -10,7 +10,6 @@ class Address extends REST_Controller
     {
         parent::__construct();
         $this->load->model('Address_model');
-        $this->user_id = $this->session->userdata('user_id');
     }
 
     private function json($data, $code = 200, $message = '')
@@ -28,6 +27,13 @@ class Address extends REST_Controller
      *   description="收货地址列表",
      *   operationId="addressList",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -54,6 +60,13 @@ class Address extends REST_Controller
      *   description="添加收货地址",
      *   operationId="addressAdd",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Parameter(
      *     in="formData",
      *     name="address",

@@ -27,6 +27,13 @@ class Baogao extends REST_Controller
      *   description="报告的内容列表",
      *   operationId="baogaodata",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -34,9 +41,8 @@ class Baogao extends REST_Controller
     {
         $offset = $this->input->get('offset');
         $limit = $this->input->get('limit');
-        $user_id = $this->session->userdata('user_id');
         $this->load->model('Baogao_model');
-        $data = $this->Baogao_model->getAllData($user_id, $offset, $limit);
+        $data = $this->Baogao_model->getAllData($this->user_id, $offset, $limit);
         if ($data) {
             $this->json($data);
         } else {
@@ -51,15 +57,21 @@ class Baogao extends REST_Controller
      *   description="报告的内容详情",
      *   operationId="baogaoinfo",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function info_get()
     {
         $id = $this->input->get('id');
-        $user_id = $this->session->userdata('user_id');
         $this->load->model('Baogao_model');
-        $data = $this->Baogao_model->findByUserId($id,$user_id);
+        $data = $this->Baogao_model->findByUserId($id,$this->user_id);
         if ($data) {
             $this->json($data);
         } else {

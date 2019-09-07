@@ -32,6 +32,7 @@ class User extends REST_Controller {
      *     required=true,
      *     type="string"
      *   ),
+     *
 	 *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -113,6 +114,13 @@ class User extends REST_Controller {
      *     required=true,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -120,15 +128,14 @@ class User extends REST_Controller {
     public function apply_operator_post()
     {
         $in = array();
-        $user_id = $this->session->userdata('user_id');
-        if(!$user_id){
+        if(!$this->user_id){
             $result['msg'] = '请登录后操作!';
             $result['status'] = '500';
             $result['data'] = [];
             return $this->response($result);
         }
 
-        $user = $this->User_model->find($user_id);
+        $user = $this->User_model->find($this->user_id);
         if($user->is_operator == 1){
             return $this->json([], 500, '您已经是经营者');
         }
@@ -149,7 +156,7 @@ class User extends REST_Controller {
             $in["id_card"] = $this->input->post('id_back_pic');
 
         $in['is_operator'] = 2;
-        $updateStatus = $this->User_model->update_info($user_id, $in);
+        $updateStatus = $this->User_model->update_info($this->user_id, $in);
         if($updateStatus){
             $result['msg'] = '申请成功请等待审核!';
             $result['status'] = '200';
@@ -204,6 +211,13 @@ class User extends REST_Controller {
      *     required=false,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
 	 *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -212,7 +226,7 @@ class User extends REST_Controller {
     {
         $ret = array();
         $in = array();
-        $user_id = $this->session->userdata('user_id');
+        $user_id = $this->user_id;
         if(!$user_id){
             $result['msg'] = '请登录后操作!';
             $result['status'] = '500';
@@ -252,12 +266,25 @@ class User extends REST_Controller {
      *   description="获得用户详细信息",
      *   operationId="userGetInfo",
 	 *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function get_info_get(){
         $user = array();
-        $user_id = $this->session->userdata('user_id');
+        $user_id = $this->user_id;
+        if(!$user_id){
+            $result['msg'] = '请登录后操作!';
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
+        }
         if($user_id){
             $result = $this->User_model->find($user_id);
             if(!empty($result)){
@@ -315,7 +342,7 @@ class User extends REST_Controller {
         if ($result) {
             return $this->json([], 200, '验证码发送成功！');
         } else {
-            return $this->json([], 500, ‘验证码发送失败！);
+            return $this->json([], 500, '验证码发送失败！');
         }
     }
 

@@ -14,7 +14,6 @@ class CardBank extends REST_Controller
         $this->load->model('Record_model');
         $this->load->model('Card_bank_model');
         $this->load->model('Bank_model');
-        $this->user_id = $this->session->userdata('user_id');
     }
 
     private function json($data, $code = 200, $message = '')
@@ -88,6 +87,13 @@ class CardBank extends REST_Controller
      *   description="获取用户全部银行卡",
      *   operationId="get",
      *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -174,6 +180,13 @@ class CardBank extends REST_Controller
      *     required=true,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -240,6 +253,13 @@ class CardBank extends REST_Controller
      *     required=true,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -286,6 +306,13 @@ class CardBank extends REST_Controller
      *     description="银行卡id",
      *     required=true,
      *     type="integer"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
      *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
