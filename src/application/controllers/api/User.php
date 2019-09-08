@@ -79,8 +79,9 @@ class User extends REST_Controller {
 
         $this->Wx_model->decryptData($sessionInfo->session_key, $phoneWx.'11', $iv, $wx);
 
+        var_dump($wx);
         if(!$wx){
-            $result['msg'] = "与微信通信异常，解密失败! ({$wx})";
+            $result['msg'] = "与微信通信异常，解密失败! ";
             $result['status'] = '500';
             $result['data'] = [];
             return $this->response($result);
