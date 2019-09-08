@@ -32,15 +32,15 @@ class Order extends REST_Controller
      *   ),
      *  @SWG\Parameter(
      *     in="query",
-     *     name="limit",
-     *     description="每页显示条数",
-     *     required=false,
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=true,
      *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
-     *     name="offset",
-     *     description="从第几条开始获取",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
      *     required=false,
      *     type="integer"
      *   ),
@@ -50,21 +50,14 @@ class Order extends REST_Controller
      */
     public function list_get()
     {
-        $offset = intval($this->input->get('offset'));
-        $limit = intval($this->input->get('limit'));
         $where = [];
-        if($limit<=0) {
-            $limit = 10;
-        }
-        if($limit>=100) {
-            $limit = 100;
-        }
+
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
-        $data = $this->OrderAndPay_model->getOrderAll($where, $orwhere, $limit, $offset);
+        $data = $this->OrderAndPay_model->getOrderAll($where, $orwhere, $this->per_page, $this->offset);
         if ($data) {
             $this->json($data);
         } else {
