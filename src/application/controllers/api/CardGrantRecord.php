@@ -23,20 +23,6 @@ class CardGrantRecord extends REST_Controller
      *   summary="列表",
      *   description="体检卡的发放记录列表",
      *   operationId="cardgrantrecordlist",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="limit",
-     *     description="每页显示条数",
-     *     required=false,
-     *     type="integer"
-     *   ),
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="offset",
-     *     description="从第几条开始获取",
-     *     required=false,
-     *     type="integer"
-     *   ),
      *   @SWG\Parameter(
      *     in="header",
      *     name="token",
@@ -44,27 +30,35 @@ class CardGrantRecord extends REST_Controller
      *     required=true,
      *     type="string"
      *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
+     *     required=false,
+     *     type="integer"
+     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function list_get()
     {
-        $offset = intval($this->input->get('offset'));
-        $limit = intval($this->input->get('limit'));
         $where = [];
-        if($limit<=0) {
-            $limit = 10;
-        }
-        if($limit>=100) {
-            $limit = 100;
-        }
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
+        } else {
+            $this->json([], 500, $message = '没有数据');
         }
         $this->load->model('CardGrantRecord_model');
         $orwhere = [];
-        $data = $this->CardGrantRecord_model->getAll($where, $orwhere, $limit, $offset);
+        $data = $this->CardGrantRecord_model->getAll($where, $orwhere, $this->per_page, $this->offset);
         if ($data) {
             $this->json($data);
         } else {
@@ -180,6 +174,23 @@ class CardGrantRecord extends REST_Controller
         $data = $this->CardGrantRecord_model->grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times, $source);
         echo json_encode($data);die;
     }
+    /**
+     * @SWG\Get(path="/cardgrantrecord/have",
+     *   tags={"cardgrantrecord"},
+     *   summary="体检卡次数汇总",
+     *   description="体检卡次数汇总",
+     *   operationId="cardgrantrecordhave",
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="user_id",
+     *     description="用户id唯一标识user_id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
     public function have_get() {
         $user_id = $this->user_id;
         $this->load->model('CardGrantRecord_model');
@@ -188,7 +199,10 @@ class CardGrantRecord extends REST_Controller
         $limit = 100;
         if(!$this->user_id) {
             $where['user_id'] = $this->user_id;
+        } else {
+            $this->user_id = intval($this->input->get('user_id'));//用户id
         }
+
         $grantRecordRet = $this->CardGrantRecord_model->getAll($where, [], $limit, 0 );
         return $grantRecordRet;
     }

@@ -33,15 +33,33 @@ class Baogao extends REST_Controller
      *     required=true,
      *     type="string"
      *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
+     *     required=false,
+     *     type="integer"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function data_get()
     {
-        $offset = $this->input->get('offset');
-        $limit = $this->input->get('limit');
+        $where = [];
+        if($this->user_id) {
+            $where['user_id'] = $this->user_id;
+        }else {
+            $this->json([], 500, $message = '没有数据');
+        }
         $this->load->model('Baogao_model');
-        $data = $this->Baogao_model->getAllData($this->user_id, $offset, $limit);
+        $data = $this->Baogao_model->getAllData($this->user_id, $this->per_page, $this->offset);
         if ($data) {
             $this->json($data);
         } else {
