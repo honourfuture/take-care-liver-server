@@ -54,7 +54,7 @@ class Common extends REST_Controller
                 isset($_SERVER['SERVER_NAME']) ? $_SERVER['HTTP_HOST'] : ""
             );
             if($host) {
-                $fileUrl = $host."/"."upload/". $this->upload->file_name;
+                $fileUrl = "http://".$host."/"."upload/". $this->upload->file_name;
                 return $this->json($fileUrl);
             }
 //            var_dump($this->upload->data());
