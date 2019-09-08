@@ -262,7 +262,7 @@ class User_Model extends CI_Model
      * @param $wheres
      * @return mixed
      */
-    public function getAllPage($wheres, $offset, $limit)
+    public function getAllPage($wheres, $page, $offset)
     {
         $select = $this->_select();
 
@@ -276,7 +276,7 @@ class User_Model extends CI_Model
             }
         }
         $this->db->order_by('id', 'desc');
-        $this->db->limit($offset, $limit);
+        $this->db->limit($page, $offset);
 
         $this->db->from($this->table);
         $query = $this->db->get();

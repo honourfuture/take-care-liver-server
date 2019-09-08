@@ -29,15 +29,15 @@ class RetailStore extends REST_Controller
      *   produces={"application/json"},
      *  @SWG\Parameter(
      *     in="query",
-     *     name="limit",
-     *     description="每页显示条数默认10条",
-     *     required=false,
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=true,
      *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="query",
-     *     name="page",
-     *     description="当前页数",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
      *     required=false,
      *     type="integer"
      *   ),
@@ -60,17 +60,9 @@ class RetailStore extends REST_Controller
         if(!$page){
             $page = 1;
         }
-
-        $limit = $this->input->get('limit');
-        if(!$limit){
-            $limit = 10;
-        }
         if(!$this->user_id){
             return  $this->json([], 500, '请登录');
         }
-
-        $offset = ($page - 1) * $limit;
-
         $user = $this->User_model->find($this->user_id);
         $results = [];
         $results['shareCode'] = $user->mobile;
@@ -81,13 +73,14 @@ class RetailStore extends REST_Controller
         ];
 
         $total = $this->User_model->getAllPageTotal($where);
-        $sonUsers = $this->User_model->getAllPage($where, $offset, $limit);
+        $sonUsers = $this->User_model->getAllPage($where,$this->per_page, $this->offset);
         $nextMembers = [];
 
         foreach ($sonUsers as $sonUser){
             $nextMembers[] = [
-                'name' => $sonUsers['username'],
-                'createDate' => date('Y-m-d', strtotime($sonUsers['create_time'])),
+                'name' => $sonUser['username'],
+                'createDate' => $sonUser['create_time'],
+                'head_pic' => $sonUser['head_pic'],
                 'is_vip' => $sonUser['is_vip']
             ];
         }
