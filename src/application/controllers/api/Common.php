@@ -11,7 +11,7 @@ class Common extends REST_Controller
         parent::__construct();
     }
 
-    private function json($data, $code = 200, $message = '获取数据成功!')
+    private function json($data, $code = 200, $message = '成功!')
     {
         $res['status'] = $code;
         $res['data'] = $data;

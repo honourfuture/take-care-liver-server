@@ -180,6 +180,18 @@ class CardGrantRecord extends REST_Controller
         $data = $this->CardGrantRecord_model->grantCard($user_id, $type, $valid_start_time, $valid_end_time, $times, $source);
         echo json_encode($data);die;
     }
+    public function have_get() {
+        $user_id = $this->user_id;
+        $this->load->model('CardGrantRecord_model');
+        $this->load->model('CardUseRecord_model');
+        $where = [];
+        $limit = 100;
+        if(!$this->user_id) {
+            $where['user_id'] = $this->user_id;
+        }
+        $grantRecordRet = $this->CardGrantRecord_model->getAll($where, [], $limit, 0 );
+        return $grantRecordRet;
+    }
 }
 
 ?>
