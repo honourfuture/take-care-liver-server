@@ -28,15 +28,15 @@ class User extends REST_Controller {
      *   operationId="userLogin",
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="codeWx",
-     *     description="codeWx",
+     *     name="code",
+     *     description="code",
      *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="phoneWx",
-     *     description="phoneWx",
+     *     name="phoneSercert",
+     *     description="phoneSercert",
      *     required=true,
      *     type="string"
      *   ),
@@ -60,8 +60,8 @@ class User extends REST_Controller {
      */
     public function login_post()
     {
-        $codeWx = $this->input->post('codeWx');
-        $phoneWx = $this->input->post('phoneWx');
+        $codeWx = $this->input->post('code');
+        $phoneWx = $this->input->post('phoneSercert');
         $iv = $this->input->post('iv');
 
         $ret = array();
