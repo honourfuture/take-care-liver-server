@@ -164,6 +164,7 @@ class Order extends REST_Controller
         $addOrder['now_price'] =isset($projectData->price) ? $projectData->price : 0;//现价
         $addOrder['price'] =isset($projectData->price) ? $projectData->price*$buy_number : 0;//下单金额
         $addOrder['products_title'] =isset($projectData->name) ? $projectData->name : "体检项目";
+        $addOrder['products_describe'] =isset($projectData->describe) ? $projectData->describe : "体检项目";
         $addOrder['products_pic'] =isset($projectData->pic) ? $projectData->pic : "";
         $addOrder['products_id'] = $products_id;
         $addOrder['address_id'] = $address_id;
