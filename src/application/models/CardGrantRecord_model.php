@@ -65,6 +65,32 @@ class CardGrantRecord_model extends CI_Model
         return $query->result();
     }
     /*
+   * 根据where和orwhere查询结果
+   */
+    function getGroupCountAll($where=[], $orwhere=[], $field="*") {
+        $this->db->select($field);
+
+        if (!empty($where) && is_array($where)) {
+            foreach($where as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+        if (!empty($orwhere) && is_array($orwhere)) {
+            foreach($orwhere as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->or_where($k, $val);
+                }
+            }
+        }
+        $this->db->from($this->table);
+        $this->db->order_by('id', 'desc');
+        $this->db->group_by('type');//($num, $offset);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    /*
     * 添加
     */
     function add($data) {
