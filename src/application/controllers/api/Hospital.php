@@ -73,10 +73,16 @@ class Hospital extends REST_Controller
      */
     public function find_get()
     {
+        $businessDate = [
+            '1' => '周一至周五 09:00-18:00',
+            '2' => '周一至周日',
+        ];
+
         $id = $this->input->get('id');
         $data = $this->Hospital_model->find($id);
 
         if ($data) {
+            $data->business = $businessDate[$data->business_type];
             $this->json($data);
         } else {
             $this->json([], 0, $message = '没有数据');

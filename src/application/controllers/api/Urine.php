@@ -58,8 +58,17 @@ class Urine extends REST_Controller
             return  $this->json([], 500, '请登录');
         }
 
+        $waring = [
+          '1' => '#17C419',
+          '2' => '#FD7925',
+          '3' => '#FC2F24',
+
+        ];
         $data = $this->Urine_model->getList($this->user_id, $this->per_page, $this->offset, 1);
         if ($data) {
+            foreach ($data as &$datum){
+                $datum['waringColor'] = $waring[$datum['waring_type']];
+            }
             return $this->json($data);
         } else {
             return $this->json([], 0, $message = '没有数据');

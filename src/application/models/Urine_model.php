@@ -31,13 +31,15 @@ class Urine_model extends CI_Model
             'uu.id',
             'uu.date',
             'uc.color',
+            'uc.waring_type',
             'uc.summary',
             'uc.details',
+            'u.username',
             'u.mobile'
         ]);
 
         $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
-        $this->db->join('users as u', 'uu.id = u.id', 'left');
+        $this->db->join('users as u', 'uu.user_id = u.id', 'left');
         $this->db->where('uu.user_id', $uid);
         $this->db->where('uu.type', $type);
 
@@ -59,9 +61,12 @@ class Urine_model extends CI_Model
             'uc.color',
             'uc.summary',
             'uc.details',
+            'u.username',
+            'u.mobile'
         ]);
 
         $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        $this->db->join('users as u', 'uu.user_id = u.id', 'left');
         $this->db->where('uu.id', $id);
         $this->db->from($this->table);
 
