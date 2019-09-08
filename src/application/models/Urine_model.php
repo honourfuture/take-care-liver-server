@@ -59,6 +59,7 @@ class Urine_model extends CI_Model
             'uu.id',
             'uu.date',
             'uc.color',
+            'uc.waring_type',
             'uc.summary',
             'uc.details',
             'u.username',

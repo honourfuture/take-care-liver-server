@@ -62,8 +62,8 @@ class Urine extends REST_Controller
           '1' => '#17C419',
           '2' => '#FD7925',
           '3' => '#FC2F24',
-
         ];
+
         $data = $this->Urine_model->getList($this->user_id, $this->per_page, $this->offset, 1);
         if ($data) {
             foreach ($data as &$datum){
@@ -123,12 +123,17 @@ class Urine extends REST_Controller
         $id = $this->input->get('id');
         $data = $this->Urine_model->getFind($id);
         if ($data) {
+            $waring = [
+                '1' => '#17C419',
+                '2' => '#FD7925',
+                '3' => '#FC2F24',
+            ];
+            $data->waringColor = $waring[$data->waring_type];
             $this->json($data);
         } else {
             $this->json([], 0, $message = '没有数据');
         }
     }
-
 
     /**
      * @SWG\Post(path="/urine/add",

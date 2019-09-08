@@ -10,7 +10,7 @@ class Hospital_model extends CI_Model
 
     public function getAllByCid( $page, $offset)
     {
-        $this->db->select('id,name,telphone,position,pic,detail');
+        $this->db->select('id,name,telphone,position,pic,detail,distance');
 
         $this->db->from($this->table);
         $this->db->order_by("create_time", "DESC");

@@ -56,7 +56,7 @@ class Address extends REST_Controller
      * @SWG\Post(path="/address/add",
 	 *   consumes={"multipart/form-data"},
      *   tags={"Address"},
-     *   summary="添加收货地址",
+     *   summary="添加收货地址传id为修改",
      *   description="添加收货地址",
      *   operationId="addressAdd",
      *   produces={"application/json"},
@@ -65,6 +65,13 @@ class Address extends REST_Controller
      *     name="token",
      *     description="token",
      *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="address_id",
+     *     description="收货地址id",
+     *     required=false,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
@@ -104,6 +111,7 @@ class Address extends REST_Controller
         $phone = $this->input->post('phone');
         $name = $this->input->post('name');
         $is_default = $this->input->post('is_default', 0);
+        $address_id = $this->input->post('address_id');
 
         if (!$this->user_id) {
             return $this->json([], 500, '请登录');
@@ -116,8 +124,15 @@ class Address extends REST_Controller
             'is_default' => $is_default
         ];
 
-        if($this->Address_model->create($data)) {
-            return $this->json(true, 200, '添加成功');
+        if(!isset($address_id)){
+            $message = '添加成功';
+            $query = $this->Address_model->create($data);
+        }else{
+            $message = '修改成功';
+            $query = $this->Address_model->update($address_id, $data);
+        }
+        if($query) {
+            return $this->json(true, 200, $message);
         } else {
             return $this->json([], 500, '服务器出错');
         }
