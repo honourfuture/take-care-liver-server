@@ -32,7 +32,20 @@ class User extends REST_Controller {
      *     required=true,
      *     type="string"
      *   ),
-     *
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="codeWx",
+     *     description="codeWx",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="phoneWx",
+     *     description="phoneWx",
+     *     required=false,
+     *     type="string"
+     *   ),
 	 *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
@@ -44,6 +57,7 @@ class User extends REST_Controller {
         $phone = $this->input->post('phone');
 
         $user = $this->User_model->find_by_mobile($phone);
+
         if(!$user){
             $result['msg'] = '未找到该用户!';
             $result['status'] = '500';
