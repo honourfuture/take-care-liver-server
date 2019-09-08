@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * @SWG\Swagger(
  *     schemes={"http"},
- *     host="xxg.ahkskj.cn",
+ *     host="www.jkjc.com",
  *     basePath="/api",
  *     @SWG\Info(
  *         version="1.0.0",

@@ -97,6 +97,8 @@ class CardGrantRecord extends REST_Controller
         }
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
+        }else {
+            $this->json([], 500, $message = '没有数据');
         }
         if ($where) {
             $this->load->model('CardGrantRecord_model');
@@ -181,7 +183,7 @@ class CardGrantRecord extends REST_Controller
      *   description="体检卡次数汇总",
      *   operationId="cardgrantrecordhave",
      *   @SWG\Parameter(
-     *     in="header",
+     *     in="query",
      *     name="user_id",
      *     description="用户id唯一标识user_id",
      *     required=true,
@@ -192,19 +194,42 @@ class CardGrantRecord extends REST_Controller
      * )
      */
     public function have_get() {
-        $user_id = $this->user_id;
-        $this->load->model('CardGrantRecord_model');
-        $this->load->model('CardUseRecord_model');
         $where = [];
         $limit = 100;
-        if(!$this->user_id) {
+        if($this->user_id) {
             $where['user_id'] = $this->user_id;
         } else {
             $this->user_id = intval($this->input->get('user_id'));//用户id
+            $where['user_id'] = $this->user_id;
         }
-
-        $grantRecordRet = $this->CardGrantRecord_model->getAll($where, [], $limit, 0 );
-        return $grantRecordRet;
+        if(!$this->user_id) {
+            $this->json([], 500, $message = '没有数据');
+        }
+        $this->load->model('CardGrantRecord_model');
+        $this->load->model('CardUseRecord_model');
+        $grantRecordRet = $this->CardGrantRecord_model->getGroupCountAll($where, [],"*,sum(times) as totaltimes");
+        $useRecordRet = $this->CardUseRecord_model->getGroupCountAll($where, [],"*,count(*) as totaltimes");
+        $data = [
+            'grantRecord'=>[
+                1=>0,
+                2=>0,
+            ],
+            'useRecord'=>[
+                1=>0,
+                2=>0,
+            ],
+        ];
+        foreach($grantRecordRet as $k=>$v) {
+            if(isset($v->type)) {
+                $data['grantRecord'][$v->type]=(isset($v->totaltimes) && $v->totaltimes) ? $v->totaltimes : 0;
+            }
+        }
+        foreach($useRecordRet as $k=>$v) {
+            if(isset($v->type)) {
+                $data['useRecord'][$v->type]=(isset($v->totaltimes) && $v->totaltimes) ? $v->totaltimes : 0;
+            }
+        }
+        $this->json($data);
     }
 }
 
