@@ -46,21 +46,21 @@ class Hospital extends REST_Controller
      */
     public function list_get()
     {
-        $openMember = [
-            'price' => 499,
-            'liver' => [
-                'icon' => '',
-                'title' => '',
-                'detail' => ''
-            ],
-            'urine' => [
-                'icon' => '',
-                'title' => '',
-                'detail' => ''
-            ],
-            'memberCard' => ''
-        ];
-        echo json_encode($openMember);die;
+//        $openMember = [
+//            'price' => 499,
+//            'liver' => [
+//                'icon' => '',
+//                'title' => '',
+//                'detail' => ''
+//            ],
+//            'urine' => [
+//                'icon' => '',
+//                'title' => '',
+//                'detail' => ''
+//            ],
+//            'memberCard' => ''
+//        ];
+//        echo json_encode($openMember);die;
 
         $data = $this->Hospital_model->getAllByCid($this->per_page, $this->offset);
         if ($data) {
