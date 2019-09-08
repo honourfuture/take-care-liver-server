@@ -39,6 +39,7 @@ class Wx_model extends CI_Model
         if (strlen($this->sessionKey) != 24) {
             return $this->IllegalAesKey;
         }
+
         $aesKey=base64_decode($this->sessionKey);
 
         if (strlen($iv) != 24) {
