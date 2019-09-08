@@ -59,7 +59,7 @@ class Baogao extends REST_Controller
             $this->json([], 500, $message = '没有数据');
         }
         $this->load->model('Baogao_model');
-        $data = $this->Baogao_model->getAllData($this->user_id, $this->per_page, $this->offset);
+        $data = $this->Baogao_model->getAllData($this->user_id, $this->offset, $this->per_page);
         if ($data) {
             $this->json($data);
         } else {
