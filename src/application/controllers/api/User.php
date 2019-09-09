@@ -182,8 +182,8 @@ class User extends REST_Controller {
     {
         $in = array();
         if(!$this->user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }
@@ -281,8 +281,8 @@ class User extends REST_Controller {
         $in = array();
         $user_id = $this->user_id;
         if(!$user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }
@@ -333,8 +333,8 @@ class User extends REST_Controller {
         $user = array();
         $user_id = $this->user_id;
         if(!$user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }

@@ -55,7 +55,7 @@ class SignIn extends REST_Controller
     {
 
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
 
         $startDate = $this->input->get('start_date');
@@ -120,7 +120,7 @@ class SignIn extends REST_Controller
     {
 
         if (!$this->user_id) {
-            return $this->json([], 500, '请登录');
+            return $this->json([], 401, '请登录');
         }
         $where = [
             'date' => date('Y-m-d', time()),

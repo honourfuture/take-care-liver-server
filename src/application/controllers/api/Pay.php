@@ -54,7 +54,7 @@ class Pay extends REST_Controller
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 401, $message = '未登录');
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -220,7 +220,7 @@ class Pay extends REST_Controller
         }
         $where['id'] = $pay_id;
         if($this->user_id<=0) {
-            return $this->json([], 500, $message = '请求参数异常');
+            return $this->json([], 401, $message = '未登录');
         }
         $where['user_id'] = $this->user_id;
         if ($where) {

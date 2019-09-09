@@ -59,7 +59,7 @@ class Cashout extends REST_Controller
     public function list_get()
     {
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
 
         $wheres = [
@@ -109,7 +109,7 @@ class Cashout extends REST_Controller
     public function create_post()
     {
         if(!$this->user_id){
-            return $this->json(null, $this::NOT_LOGIN, $this->lang->line('text_resp_unlogin'));//未登录
+            return $this->json(null, 401, '请登录');//未登录
         }
 
         $cashOutMoney = floatval($this->input->post('cash_out_money'));

@@ -98,7 +98,7 @@ class Balance extends REST_Controller
     public function list_get()
     {
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
 
         $wheres = [
@@ -147,7 +147,7 @@ class Balance extends REST_Controller
     public function profit_get()
     {
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
 
         $wheres = [
