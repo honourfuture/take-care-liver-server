@@ -88,6 +88,10 @@ class User extends REST_Controller {
 
         $wx = json_decode($wx);
         $parentId = $this->input->post('user_id');
+        if(!$parentId){
+            $parentId = 0;
+        }
+
         $phone = $wx->phoneNumber;
 
         $user = $this->User_model->firstOrCreate($phone, $openId, $parentId);
@@ -178,8 +182,8 @@ class User extends REST_Controller {
     {
         $in = array();
         if(!$this->user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }
@@ -277,8 +281,8 @@ class User extends REST_Controller {
         $in = array();
         $user_id = $this->user_id;
         if(!$user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }
@@ -329,8 +333,8 @@ class User extends REST_Controller {
         $user = array();
         $user_id = $this->user_id;
         if(!$user_id){
-            $result['msg'] = '请登录后操作!';
-            $result['status'] = '500';
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
             $result['data'] = [];
             return $this->response($result);
         }

@@ -100,7 +100,7 @@ class CardBank extends REST_Controller
     public function list_get()
     {
         if(!$this->user_id){
-            return $this->json([], 500, '请登录');//未登录
+            return $this->json([], 401, '请登录');//未登录
         }
 
         $wheres = array('user_id' => $this->user_id);
@@ -194,7 +194,7 @@ class CardBank extends REST_Controller
     public function create_post()
     {
         if(!$this->user_id){
-            return $this->json([],500, '请登录');//未登录
+            return $this->json([],401, '请登录');//未登录
         }
 
         $cardNumber = trim($this->input->post('card_number'));
@@ -267,7 +267,7 @@ class CardBank extends REST_Controller
     public function delete_post()
     {
         if(!$this->user_id){
-            return $this->json([], 500,'请登录');//未登录
+            return $this->json([], 401,'请登录');//未登录
         }
 
         $cardBankId = intval($this->input->post('card_bank_id'));
@@ -320,7 +320,7 @@ class CardBank extends REST_Controller
     public function find_get()
     {
         if(!$this->user_id){
-            return $this->json([], 500, '未登录');//未登录
+            return $this->json([], 401, '未登录');//未登录
         }
 
         $id = intval($this->input->get('id'));

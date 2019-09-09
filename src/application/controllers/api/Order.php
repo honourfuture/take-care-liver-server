@@ -10,7 +10,7 @@ class Order extends REST_Controller
     {
         parent::__construct();
     }
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -54,7 +54,7 @@ class Order extends REST_Controller
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         } else {
-            $this->json([], 500, $message = '登录状态异常');
+            $this->json([], 401, $message = '未登录');
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -95,7 +95,7 @@ class Order extends REST_Controller
         if($id) {
             $where['id'] = $id;
         } else {
-            $this->json([], 500, $message = '请求参数异常');
+            $this->json([], 401, $message = '未登录');
         }
         if($this->user_id) {
             $where['user_id'] = $this->user_id;

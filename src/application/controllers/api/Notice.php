@@ -12,7 +12,7 @@ class Notice extends REST_Controller
         $this->user_id = $this->session->userdata('user_id');
     }
 
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -37,7 +37,7 @@ class Notice extends REST_Controller
         if ($data) {
             $this->json($data);
         } else {
-            $this->json([], 0, $message = '没有数据');
+            $this->json([], 500, $message = '没有数据');
         }
     }
 
