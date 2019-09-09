@@ -246,6 +246,26 @@ class Pay extends REST_Controller
             return $this->json([], 500, $message = '没有数据');
         }
     }
+    /**
+     * @SWG\Get(path="/pay/test",
+     *   tags={"Pay"},
+     *   summary="测试",
+     *   description="测试",
+     *   operationId="paytest",
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function test_get() {
+        $options = array(
+            'token'=>'tokenaccesskey', //填写你设定的key
+            'encodingaeskey'=>'encodingaeskey', //填写加密用的EncodingAESKey
+            'appid'=>'wxbe243342b268e138', //填写高级调用功能的app id, 请在微信开发模式后台查询
+            'appsecret'=>'f8a0fecf7b3e26c0089d06203ff6d632' //填写高级调用功能的密钥
+        );
+        $weObj = new Wechat($options); //创建实例对象
+        var_dump($weObj);die;
+    }
 }
 
 ?>
