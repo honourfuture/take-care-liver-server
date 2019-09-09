@@ -119,10 +119,10 @@ class Pay extends REST_Controller
      *   operationId="paypay",
      *   @SWG\Parameter(
      *     in="header",
-     *     name="token",
-     *     description="token",
+     *     name="user_id",
+     *     description="当前用户的标识user_id",
      *     required=true,
-     *     type="string"
+     *     type="integer"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -150,6 +150,7 @@ class Pay extends REST_Controller
      * )
      */
     public function pay_post() {
+        $user_id = intval($this->input->post('user_id'));//下单用户id
         $pay_from = intval($this->input->post('pay_from'));//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $pay_type = 2;//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $order_id = trim($this->input->post('order_id'));//订单id
@@ -165,7 +166,7 @@ class Pay extends REST_Controller
         $addPay['address_id'] = $address_id;
         $addPay['pay_from'] = $pay_from;
         $addPay['pay_type'] = $pay_type;
-        $addPay['user_id'] = $this->user_id;
+        $addPay['user_id'] = $user_id;
         $addPay['app_id'] = "1495338032";
         $addPay['my_trade_no'] = createLongNumberNo(18);
         $this->load->model('OrderAndPay_model');
