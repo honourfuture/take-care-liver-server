@@ -88,6 +88,10 @@ class User extends REST_Controller {
 
         $wx = json_decode($wx);
         $parentId = $this->input->post('user_id');
+        if(!$parentId){
+            $parentId = 0;
+        }
+
         $phone = $wx->phoneNumber;
 
         $user = $this->User_model->firstOrCreate($phone, $openId, $parentId);
