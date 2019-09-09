@@ -215,6 +215,20 @@
                         <li class="<?= active_link_method('appsettings', 'index') ?>"><a href="/admin/appsettings"><i class="fa fa-circle-o"></i> APP参数设置</a></li>
                     </ul>
                 </li>-->
+                <li class="treeview <?= active_link_controller('generator') ?>
+           <?= active_link_controller('example') ?>
+           ?>">
+                    <a href="#">
+                        <i class="fa  fa-mobile"></i> <span>开发中心</span>
+						<span class="pull-right-container">
+						  <i class="fa fa-angle-left pull-right"></i>
+						</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('generator', 'index') ?>"><a href="/admin/generator/index"><i class="fa fa-circle-o"></i> 代码生成</a></li>
+                        <li class="<?= active_link_method('example', 'index') ?>"><a href="/admin/example/index"><i class="fa fa-circle-o"></i> Example</a></li>
+                    </ul>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->

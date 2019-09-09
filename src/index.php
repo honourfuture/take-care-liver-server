@@ -57,6 +57,12 @@
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
     date_default_timezone_set("Asia/Shanghai");
 
+	//定义后台目录路径的静态变量 ~cc
+	define('BACKEND', 'admin');
+	define('B_URL', '/' . BACKEND . '/');
+
+	//定义application文件夹 ~cc
+	define('APP_DIR', 'application');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
