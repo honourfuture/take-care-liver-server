@@ -67,6 +67,59 @@ class MY_Controller extends CI_Controller
         exit(json_encode($ret));
     }
 
+    /*
+     * 翻页初始化
+     * @param string $base_url 跳链URL
+     * @param int $total_rows 总记录数
+     * @param int $per_page 当前页
+     */
+    public function initPage($base_url, $total_rows, $per_page = NULL)
+    {
+        $page_config = config_item("pagination");
+
+        //$keyword = $this->input->get("keyword");
+        //$this->data['keyword'] = $keyword;
+        //$per_page = $this->input->get("per_page");
+
+        $page_config['use_page_numbers'] = true;
+        $page_config['page_query_string'] = true;
+        $page_config['first_link'] = '&laquo;';
+        $page_config['last_link'] = '&raquo;';
+        $page_config['next_link'] = '下一页';
+        $page_config['prev_link'] = '上一页';
+
+        $page_config['num_tag_open'] = '<li>';
+        $page_config['num_tag_close'] = '</li>';
+        $page_config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $page_config['cur_tag_close'] = '</a></li>';
+        $page_config['prev_tag_open'] = '<li>';
+        $page_config['prev_tag_close'] = '</li>';
+        $page_config['next_tag_open'] = '<li>';
+        $page_config['next_tag_close'] = '</li>';
+        $page_config['first_tag_open'] = '<li>';
+        $page_config['first_tag_close'] = '</li>';
+        $page_config['last_tag_open'] = '<li>';
+        $page_config['last_tag_close'] = '</li>';
+
+        $page_config['base_url'] = $base_url;
+        $page_config['total_rows'] = $total_rows;
+        $page_config['per_page'] = is_null($per_page) ? $this->per_page : $per_page;
+        $this->data['total_page'] = ceil($page_config['total_rows']/$page_config['per_page']);
+
+        $page = $this->cur_page - 1;
+        if($page > $this->data['total_page']){
+            $page = $this->data['total_page'];
+        }
+        $page_config['offset'] = $page_config['per_page'] * $page;
+        $this->data['total_rows'] = $page_config['total_rows'];
+
+        $this->per_page = $page_config['per_page'];
+        $this->offset = $page_config['offset'];
+        //初始化分页
+        $this->load->library('pagination');
+        $this->pagination->initialize($page_config);
+    }
+
 }
 
 //管理员Controller
