@@ -9,6 +9,7 @@ class User extends REST_Controller {
         parent::__construct();
         $this->load->model('Record_model');
         $this->load->model('User_model');
+        $this->load->model('Wx_model');
     }
 
     private function json($data, $code = 200, $message = '')
@@ -27,22 +28,29 @@ class User extends REST_Controller {
      *   operationId="userLogin",
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="phone",
-     *     description="手机号码",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="formData",
      *     name="codeWx",
      *     description="codeWx",
-     *     required=false,
+     *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
      *     name="phoneWx",
      *     description="phoneWx",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="iv",
+     *     description="iv",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="user_id",
+     *     description="shareId 邀请人id",
      *     required=false,
      *     type="string"
      *   ),
@@ -52,11 +60,37 @@ class User extends REST_Controller {
      */
     public function login_post()
     {
+        $codeWx = $this->input->post('codeWx');
+        $phoneWx = $this->input->post('phoneWx');
+        $iv = $this->input->post('iv');
+
         $ret = array();
 
-        $phone = $this->input->post('phone');
+        $wx = [];
+        $sessionInfo = $this->Wx_model->getSessionKey($codeWx);
+        if(isset($sessionInfo->errcode)){
+            $result['msg'] = "与微信通信异常 error({$sessionInfo->errcode}) errorMsg ({$sessionInfo->errmsg})!";
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
+        }
 
-        $user = $this->User_model->find_by_mobile($phone);
+        $openId = $sessionInfo->openid;
+
+        $this->Wx_model->decryptData($sessionInfo->session_key, $phoneWx, $iv, $wx);
+
+        if(!$wx){
+            $result['msg'] = "与微信通信异常，解密失败! ";
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
+        }
+
+        $wx = json_decode($wx);
+        $parentId = $this->input->post('user_id');
+        $phone = $wx->phoneNumber;
+
+        $user = $this->User_model->firstOrCreate($phone, $openId, $parentId);
 
         if(!$user){
             $result['msg'] = '未找到该用户!';

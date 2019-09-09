@@ -35,6 +35,38 @@ class User_Model extends CI_Model
         return $ip;
     }
 
+    //新注册用户
+    public function create_user($phone, $openId, $parentId= 0)
+    {
+        $data = array(
+            'mobile' => $phone,
+            'openId' => $openId,
+            'parent_id' => $parentId,
+            'last_ip_address' => $this->getIP(),
+        );
+
+        $this->db->insert('users', $data);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+
+    public function firstOrCreate($phone, $openId, $parentId)
+    {
+        $this->db->select('*');
+        $this->db->where('mobile', $phone);
+        $this->db->from('users');
+        try{
+            $res = $this->db->get();
+            $first_row = $res->row_array(0);
+            if(!$first_row["id"]){
+                return array('id' => $this->create_user($phone, $openId, $parentId), 'isNewUser' => 1);
+            }
+            return array('id' => $first_row["id"], 'isNewUser' => 0);
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+
     /*
     * 编辑
     */
@@ -104,21 +136,7 @@ class User_Model extends CI_Model
 
         return $total>0;//已有此用户
     }
-    //新注册用户
-    public function create_user($phone,$passwd)
-    {
-        $data = array(
-            'mobile'			=> $phone,
-            'password'     		=> md5($passwd),
-            'last_ip_address'	=> $this->getIP(),
-            'updated'	=> time(),
-            'created'	=> time()
-        );
 
-        $this->db->insert('users', $data);
-
-        return $this->db->insert_id();
-    }
 
     //编辑用户信息
     function update_info($id, $values)
