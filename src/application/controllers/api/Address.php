@@ -48,7 +48,7 @@ class Address extends REST_Controller
                 $this->json([], 200, $message = '没有数据');
             }
         } else {
-            $this->json([], 500, '请登录');
+            $this->json([], 401, '请登录');
         }
     }
 
@@ -114,7 +114,7 @@ class Address extends REST_Controller
         $address_id = $this->input->post('address_id');
 
         if (!$this->user_id) {
-            return $this->json([], 500, '请登录');
+            return $this->json([], 401, '请登录');
         }
         $data = [
             'address' => $address,

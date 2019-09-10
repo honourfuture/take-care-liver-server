@@ -10,7 +10,7 @@ class Order extends REST_Controller
     {
         parent::__construct();
     }
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -51,9 +51,10 @@ class Order extends REST_Controller
     public function list_get()
     {
         $where = [];
-
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
+        } else {
+            $this->json([], 401, $message = '未登录');
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -93,9 +94,13 @@ class Order extends REST_Controller
         $where = [];
         if($id) {
             $where['id'] = $id;
+        } else {
+            $this->json([], 401, $message = '未登录');
         }
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
+        } else {
+            $this->json([], 500, $message = '登录状态异常');
         }
         if ($where) {
             $this->load->model('OrderAndPay_model');
@@ -118,10 +123,10 @@ class Order extends REST_Controller
      *   operationId="orderbuy",
      *  @SWG\Parameter(
      *     in="formData",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *     name="token",
+     *     description="当前用户的标识token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -149,7 +154,6 @@ class Order extends REST_Controller
      * )
      */
     public function buy_post() {
-        $user_id = intval($this->input->post('user_id'));//下单用户id
         $pay_from = intval($this->input->post('pay_from'));//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $pay_type = 2;//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $products_id = trim($this->input->post('products_id'));//产品id
@@ -159,6 +163,12 @@ class Order extends REST_Controller
         $projectData = $this->Product_model->find($products_id);
         if(empty($projectData)) {
             $this->json([], 500, $message = '购买产品不存在');
+        }
+        $user_id = 0;
+        if($this->user_id) {
+            $user_id = $this->user_id;
+        } else {
+            $this->json([], 500, $message = '登录状态异常');
         }
         $addOrder['old_price'] =isset($projectData->old_price) ? $projectData->old_price : 0;//原价
         $addOrder['now_price'] =isset($projectData->price) ? $projectData->price : 0;//现价

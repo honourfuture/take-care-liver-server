@@ -12,7 +12,8 @@
 	},
 	"require": {
 		"php": ">=5.2.4",
-		"mobiledetect/mobiledetectlib": "^2.8"
+		"mobiledetect/mobiledetectlib": "^2.8",
+        "zhangv/wechat-pay":"1.4.2"
 	},
 	"autoload": {
 		"classmap": [

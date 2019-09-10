@@ -54,7 +54,7 @@ class Pay extends REST_Controller
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 401, $message = '未登录');
         }
         $this->load->model('OrderAndPay_model');
         $orwhere = [];
@@ -94,9 +94,13 @@ class Pay extends REST_Controller
         $where = [];
         if($id) {
             $where['id'] = $id;
+        } else {
+            $this->json([], 500, $message = '请求参数异常');
         }
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
+        } else {
+            $this->json([], 500, $message = '登录状态异常');
         }
         if ($where) {
             $this->load->model('OrderAndPay_model');
@@ -119,10 +123,10 @@ class Pay extends REST_Controller
      *   operationId="paypay",
      *   @SWG\Parameter(
      *     in="header",
-     *     name="user_id",
-     *     description="当前用户的标识user_id",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
+     *     type="string"
      *   ),
      *  @SWG\Parameter(
      *     in="formData",
@@ -150,11 +154,19 @@ class Pay extends REST_Controller
      * )
      */
     public function pay_post() {
-        $user_id = intval($this->input->post('user_id'));//下单用户id
         $pay_from = intval($this->input->post('pay_from'));//支付来源如【1APP，2Web，3微信公众号，4小程序】
         $pay_type = 2;//支付来源如【1APP，2Web，3微信公众号，4小程序】
-        $order_id = trim($this->input->post('order_id'));//订单id
-        $address_id = trim($this->input->post('address_id'));//收货地址id
+        $order_id = intval($this->input->post('order_id'));//订单id
+        $address_id = intval($this->input->post('address_id'));//收货地址id
+        $user_id = 0;
+        if($this->user_id) {
+            $user_id = $this->user_id;
+        } else {
+            $this->json([], 500, $message = '登录状态异常');
+        }
+        if(!$user_id || !$pay_from || !$order_id) {
+            $this->json([], 500, $message = '请求参数异常');
+        }
         $this->load->model('OrderAndPay_model');
         $orderData = $this->OrderAndPay_model->findOrderInfo($order_id);
         if(empty($orderData)) {
@@ -202,14 +214,13 @@ class Pay extends REST_Controller
      */
     public function callback_get() {
         $pay_id = intval($this->input->get('pay_id'));
-
         $where = [];
         if($pay_id<=0) {
             return $this->json([], 500, $message = '请求参数异常');
         }
         $where['id'] = $pay_id;
         if($this->user_id<=0) {
-            return $this->json([], 500, $message = '请求参数异常');
+            return $this->json([], 401, $message = '未登录');
         }
         $where['user_id'] = $this->user_id;
         if ($where) {
@@ -218,8 +229,8 @@ class Pay extends REST_Controller
             if (!empty($data)) {
                 $this->load->model('User_model');
                 $updateUserInfoData['is_vip'] = 1;
-                $updateUserRet = $this->User_model->update_info($user_id, $updateUserInfoData);
-                $userData = $this->User_model->find($user_id);
+                $updateUserRet = $this->User_model->update_info($this->user_id, $updateUserInfoData);
+                $userData = $this->User_model->find($this->user_id);
                 $parent_id = isset($userData->parent_id) ? $userData->parent_id : 0;
                 if($parent_id) {
                     $this->load->model('CardGrantRecord_model');
@@ -234,6 +245,26 @@ class Pay extends REST_Controller
         } else {
             return $this->json([], 500, $message = '没有数据');
         }
+    }
+    /**
+     * @SWG\Get(path="/pay/test",
+     *   tags={"Pay"},
+     *   summary="测试",
+     *   description="测试",
+     *   operationId="paytest",
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function test_get() {
+        $options = array(
+            'token'=>'tokenaccesskey', //填写你设定的key
+            'encodingaeskey'=>'encodingaeskey', //填写加密用的EncodingAESKey
+            'appid'=>'wxbe243342b268e138', //填写高级调用功能的app id, 请在微信开发模式后台查询
+            'appsecret'=>'f8a0fecf7b3e26c0089d06203ff6d632' //填写高级调用功能的密钥
+        );
+        $weObj = new Wechat($options); //创建实例对象
+        var_dump($weObj);die;
     }
 }
 

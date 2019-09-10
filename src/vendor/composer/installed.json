@@ -17,7 +17,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-08-25 12:49:29",
+        "time": "2012-08-25T12:49:29+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -54,7 +54,7 @@
             "johnkary/phpunit-speedtrap": "~1.0@dev",
             "phpunit/phpunit": "*"
         },
-        "time": "2016-11-11 14:56:25",
+        "time": "2016-11-11T14:56:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

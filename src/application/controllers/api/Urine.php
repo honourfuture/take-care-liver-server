@@ -55,7 +55,7 @@ class Urine extends REST_Controller
     public function list_get()
     {
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
 
         $waring = [
@@ -91,7 +91,7 @@ class Urine extends REST_Controller
         if ($data) {
             return $this->json($data);
         } else {
-            return $this->json([], 0, $message = '没有数据');
+            return $this->json([], 500, $message = '没有数据');
         }
     }
     /**
@@ -131,7 +131,7 @@ class Urine extends REST_Controller
             $data->waringColor = $waring[$data->waring_type];
             $this->json($data);
         } else {
-            $this->json([], 0, $message = '没有数据');
+            $this->json([], 500, $message = '没有数据');
         }
     }
 
@@ -173,7 +173,7 @@ class Urine extends REST_Controller
         $colorId = $this->input->post('color_id');
 
         if (!$this->user_id) {
-            return $this->json([], 500, '请登录');
+            return $this->json([], 401, '请登录');
         }
 
         $data = [

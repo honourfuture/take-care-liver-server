@@ -61,7 +61,7 @@ class RetailStore extends REST_Controller
             $page = 1;
         }
         if(!$this->user_id){
-            return  $this->json([], 500, '请登录');
+            return  $this->json([], 401, '请登录');
         }
         $user = $this->User_model->find($this->user_id);
         $results = [];

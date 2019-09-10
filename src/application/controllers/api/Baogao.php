@@ -11,7 +11,7 @@ class Baogao extends REST_Controller
         parent::__construct();
     }
 
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -56,14 +56,14 @@ class Baogao extends REST_Controller
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         }else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 401, $message = '请登录');
         }
         $this->load->model('Baogao_model');
         $data = $this->Baogao_model->getAllData($this->user_id, $this->offset, $this->per_page);
         if ($data) {
             $this->json($data);
         } else {
-            $this->json([], 0, $message = '没有数据');
+            $this->json([], 500, $message = '没有数据');
         }
     }
     /**

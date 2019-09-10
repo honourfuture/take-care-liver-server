@@ -12,7 +12,7 @@ class Feedback extends REST_Controller
         $this->user_id = $this->session->userdata('user_id');
     }
 
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -38,10 +38,10 @@ class Feedback extends REST_Controller
             if ($data) {
                 $this->json($data);
             } else {
-                $this->json([], 0, $message = '没有数据');
+                $this->json([], 500, $message = '没有数据');
             }
         } else {
-            $this->json([], -1, '请登录');
+            $this->json([], 401, '请登录');
         }
     }
 
@@ -73,12 +73,12 @@ class Feedback extends REST_Controller
             ];
             $this->load->model('Feedback_model');
             if($this->Feedback_model->create($data)) {
-                $this->json(true, 0, '发布成功');
+                $this->json(true, 200, '发布成功');
             } else {
-                $this->json([], -1, '服务器出错');
+                $this->json([], 500, '服务器出错');
             }
         } else {
-            $this->json([], -1, '请登录');
+            $this->json([], 401, '请登录');
         }
     }
 }

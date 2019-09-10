@@ -40,7 +40,7 @@ class Product extends REST_Controller
             }
             $this->json($data);
         } else {
-            $this->json([], 0, $message = '没有数据');
+            $this->json([], 500, $message = '没有数据');
         }
     }
 
@@ -69,7 +69,7 @@ class Product extends REST_Controller
             $data->banner_pic = json_decode($data->banner_pic);
             $this->json($data);
         } else {
-            $this->json([], 0, $message = '没有数据');
+            $this->json([], 500, $message = '没有数据');
         }
     }
 

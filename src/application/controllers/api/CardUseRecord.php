@@ -10,7 +10,7 @@ class CardUseRecord extends REST_Controller
     {
         parent::__construct();
     }
-    private function json($data, $code = 0, $message = '')
+    private function json($data, $code = 200, $message = '')
     {
         $res['status'] = $code;
         $res['data'] = $data;
@@ -54,7 +54,7 @@ class CardUseRecord extends REST_Controller
         if($this->user_id) {
             $where['user_id'] = $this->user_id;
         }else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 401, $message = '未登录');
         }
         $this->load->model('CardUseRecord_model');
         $orwhere = [];
