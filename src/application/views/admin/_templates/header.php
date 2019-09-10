@@ -178,6 +178,20 @@
 				  </ul>
 				</li>
 				<li><a href="#"><i class="fa fa-pie-chart"></i> <span>业务管理-3</span></a></li>
+
+                <li class="treeview <?= active_link_controller('hospitals') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>医院管理</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('hospitals', 'index') ?>"><a href="/admin/hospitals/index"><i class="fa fa-circle-o"></i> 医院列表</a></li>
+                        <li class="<?= active_link_method('hospitals', 'save') ?>"><a href="/admin/hospitals/save"><i class="fa fa-circle-o"></i> 新建医院</a></li>
+                    </ul>
+                </li>
 				<!-- 业务菜单-END -->
 
                 <li class="header">人员管理</li>

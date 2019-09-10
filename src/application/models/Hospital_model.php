@@ -4,7 +4,7 @@
  *  Admin Model
  *
  **/
-class Hospital_model extends CI_Model
+class Hospital_model extends Base_model
 {
     private $table = 'hospitals';
 
@@ -22,6 +22,7 @@ class Hospital_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->tableName = $this->table;
         $this->load->database();
     }
 
@@ -93,5 +94,15 @@ class Hospital_model extends CI_Model
 
         return $query->row();
 
+    }
+
+    public function getBusiness_type($key='') {
+        $data = array(1 => '周一至周五 09:00-18:00', 2 => '周一至周日', );
+
+        if ($key !== '') {
+            return $data[$key];
+        } else {
+            return $data;
+        }
     }
 }
