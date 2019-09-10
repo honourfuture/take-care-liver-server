@@ -284,7 +284,7 @@ class Generator extends Admin_Controller {
 
     private function _getFiles($tableName) {
         $files = array(
-            'model' => APP_DIR . '/models/' . strtolower($tableName) . '_model.php',
+            'model' => APP_DIR . '/models/' . ucfirst(strtolower($tableName)) . '_model.php',
             'controller' => APP_DIR . '/controllers/admin/' . ucfirst(strtolower($tableName)) . '.php',
             'api_controller' => APP_DIR . '/controllers/api/' . ucfirst(strtolower($tableName)) . '.php',
             'view_index' => APP_DIR . '/views/admin/' . strtolower($tableName) . '/' . 'index.php',
@@ -393,7 +393,7 @@ model;
         //类名拼接
         $controllerClassName = ucfirst($tableName);
 
-        $modelName = $tableName . '_model';
+        $modelName = ucfirst($tableName) . '_model';
 
         $str = <<<sss
 <?php
@@ -419,7 +419,7 @@ sss;
                 if ($column && stripos($column, '$id$') !== FALSE) {
                     //获取关联id选项的的处理
                     $idStr = substr($column, 4);
-
+                    $idStr = ucfirst($idStr);
                     //生成代码
                     $str .= <<<sss
         \$this->load->model('{$idStr}_model');
@@ -933,7 +933,7 @@ sss;
         //类名拼接
         $controllerClassName = ucfirst($tableName);
 
-        $modelName = $tableName . '_model';
+        $modelName = ucfirst($tableName) . '_model';
 
         $tTableName = ucfirst(cg_get_hump_str($tableName));
 
@@ -962,7 +962,7 @@ sss;
                 if ($magicArray[$column['COLUMN_NAME']] && stripos($magicArray[$column['COLUMN_NAME']], '$id$') !== FALSE) {
                     //获取关联id选项的的处理
                     $idStr = substr($magicArray[$column['COLUMN_NAME']], 4);
-
+                    $idStr = ucfirst( $idStr);
                     //生成代码
                     $str .= <<<sss
                     
