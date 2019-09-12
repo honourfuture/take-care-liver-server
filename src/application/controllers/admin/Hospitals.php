@@ -29,6 +29,14 @@ class Hospitals extends Admin_Controller {
 
         //搜索筛选
         $this->data['search'] = $this->input->get('search', TRUE);
+        $keyword = $this->input->get('keyword', TRUE);
+        if($keyword) {
+            $likeParam['telphone'] = $keyword;
+            $likeParam['name'] = $keyword;
+            $likeParam['position'] = $keyword;
+            $likeParam['detail'] = $keyword;
+        }
+        $this->data['keyword'] = $keyword;
         if($this->data['search']) {
 
             $this->data['id'] = $this->input->get('id', TRUE);

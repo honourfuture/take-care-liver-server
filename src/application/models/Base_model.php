@@ -39,7 +39,15 @@ class Base_model extends CI_Model {
 
         //like数组
         if($likeParam != null) {
-            $this->db->like($likeParam);
+            $count = 0;
+            foreach ($likeParam as $key => $value) {
+                if($count == 0){
+                    $this->db->like($key, $value);
+                }else{
+                    $this->db->or_like($key, $value);
+                }
+                $count++;
+            }
         }
 
         //or数组

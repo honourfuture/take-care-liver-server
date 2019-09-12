@@ -57,7 +57,7 @@
                         <?php if ($result != null) : ?>
                             <?php foreach ($result as $value) : ?>
                                 <tr>
-                                    <td><input type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>" /> <?php echo $value['id']; ?></td>
+                                    <td><!--<input type="checkbox" name="ids[]" class="ids" value="<?php /*echo $value['id']; */?>" />--> <?php echo $value['id']; ?></td>
                                     <td><?php echo $value['name']; ?></td>
                                     <td><?php echo $value['telphone']; ?></td>
                                     <td><?php echo $value['position']; ?></td>
