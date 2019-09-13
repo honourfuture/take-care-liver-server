@@ -213,4 +213,77 @@ class Administrators extends Admin_Controller
 			redirect("/admin/admin");
 		}
 	}
+
+    /**
+     * 无权访问连接
+     */
+    public function no_permission()
+    {
+        $this->data['heading'] = '';
+        $this->data['message'] = '您无权访问该操作';
+        $this->template->admin_load('errors/cli/error_general', $this->data);
+    }
+
+    /**
+     * 管理员角色
+     */
+    public function admin_roles()
+    {
+        $user_id = $this->uri->segment(4);
+        //查询用户信息
+        $user = $this->admin_model->find($user_id);
+        //查询所有角色
+        $roles = $this->role_model->findAll();
+        //查询用户拥有的角色
+        $user_roles = $this->admin_user_role_model->find_by_admin_id($user_id);
+
+        for ($i = 0; $i < count($roles); $i++) {
+            foreach ($user_roles as $user_role) {
+                if ($user_role->role_id == $roles[$i]->id) {
+                    $roles[$i]->check = true;
+                    break;
+                }
+            }
+        }
+
+        $this->data['role_list'] = $roles;
+        $this->data['user_id'] = $user_id;
+        $this->data['user_name'] = $user->user_name;
+        //加载模板
+        $this->template->admin_load('admin/user_role/index', $this->data);
+    }
+
+    public function save_admin_role()
+    {
+        $this->form_validation->set_rules('user_id', '管理员ID', 'required');
+        if ($this->form_validation->run() == true) {
+            $user_id = $this->input->post('user_id');
+            $role_ids = $this->input->post('role_ids');
+            //优先删除用户id下的所有角色
+            $this->admin_user_role_model->delete_by_user_id($role_id);
+            //添加选中的权限id
+            foreach ($role_ids as $role_id) {
+                $this->admin_user_role_model->create(array(
+                    'role_id' => $role_id,
+                    'user_id' => $user_id
+                ));
+            }
+            $this->session->set_flashdata('message_type', 'success');
+            $this->session->set_flashdata('message', "修改成功！");
+            //返回列表页面
+            $form_url = $this->session->userdata('list_page_url');
+            if (empty($form_url)) {
+                $form_url = "/admin/administrators";
+            } else {
+                $this->session->unset_userdata('list_page_url');
+            }
+            redirect($form_url, 'refresh');
+        } else {
+            // 传递错误信息
+            $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+            //当前列表页面的url
+            redirect("/admin/administrators", 'refresh');
+        }
+    }
 }

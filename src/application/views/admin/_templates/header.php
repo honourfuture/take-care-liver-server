@@ -75,7 +75,7 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Notifications: style can be found in dropdown.less -->
-                    <li class="dropdown notifications-menu">
+                    <!--<li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
                             <span class="label label-warning">0</span>
@@ -84,7 +84,7 @@
                             <li class="header">您有1条通知</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
+                              <!--  <ul class="menu">
                                     <li>
                                         <a href="#">
                                             <i class="fa fa-users text-aqua"></i> 新的订单
@@ -94,7 +94,7 @@
                             </li>
                             <li class="footer"><a href="#">查看全部</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -113,7 +113,7 @@
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="/admin/administrators/edit/<?= $admin_id; ?>"
-                                       class="btn btn-default btn-flat">个人资料</a>
+                                       class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/admin/logout" class="btn btn-default btn-flat">登出</a>
@@ -122,9 +122,9 @@
                         </ul>
                     </li>
                     <!-- Control Sidebar Toggle Button -->
-                    <li>
+                    <!--<li>
                         <a href="#"><i class="fa fa-gears"></i></a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
 
@@ -196,6 +196,10 @@
 
                 <li class="header">人员管理</li>
 				<li class="<?= active_link_controller('administrators') ?>"><a href="/admin/administrators"><i class="fa fa-circle-o"></i> <span>管理员</span></a></li>
+                <li class="<?= active_link_controller('roles') ?>"><a href="/admin/roles"><i class="fa fa-user"></i>
+                        <span>角色管理</span></a></li>
+                <li class="<?= active_link_controller('permissions') ?>"><a href="/admin/permissions"><i
+                                class="fa fa-unlock-alt"></i> <span>权限管理</span></a></li>
                 <li class="<?= active_link_controller('users') ?>"><a href="/admin/users"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
     
  

@@ -54,7 +54,9 @@
                   <td><?=$role->updated_at?></td>
                   <td>
 					  <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/administrators/del/<?=$role->id?>')" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
-					  <a href="/admin/administrators/edit/<?=$role->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
+                      <a href="/admin/administrators/admin_roles/<?= $role->id ?>" class="btn btn-success btn-sm pull-right"
+                         style="margin-right: 5px;"><i class="fa fa-edit"></i> 分配角色</a>
+                      <a href="/admin/administrators/edit/<?=$role->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
 				  </td>
                 </tr>
 				<?php } ?>

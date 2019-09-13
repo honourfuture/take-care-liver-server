@@ -134,7 +134,7 @@ class Admin_Controller extends MY_Controller
 		
 		$admin_id = $this->checkLogin('A');
 		$method = $this->router->fetch_method();
-		if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
+		/*if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
 			if(!empty($admin_id)){
 				redirect("/admin/");
 			}
@@ -146,7 +146,7 @@ class Admin_Controller extends MY_Controller
 			else{
 				$this->load->library(array('form_validation'));
 				
-				/* Data */
+				//Data
 				$this->data['title']       = $this->config->item('title');
 				$this->data['title_lg']    = $this->config->item('title_lg');
 				$this->data['title_mini']  = $this->config->item('title_mini');
@@ -156,7 +156,40 @@ class Admin_Controller extends MY_Controller
 				$this->data['message']  = $this->session->flashdata('message');	
 			}
 	
-		}
+		}*/
+        //新增 权限控制（精确到按钮级别）
+        if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
+            if(!empty($admin_id)){
+                redirect("/admin/");
+            }
+        } else {
+            $uri_str = '';
+            $uri_array = $this->uri->segment_array();
+            for ($i = 1; $i <= count($uri_array); $i++) {
+                if ($i == 4) {
+                    break;
+                }
+                $uri_str = $uri_str . $uri_array[$i] . '/';
+            }
+            $uri_str = substr($uri_str, 0, strlen($uri_str) - 1);
+            if(empty($admin_id)){
+                redirect("/admin/login");
+            }
+            else if (!in_array($uri_str, $this->config->item('privilege_url')) && !$this->admin_model->checkUserPrivilege($admin_id, $uri_str)) {
+                redirect("/admin/administrators/no_permission");
+            } else {
+                $this->load->library(array('form_validation'));
+
+                /* Data */
+                $this->data['title']       = $this->config->item('title');
+                $this->data['title_lg']    = $this->config->item('title_lg');
+                $this->data['title_mini']  = $this->config->item('title_mini');
+                $this->data['admin_id'] = $admin_id;
+
+                $this->data['message_type']  = strtolower($this->session->flashdata('message_type'));
+                $this->data['message']  = $this->session->flashdata('message');
+            }
+        }
 
 		
     }

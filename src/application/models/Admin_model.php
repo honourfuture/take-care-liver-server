@@ -152,6 +152,34 @@ class Admin_Model extends CI_Model
 	{
 		return $this->db->delete($this->table, array('id' => $id));
 	}
+
+
+    /**
+     * check user privilege
+     * @access public
+     * @param $admin_id
+     * @param String $action privilege action
+     * @return false or true
+     */
+    function checkUserPrivilege($admin_id, $action)
+    {
+        $sql = "select * from admin_user_role, admin_roles, admin_role_permission, admin_permission
+				where admin_user_role.user_id = ? and
+				admin_roles.id = admin_user_role.role_id AND 
+				admin_roles.id = admin_role_permission.role_id and
+				admin_role_permission.permission_id = admin_permission.id and
+				admin_permission.url = ?";
+
+        $query = $this->db->query($sql, array($admin_id, $action));
+        if($query->num_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>

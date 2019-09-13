@@ -501,3 +501,9 @@ $config['proxy_ips'] = '';
  * token过期时间（单位：秒）
  */
 $config['token_expire'] = 7 * 24 * 60 * 60;
+
+
+/**
+ * 不需要权限验证的url
+ */
+$config['privilege_url'] = array('admin', 'admin/administrators/no_permission', 'admin/dashboard', 'admin/hardware/download_temp');

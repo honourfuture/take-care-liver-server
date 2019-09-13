@@ -2,7 +2,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0.0
     </div>
-    <strong>技术支持 &copy; 2014-2017 <a href="http://kuai.ma" target="_blank">快码</a>.</strong>
+    <strong>技术支持 &copy; 2019-2022 <a href="http://kuai.ma" target="_blank">快码</a>.</strong>
   </footer>
 
 </div>
