@@ -131,7 +131,7 @@ class Admin_Controller extends MY_Controller
 		parent::__construct();
 		
 		$this->load->model('admin_model');
-		
+
 		$admin_id = $this->checkLogin('A');
 		$method = $this->router->fetch_method();
 		/*if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
@@ -188,6 +188,23 @@ class Admin_Controller extends MY_Controller
 
                 $this->data['message_type']  = strtolower($this->session->flashdata('message_type'));
                 $this->data['message']  = $this->session->flashdata('message');
+
+                //保存操作日志
+                $this->load->model('Permission_model');
+                $permission = $this->Permission_model->getRow(array("url"=>$uri_str));
+                if($permission){
+                    $this->load->model('Admin_logs_model');
+                    $admin_name = $this->checkLogin('AdminName');
+                    $this->Admin_logs_model->save(array(
+                        "menu_id"=>$permission['menu_id'],
+                        "user_id"=>$admin_id,
+                        "user_name"=>$admin_name,
+                        "permission_id"=>$permission['id'],
+                        "remark"=>$permission['name'],
+                        "create_time"=>date('Y-m-d H:i:s'),
+                    ));
+                }
+
             }
         }
 

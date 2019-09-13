@@ -196,6 +196,7 @@
 
                 <li class="header">人员管理</li>
 				<li class="<?= active_link_controller('administrators') ?>"><a href="/admin/administrators"><i class="fa fa-circle-o"></i> <span>管理员</span></a></li>
+                <li class="<?= active_link_controller('admin_logs') ?>"><a href="/admin/admin_logs/index"><i class="fa fa-circle-o"></i> <span>管理员操作记录</span></a></li>
                 <li class="<?= active_link_controller('roles') ?>"><a href="/admin/roles"><i class="fa fa-user"></i>
                         <span>角色管理</span></a></li>
                 <li class="<?= active_link_controller('permissions') ?>"><a href="/admin/permissions"><i

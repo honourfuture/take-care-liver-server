@@ -41,11 +41,11 @@
               <thead>
               <tr>
                             <th><b>ID</b></th>
-                            <th>用户id</th>
+                          <!--  <th>用户id</th>-->
                             <th>用户名称</th>
-                            <th>菜单id</th>
+                           <!-- <th>菜单id</th>
                             <th>权限id</th>
-                            <th>数据id</th>
+                            <th>数据id</th>-->
                             <th>备注</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
@@ -56,12 +56,12 @@
                         <?php if ($result != null) : ?>
                             <?php foreach ($result as $value) : ?>
                                 <tr>
-                                    <td><input type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>" /> <?php echo $value['id']; ?></td>
-                                    <td><?php echo $value['user_id']; ?></td>
+                                    <td><!--<input type="checkbox" name="ids[]" class="ids" value="<?php /*echo $value['id']; */?>" />--> <?php echo $value['id']; ?></td>
+                                    <!--<td><?php /*echo $value['user_id']; */?></td>-->
                                     <td><?php echo $value['user_name']; ?></td>
-                                    <td><?php echo $value['menu_id']; ?></td>
-                                    <td><?php echo $value['permission_id']; ?></td>
-                                    <td><?php echo $value['data_id']; ?></td>
+                                    <!--<td><?php /*echo $value['menu_id']; */?></td>
+                                    <td><?php /*echo $value['permission_id']; */?></td>
+                                    <td><?php /*echo $value['data_id']; */?></td>-->
                                     <td><?php echo $value['remark']; ?></td>
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
@@ -70,10 +70,10 @@
                                                 onclick="loadModal('/admin/admin_logs/del/<?php echo $value['id']; ?>')"
                                                 class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除
                                         </button>
-                                        <a href="/admin/admin_logs/save/<?php echo $value['id']; ?>" class="btn btn-primary btn-sm pull-right"
+                                       <!-- <a href="/admin/admin_logs/save/<?php /*echo $value['id']; */?>" class="btn btn-primary btn-sm pull-right"
                                            style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
-                                         <a href="/admin/admin_logs/view/<?php echo $value['id']; ?>"
-                                           class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 详情</a>
+                                         <a href="/admin/admin_logs/view/<?php /*echo $value['id']; */?>"
+                                           class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 详情</a>-->
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
