@@ -6,7 +6,7 @@
  * Time: 上午11:27
  */
 
-class Menu_model extends CI_Model
+class Menu_model extends Base_Model
 {
     private $table = 'admin_menu';
 
@@ -14,6 +14,7 @@ class Menu_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     /**

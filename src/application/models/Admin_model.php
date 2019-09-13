@@ -4,7 +4,7 @@
  *  Admin Model
  *
  **/
-class Admin_Model extends CI_Model
+class Admin_Model extends Base_Model
 {
 	private $table = 'admin_users';
 
@@ -12,6 +12,7 @@ class Admin_Model extends CI_Model
 	{
 		parent::__construct();
 		$this->load->database();
+        $this->tableName = $this->table;
 	}
 
 	//管理员登录(密码md5加密)

@@ -6,13 +6,14 @@
  * Time: 下午7:12
  */
 
-class Permission_Model extends CI_Model
+class Permission_Model extends Base_Model
 {
     private $table = 'admin_permission';
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     //权限列表

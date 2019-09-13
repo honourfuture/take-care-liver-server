@@ -4,7 +4,7 @@
  *  Admin Model
  *
  **/
-class Product_model extends CI_Model
+class Product_model extends Base_Model
 {
     private $table = 'products';
 
@@ -22,6 +22,7 @@ class Product_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     function create($data)

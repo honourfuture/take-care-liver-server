@@ -6,7 +6,7 @@
  * Time: 下午7:32
  */
 
-class Role_permission_model extends CI_Model
+class Role_permission_model extends Base_Model
 {
     private $table = 'admin_role_permission';
 
@@ -14,6 +14,7 @@ class Role_permission_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     /**
