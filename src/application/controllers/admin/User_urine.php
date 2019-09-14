@@ -75,7 +75,7 @@ class User_urine extends Admin_Controller {
         //$startRow = ($pageNum - 1) * $pagePer;
 
         //获取数据
-        $result = $this->User_urine_model->getList($param, $this->per_page, $this->offset, $orderBySQL, $inParams, $likeParam1);
+        $result = $this->User_urine_model->getList($param, $this->per_page, $this->offset, $orderBySQL, $likeParam1);
 
         //生成分页链接
         $total = $this->User_urine_model->count($param, $inParams, $likeParam);
