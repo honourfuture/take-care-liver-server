@@ -4,7 +4,7 @@
  *  Admin Model
  *
  **/
-class Urine_check_model extends CI_Model
+class Urine_check_model extends Base_Model
 {
     private $table = 'urine_check';
 
@@ -22,6 +22,7 @@ class Urine_check_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     public function getList()
@@ -127,4 +128,40 @@ class Urine_check_model extends CI_Model
 
         return $query->row();
     }
+
+    public function getSummary($key='') {
+        #f6e3dd:尿糖偏高、尿液偏碱|#fceeeb:尿糖偏高1|#f7eedf:尿糖偏高2|#f3e64a:尿糖偏高3|#e5e9ec:尿糖偏高4|#fb9c30:尿糖偏高5|#58e1ee:尿糖偏高6|#eee181:尿糖偏高7
+        $data = array(
+            "#f6e3dd" => '尿糖偏高、尿液偏碱',
+            "#fceeeb" => '尿糖偏高1',
+            "#f7eedf" => '尿糖偏高2',
+            "#f3e64a" => '尿糖偏高3',
+            "#e5e9ec" => '尿糖偏高4',
+            "#fb9c30" => '尿糖偏高5',
+            "#58e1ee" => '尿糖偏高6',
+            "#eee181" => '尿糖偏高7',
+        );
+
+        if ($key !== '') {
+            return $data[$key];
+        } else {
+            return $data;
+        }
+    }
+
+    public function getWaring_type($key='') {
+        $data = array(
+            1 => '#17C419',
+            2 => '#FD7925',
+            3 => '#FC2F24',
+        );
+
+        if ($key !== '') {
+            return $data[$key];
+        } else {
+            return $data;
+        }
+    }
+
+
 }

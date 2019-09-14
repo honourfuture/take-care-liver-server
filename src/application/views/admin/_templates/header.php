@@ -206,6 +206,20 @@
                         <li class="<?= active_link_method('sign_in', 'index_express') ?>"><a href="/admin/sign_in/index_express"><i class="fa fa-circle-o"></i> 达标签到用户</a></li>
                     </ul>
                 </li>
+
+                <li class="treeview <?= active_link_controller('user_urine','urine_check') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>尿检管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('urine_check', 'index') ?>"><a href="/admin/urine_check/index"><i class="fa fa-circle-o"></i> 尿检结果</a></li>
+                        <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/index"><i class="fa fa-circle-o"></i> 用户尿检记录</a></li>
+                    </ul>
+                </li>
 				<!-- 业务菜单-END -->
 
                 <li class="header">人员管理</li>
