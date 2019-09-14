@@ -8,6 +8,8 @@ class Administrators extends Admin_Controller
 		parent::__construct();
 
 		$this->load->model('admin_model');
+		$this->load->model('role_model');
+		$this->load->model('admin_user_role_model');
 	}
 
 	//编辑角色页面
@@ -260,7 +262,7 @@ class Administrators extends Admin_Controller
             $user_id = $this->input->post('user_id');
             $role_ids = $this->input->post('role_ids');
             //优先删除用户id下的所有角色
-            $this->admin_user_role_model->delete_by_user_id($role_id);
+            $this->admin_user_role_model->delete_by_user_id($user_id);
             //添加选中的权限id
             foreach ($role_ids as $role_id) {
                 $this->admin_user_role_model->create(array(

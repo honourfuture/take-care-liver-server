@@ -6,12 +6,13 @@
  * Time: 下午3:35
  */
 
-class User_Model extends CI_Model
+class User_Model extends Base_Model
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
     private $table = 'users';
 

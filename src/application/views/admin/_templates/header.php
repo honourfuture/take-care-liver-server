@@ -192,6 +192,20 @@
                         <li class="<?= active_link_method('hospitals', 'save') ?>"><a href="/admin/hospitals/save"><i class="fa fa-circle-o"></i> 新建医院</a></li>
                     </ul>
                 </li>
+
+                <li class="treeview <?= active_link_controller('sign_in') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>早睡签到管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('sign_in', 'index') ?>"><a href="/admin/sign_in/index"><i class="fa fa-circle-o"></i> 签到记录</a></li>
+                        <li class="<?= active_link_method('sign_in', 'index_express') ?>"><a href="/admin/sign_in/index_express"><i class="fa fa-circle-o"></i> 达标签到用户</a></li>
+                    </ul>
+                </li>
 				<!-- 业务菜单-END -->
 
                 <li class="header">人员管理</li>
