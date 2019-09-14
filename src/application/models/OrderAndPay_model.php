@@ -7,6 +7,7 @@
 class OrderAndPay_model extends CI_Model
 {
     private $order_table = 'order';
+    private $order_join_table = 'order as o';
     private $pay_table = 'pay';
 
     public function __construct() {
@@ -35,6 +36,35 @@ class OrderAndPay_model extends CI_Model
         $this->db->from($this->pay_table);
         $total = $this->db->count_all_results();
         return $total;
+    }
+
+    /*
+	* 查找
+	*/
+    function getAll($num=30, $offset=0, $keyword='', $wheres=[])
+    {
+        $this->db->select(['o.id','o.order_no','u.username','o.status','o.create_time', 'o.products_title','o.price','u.mobile']);
+
+        if(!empty($keyword)){
+            $this->db->or_like('u.mobile',$keyword,'both');
+            $this->db->or_like('u.username',$keyword,'both');
+        }
+        $this->db->join('users as u', 'u.id = o.user_id', 'left');
+        $this->db->from($this->order_join_table);
+
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+
+        $this->db->order_by('o.id','desc');
+        $this->db->limit($num, $offset);
+        $query = $this->db->get();
+
+        return $query->result();
     }
     /*
     * 根据where和orwhere查询订单数据总数
@@ -111,6 +141,32 @@ class OrderAndPay_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+
+    //总数
+    public function getCount($keyword='', $wheres=[])
+    {
+        $this->db->select('o.id');
+
+        if(!empty($keyword)){
+            $this->db->or_like('u.mobile', $keyword, 'both');
+            $this->db->or_like('u.username', $keyword, 'both');
+        }
+
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+
+        $this->db->from($this->order_join_table);
+
+        $total = $this->db->count_all_results();
+        return $total;
+    }
+
     /*
     * 添加订单记录
     */

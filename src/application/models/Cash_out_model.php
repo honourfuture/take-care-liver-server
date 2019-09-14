@@ -71,19 +71,19 @@ class Cash_out_model extends CI_Model
         $select = array(
             'co.cash_out_money',
             'u.username',
-            'u.name',
             'cb.bank_name',
             'cb.card_number',
             'cb.card_name',
             'cb.phone',
             'co.apply_time',
             'co.id',
-            'co.type'
+            'co.type',
+            'co.status'
         );
         $this->db->select($select);
 
         if (!empty($keyword)) {
-            $this->db->like('u.name', $keyword, 'both');
+            $this->db->like('u.username', $keyword, 'both');
         }
 
         $this->db->from($this->joinTable);
@@ -104,7 +104,7 @@ class Cash_out_model extends CI_Model
         $this->db->select("*");
 
         if (!empty($keyword)) {
-            $this->db->like('u.name', $keyword, 'both');
+            $this->db->like('u.username', $keyword, 'both');
         }
 
         $this->db->from($this->joinTable);

@@ -1,0 +1,44 @@
+{
+  "name": "zhangv/wechat-pay",
+  "description": "The simplest wechat pay",
+  "keywords": ["weixin","wechat","wechatpay","微信支付"],
+  "homepage": "https://github.com/zhangv/wechat-pay",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ZhangV",
+      "email": "derekzhangv@gmail.com",
+      "homepage": "https://zhangv.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/zhangv/wechat-pay",
+    "issues": "https://github.com/zhangv/wechat-pay/issues"
+  },
+  "require": {
+    "php": ">=7.0",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-SimpleXML": "*",
+    "ext-openssl": "*"
+  },
+  "require-dev": {
+    "php": ">=7.0",
+    "phpunit/phpunit": "^6.5.8",
+    "squizlabs/php_codesniffer": "^2.7",
+    "phpmd/phpmd": "^2.4",
+    "symfony/yaml":"*",
+    "phing/phing": "2.*",
+    "phploc/phploc": "^4.0",
+    "pdepend/pdepend" : "2.5.2",
+    "sebastian/phpcpd": "^3.0",
+    "theseer/phpdox": "^0.10.1",
+    "codedungeon/phpunit-result-printer": "^0.19.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "zhangv\\wechat\\pay\\": "src/"
+    }
+  }
+}

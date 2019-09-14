@@ -149,15 +149,22 @@ class User_Model extends Base_Model
     //#########   for admin panel begin   ########
 
 	//总数
-	public function getCount($keyword='')
+	public function getCount($keyword='', $wheres=[])
 	{
 		$this->db->select('id');
 
 		if(!empty($keyword)){
-			$this->db->like('name',$keyword,'both');
 			$this->db->or_like('mobile',$keyword,'both');
 			$this->db->or_like('username',$keyword,'both');
 		}
+
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
 
         $this->db->from('users');
         
@@ -168,17 +175,25 @@ class User_Model extends Base_Model
 	/*
 	* 查找
 	*/
-	function getAll($num=30,$offset=0,$keyword='')
+	function getAll($num=30, $offset=0, $keyword='', $wheres=[])
 	{
 		$this->db->select('*');
 
 		if(!empty($keyword)){
-			$this->db->like('name',$keyword,'both');
             $this->db->or_like('mobile',$keyword,'both');
             $this->db->or_like('username',$keyword,'both');
 		}
 
 		$this->db->from('users');
+
+        if (!empty($wheres) && is_array($wheres)) {
+            foreach($wheres as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+
 		$this->db->order_by('id','desc');
 		$this->db->limit($num,$offset);
 		$query = $this->db->get();
@@ -234,26 +249,6 @@ class User_Model extends Base_Model
 
     }
 
-    /*
-	* 查找用户乘车记录数
-	*/
-    function find_rides_count_by_mobile($keyword='')
-    {
-        if (!empty($keyword)) {
-            //查询拼车和快车订单
-            $sql = 'select a.id as order_id from kuaiche_orders_info a, users b where a.user_id = b.id and b.mobile = '
-                .$keyword;
-            $sql2 = 'select a.id as order_id from pinche_order a, users b where a.user_id = b.id and b.mobile = '
-                .$keyword;
-            $sql = 'select count(1) as total from('.$sql.' union '.$sql2.' ) c';
-            $query = $this->db->query($sql);
-            $count = $query->row()->total;
-            if($count){
-                return $count;
-            }
-        }
-        return 0;
-    }
     /**
      * @param $wheres
      * @return mixed

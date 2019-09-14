@@ -1,0 +1,5 @@
+{
+    "require": {
+        "zhangv/wechat-pay": "^1.4"
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2842d60f8be78d5884a5e027bbe60347",
+    "packages": [
+        {
+            "name": "zhangv/wechat-pay",
+            "version": "v1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhangv/wechat-pay.git",
+                "reference": "01cc9d8d65c3dcbcbe3498f43000808aadbe2cb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhangv/wechat-pay/zipball/01cc9d8d65c3dcbcbe3498f43000808aadbe2cb2",
+                "reference": "01cc9d8d65c3dcbcbe3498f43000808aadbe2cb2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "^0.19.6",
+                "pdepend/pdepend": "2.5.2",
+                "phing/phing": "2.*",
+                "php": ">=7.0",
+                "phploc/phploc": "^4.0",
+                "phpmd/phpmd": "^2.4",
+                "phpunit/phpunit": "^6.5.8",
+                "sebastian/phpcpd": "^3.0",
+                "squizlabs/php_codesniffer": "^2.7",
+                "symfony/yaml": "*",
+                "theseer/phpdox": "^0.10.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "zhangv\\wechat\\pay\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZhangV",
+                    "role": "Developer",
+                    "email": "derekzhangv@gmail.com",
+                    "homepage": "https://zhangv.com"
+                }
+            ],
+            "description": "The simplest wechat pay",
+            "homepage": "https://github.com/zhangv/wechat-pay",
+            "keywords": [
+                "wechat",
+                "wechatpay",
+                "weixin",
+                "微信支付"
+            ],
+            "time": "2018-09-05T17:24:55+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

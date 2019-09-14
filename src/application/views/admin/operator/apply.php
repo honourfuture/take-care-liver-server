@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      用户管理
+      经营者管理
     </h1>
     <ol class="breadcrumb">
       <li><a href="/admin/"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/admin/users">用户管理</a></li>
+      <li><a href="/admin/users">经营者管理</a></li>
       <li class="active">列表</li>
     </ol>
   </section>
@@ -41,7 +41,6 @@
                 <th>编号</th>
                 <th>姓名</th>
                 <th>手机号</th>
-                <th>经营者</th>
                 <th width="250">操作</th>
               </tr>
               </thead>
@@ -51,23 +50,10 @@
                   <td><?=$user->id?></td>
                   <td><?=$user->username?></td>
                   <td><?=$user->mobile?></td>
-                <td>
-                    <?php
-                    if($user->is_operator == 0){
-                        echo '普通用户';
-                    }else if($user->is_operator == 1){
-                        echo '经营者';
-                    }else if($user->is_operator == 2){
-                        echo '<span style="color:red">待审核经营者</span>';
-                    }else if($user->is_real == 3){
-                        echo '审核拒绝';
-                    }
-                    ?>
-                </td>
                   <td>
-                    <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?=$user->id?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
                     <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
                     <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
+                     <a href="/admin/operator/editReal/<?=$user->id?>" style="margin-right: 5px;"  class="btn <?php echo $user->is_real == 1 ? 'btn-warning': 'btn-success'?> btn-sm pull-left"><i class="fa fa-check-circle-o"></i><?php echo $user->is_real == 2 ? '经营者审核': '经营者信息'?></a>
                   </td>
                 </tr>
               <?php } ?>

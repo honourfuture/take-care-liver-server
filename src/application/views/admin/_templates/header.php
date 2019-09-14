@@ -148,37 +148,51 @@
             <ul class="sidebar-menu">
                 <li class="<?= active_link_controller('dashboard') ?>"><a href="/admin/dashboard"><i
                             class="fa fa-dashboard"></i> <span>控制台</span></a></li>
-
-				<!-- 业务菜单-BEGIN -->
-				<li class="header">业务管理</li>
-				<li class="treeview">
-				  <a href="#">
-					<i class="fa fa-pie-chart"></i>
-					<span>业务管理-1</span>
-					<span class="pull-right-container">
+                <li class="treeview <?= active_link_controller('order') ?>  <?= active_link_controller('urine_check') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>订单管理</span>
+                        <span class="pull-right-container">
 					  <i class="fa fa-angle-left pull-right"></i>
 					</span>
-				  </a>
-				  <ul class="treeview-menu">
-					<li><a href="#"><i class="fa fa-circle-o"></i> 业务管理-1</a></li>
-					<li><a href="#"><i class="fa fa-circle-o"></i> 业务管理-1</a></li>
-				  </ul>
-				</li>
-				<li class="treeview">
-				  <a href="#">
-					<i class="fa fa-pie-chart"></i>
-					<span>业务管理-2</span>
-					<span class="pull-right-container">
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('order', 'index') ?>"><a href="/admin/order/index"><i class="fa fa-circle-o"></i>所有订单</a></li>
+                        <li class="<?= active_link_method('order', 'wait') ?>"><a href="/admin/order/wait"><i class="fa fa-circle-o"></i>待支付订单</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview <?= active_link_controller('operator') ?>  <?= active_link_controller('urine_check') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>经营者管理</span>
+                        <span class="pull-right-container">
 					  <i class="fa fa-angle-left pull-right"></i>
 					</span>
-				  </a>
-				  <ul class="treeview-menu">
-					<li><a href="#"><i class="fa fa-circle-o"></i> 业务管理-2</a></li>
-					<li><a href="#"><i class="fa fa-circle-o"></i> 业务管理-2</a></li>
-				  </ul>
-				</li>
-				<li><a href="#"><i class="fa fa-pie-chart"></i> <span>业务管理-3</span></a></li>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('operator', 'list') ?>"><a href="/admin/operator/list"><i class="fa fa-circle-o"></i>经营者列表</a></li>
+                        <li class="<?= active_link_method('operator', 'apply') ?>"><a href="/admin/operator/apply"><i class="fa fa-circle-o"></i>经验者申请</a></li>
+                    </ul>
+                </li>
 
+                <li class="treeview <?= active_link_controller('finance') ?> ">
+                    <a href="#">
+                        <i class="fa fa-server "></i>
+                        <span>用户财务管理</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('finance', 'index') ?>">
+                            <a href="/admin/finance/cash_out	">
+                                <i class="fa fa-money"></i>
+                                提现
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="treeview <?= active_link_controller('hospitals') ?>">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>

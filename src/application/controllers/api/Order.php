@@ -168,7 +168,7 @@ class Order extends REST_Controller
         if($this->user_id) {
             $user_id = $this->user_id;
         } else {
-            $this->json([], 500, $message = '登录状态异常');
+            $this->json([], 401, $message = '登录状态异常');
         }
         $addOrder['old_price'] =isset($projectData->old_price) ? $projectData->old_price : 0;//原价
         $addOrder['now_price'] =isset($projectData->price) ? $projectData->price : 0;//现价
@@ -181,10 +181,57 @@ class Order extends REST_Controller
         $addOrder['pay_from'] = $pay_from;
         $addOrder['pay_type'] = $pay_type;
         $addOrder['user_id'] = $user_id;
+        $addOrder['status'] = 20;
         $addOrder['order_no'] = createLongNumberNo(19);
+
         $this->load->model('OrderAndPay_model');
+        $this->load->model('BalanceDetails_model');
+        $this->load->model('User_Model');
+
         $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
         if($addOrder) {
+            $add = 10;
+
+            if($projectData->type == 4){
+                $userInfo = $this->User_Model->find($user_id);
+                if($userInfo->parent_id){
+                    $parentUser = $this->User_Model->find($userInfo->parent_id);
+                    //增加parent_id 的余额
+                    $balance = $parentUser->balance + $add;
+
+                    $this->User_Model->update($parentUser->id, ['balance' => $balance]);
+                    //增加parent_id 的余额记录
+                    $create = [
+                        'user_id' => $parentUser->id,
+                        'money' => $add,
+                        'type' => 2,
+                        'status' => 1,
+                        'about_id' => $this->user_id
+                    ];
+                    $this->BalanceDetails_model->create($create);
+                }
+                //修改当前用户为vip
+                $this->User_Model->update($this->user_id, ['is_vip' => 1]);
+                //增加当前用户的肝次数和尿次数
+                $this->load->model('CardGrantRecord_model');
+                $startDate = date('Y-m-d H:i:s',time());
+                $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
+
+                $this->CardGrantRecord_model->grantCard($user_id, 1, $startDate, $endDate, 12, 1);
+                $this->CardGrantRecord_model->grantCard($user_id, 2, $startDate, $endDate, 1, 1);
+            }
+
+            //增加当前用户的余额记录
+            $create = [
+                'user_id' => $this->user_id,
+                'money' => $add,
+                'type' => 2,
+                'status' => 2,
+                'about_id' => $products_id
+            ];
+
+            $this->BalanceDetails_model->create($create);
+
             return $this->json($addOrder);
         }
         return $this->json([], 500, $message = '下单异常');

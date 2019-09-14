@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      用户管理
+      订单管理
     </h1>
     <ol class="breadcrumb">
       <li><a href="/admin/"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/admin/users">用户管理</a></li>
+      <li><a href="/admin/order">订单管理</a></li>
       <li class="active">列表</li>
     </ol>
   </section>
@@ -20,10 +20,10 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"><a href="/admin/users/create" class="btn btn-block btn-primary btn-flat"><i class="fa fa-plus"></i> 添加</a></h3>
+            <h3 class="box-title"></h3>
 
             <div class="box-tools">
-              <form action="/admin/users" method="get">
+              <form action="/admin/order" method="get">
                 <div class="input-group input-group" style="width: 250px;">
                   <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索" value="<?=$keyword?>">
                   <div class="input-group-btn">
@@ -41,37 +41,44 @@
                 <th>编号</th>
                 <th>姓名</th>
                 <th>手机号</th>
-                <th>经营者</th>
-                <th width="250">操作</th>
+                  <th>订单编号</th>
+                  <th>下单时间</th>
+                  <th>商品名称</th>
+                  <th>商品价格</th>
+                <th>订单状态</th>
               </tr>
               </thead>
               <tbody>
-              <?php foreach($users_list as $user){?>
+              <?php foreach($order_list as $user){?>
                 <tr>
                   <td><?=$user->id?></td>
                   <td><?=$user->username?></td>
                   <td><?=$user->mobile?></td>
+                    <td><?=$user->order_no?></td>
+                    <td><?=$user->create_time?></td>
+                    <td><?=$user->products_title?></td>
+                    <td><?=$user->price?></td>
                 <td>
                     <?php
-                    if($user->is_operator == 0){
-                        echo '普通用户';
-                    }else if($user->is_operator == 1){
-                        echo '经营者';
-                    }else if($user->is_operator == 2){
-                        echo '<span style="color:red">待审核经营者</span>';
-                    }else if($user->is_real == 3){
-                        echo '审核拒绝';
+//                    已取消，5购物车，10待支付，20已支付，30已使用,40已过期，50已申请退款，60退款中，70已退款]
+                    if($user->status == 0){
+                        echo '已取消';
+                    }else if($user->status == 10){
+                        echo '待支付';
+                    }else if($user->status == 20){
+                        echo '已支付';
+                    }else if($user->status == 40){
+                        echo '已过期';
+                    }else if($user->status == 40){
+                        echo '退款中';
+                    }else if($user->status == 70){
+                        echo '已退款';
                     }
                     ?>
                 </td>
-                  <td>
-                    <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?=$user->id?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
-                    <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
-                  </td>
                 </tr>
               <?php } ?>
-              <?php if(empty($users_list)){?>
+              <?php if(empty($order_list)){?>
                 <tr>
                   <td colspan="6" class="no-data">没有数据</td>
                 </tr>
