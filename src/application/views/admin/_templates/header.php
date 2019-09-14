@@ -207,7 +207,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview <?= active_link_controller('user_urine','urine_check') ?>">
+                <li class="treeview <?= active_link_controller('user_urine') ?>  <?= active_link_controller('urine_check') ?>">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>
                         <span>尿检管理</span>
