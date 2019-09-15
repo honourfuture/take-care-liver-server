@@ -58,12 +58,17 @@ class MY_Controller extends CI_Controller
         $this->session->set_flashdata('system_alert_msg', $msg);
     }
 
-    public function ajaxReturn($data,$status = 0,$message='')
+    public function ajaxReturn($data,$status = 0,$message='', $contentType='')
     {
         $ret['data'] = $data;
         $ret['status'] = $status;
         $ret['message'] = $message;
-        header('Content-type: application/json');
+        if($contentType){
+            header($contentType);
+        }else{
+            header('Content-type: application/json');
+        }
+
         exit(json_encode($ret));
     }
 

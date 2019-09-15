@@ -277,3 +277,24 @@ if (!function_exists('get_array_index')) {
         return $index;
     }
 }
+
+if (!function_exists('qiniu_image')) {
+    /**
+     * 获取七牛图片访问路径
+     *
+     * @param $imgPath  图片路径,例:20170103182741d703ec.png
+     * @param $is_back 是否后台
+     */
+    function qiniu_image($imgPath, $is_back)
+    {
+        $imgPath = trim($imgPath);
+        if ($imgPath == "") {
+            return ""; //TODO 可以设置默认图片
+        }
+        if ($is_back) {
+            return config_item('upload')['back_filepath'] . $imgPath;
+        } else {
+            return (strpos($imgPath, 'http:') === 0) ? $imgPath : config_item('upload')['qiniu']['url'] . $imgPath;
+        }
+    }
+}

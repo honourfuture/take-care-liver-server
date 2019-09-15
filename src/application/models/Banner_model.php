@@ -4,7 +4,7 @@
  *  Admin Model
  *
  **/
-class Banner_model extends CI_Model
+class Banner_model extends Base_Model
 {
     private $table = 'banner';
 
@@ -12,6 +12,7 @@ class Banner_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->tableName = $this->table;
     }
 
     public function getShowAllData()
@@ -93,5 +94,15 @@ class Banner_model extends CI_Model
 
         return $query->row();
 
+    }
+
+    public function getStatus($key='') {
+        $data = array("1" => '上线', "0" => '下线', );
+
+        if ($key !== '') {
+            return $data[$key];
+        } else {
+            return $data;
+        }
     }
 }

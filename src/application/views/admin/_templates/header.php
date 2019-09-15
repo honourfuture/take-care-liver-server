@@ -245,7 +245,7 @@
 					</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="<?= active_link_method('banner', 'index') ?>"><a href="/admin/banner/index"><i class="fa fa-circle-o"></i> Bananer图</a></li>
+                        <li class="<?= active_link_method('banner', 'index') ?>"><a href="/admin/banner/index"><i class="fa fa-circle-o"></i> Banner图</a></li>
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=babyLiver"><i class="fa fa-circle-o"></i> 小心肝公益</a></li>
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=knowledgeWareHouse"><i class="fa fa-circle-o"></i> 知识库</a></li>
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=publicGoodFree"><i class="fa fa-circle-o"></i> 公益免费</a></li>
