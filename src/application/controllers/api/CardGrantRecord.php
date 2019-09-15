@@ -188,7 +188,8 @@ class CardGrantRecord extends REST_Controller
      *     description="token",
      *     required=true,
      *     type="string"
-     *   ),{"application/json"},
+     *   ),
+     *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */

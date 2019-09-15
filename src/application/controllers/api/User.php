@@ -49,6 +49,27 @@ class User extends REST_Controller {
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
+     *     name="iv",
+     *     description="nickName",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="avatarUrl",
+     *     description="avatarUrl",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="gender",
+     *     description="gender",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
      *     name="shareCode",
      *     description="邀请码",
      *     required=false,
@@ -62,7 +83,12 @@ class User extends REST_Controller {
     {
         $codeWx = $this->input->post('codeWx');
         $phoneWx = $this->input->post('phoneWx');
+
         $iv = $this->input->post('iv');
+
+        $nickName = $this->input->post('nickName');
+        $avatarUrl = $this->input->post('avatarUrl');
+        $gender = $this->input->post('gender');
 
         $wx = [];
         $sessionInfo = $this->Wx_model->getSessionKey($codeWx);
@@ -95,7 +121,7 @@ class User extends REST_Controller {
 
         $phone = $wx->phoneNumber;
 
-        $user = $this->User_model->firstOrCreate($phone, $openId, $parentId);
+        $user = $this->User_model->firstOrCreate($phone, $openId, $parentId, $nickName, $avatarUrl, $gender);
 
         if(!$user){
             $result['msg'] = '未找到该用户!';
