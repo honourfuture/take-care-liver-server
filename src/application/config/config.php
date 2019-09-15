@@ -513,11 +513,11 @@ $config['privilege_url'] = array('admin', 'admin/administrators/no_permission', 
  */
 $config['upload'] = array(
     'is_save_local' => true,//是否保存到服务器本地
-//    'filepath' => '/yjdata/www/www/milan/taskuthpkdiugepfedi/src/uploads/',//如果保存到本地，本地路径
-//    'img_filepath' => '/yjdata/www/www/milan/taskuthpkdiugepfedi/src/uploads/',//图片保存路径
-    'filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//如果保存到本地，本地路径
-    'img_filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//图片保存路径
-    'back_filepath' => '/uploads/',//图片后台保存路径
+    'filepath' => '/yjdata/www/www/milan/taskuthpkdiugepfedi/src/uploads/',//如果保存到本地，本地路径
+    'img_filepath' => '/yjdata/www/www/milan/taskuthpkdiugepfedi/src/uploads/',//图片保存路径
+    //'filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//如果保存到本地，本地路径
+    //'img_filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//图片保存路径
+    'back_filepath' => '/upload/',//图片后台保存路径
 //    'filepath' => './uploads/',//如果保存到本地，本地路径
 //    'img_filepath' => '../uploads/',//图片保存路径
     'allowtype' => array ('gif', 'jpg', 'png', 'jpeg' ),//允许的文件上传路径
