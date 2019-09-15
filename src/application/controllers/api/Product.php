@@ -30,7 +30,7 @@ class Product extends REST_Controller
      *  @SWG\Parameter(
      *     in="query",
      *     name="type",
-     *     description="商品类型",
+     *     description="商品类型 3 普通商品 4 年度会员",
      *     required=false,
      *     type="string"
      *   ),
@@ -54,7 +54,7 @@ class Product extends REST_Controller
             }
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
 
@@ -83,7 +83,7 @@ class Product extends REST_Controller
             $data->banner_pic = json_decode($data->banner_pic);
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
 

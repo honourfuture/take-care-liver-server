@@ -37,7 +37,7 @@ class Notice extends REST_Controller
         if ($data) {
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
 

@@ -71,7 +71,7 @@ class Urine extends REST_Controller
             }
             return $this->json($data);
         } else {
-            return $this->json([], 0, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
 
@@ -91,7 +91,7 @@ class Urine extends REST_Controller
         if ($data) {
             return $this->json($data);
         } else {
-            return $this->json([], 500, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
     /**
@@ -131,7 +131,7 @@ class Urine extends REST_Controller
             $data->waringColor = $waring[$data->waring_type];
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
 

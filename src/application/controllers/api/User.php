@@ -49,8 +49,8 @@ class User extends REST_Controller {
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="user_id",
-     *     description="shareId 邀请人id",
+     *     name="shareCode",
+     *     description="邀请码",
      *     required=false,
      *     type="string"
      *   ),
@@ -63,8 +63,6 @@ class User extends REST_Controller {
         $codeWx = $this->input->post('codeWx');
         $phoneWx = $this->input->post('phoneWx');
         $iv = $this->input->post('iv');
-
-        $ret = array();
 
         $wx = [];
         $sessionInfo = $this->Wx_model->getSessionKey($codeWx);
@@ -87,9 +85,12 @@ class User extends REST_Controller {
         }
 
         $wx = json_decode($wx);
-        $parentId = $this->input->post('user_id');
-        if(!$parentId){
+        $shareCode = $this->input->post('shareCode');
+        $parentUser = $this->User_model->find_by_mobile($shareCode);
+        if(!$parentUser){
             $parentId = 0;
+        }else{
+            $parentId = $parentUser['id'];
         }
 
         $phone = $wx->phoneNumber;

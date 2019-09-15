@@ -61,7 +61,7 @@ class Pay extends REST_Controller
         if ($data) {
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
     /**
@@ -107,10 +107,10 @@ class Pay extends REST_Controller
             if ($data) {
                 $this->json($data);
             } else {
-                $this->json([], 500, $message = '没有数据');
+                $this->json([], 200, $message = '没有数据');
             }
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
     /**
@@ -239,10 +239,10 @@ class Pay extends REST_Controller
                 }
                 $this->json($updateUserRet);
             } else {
-                return $this->json([], 500, $message = '没有数据');
+                return $this->json([], 200, $message = '没有数据');
             }
         } else {
-            return $this->json([], 500, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
     /**

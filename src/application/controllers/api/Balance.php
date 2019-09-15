@@ -60,7 +60,7 @@ class Balance extends REST_Controller
 
             return $this->json($data);
         } else {
-            return $this->json([], 0, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
 
@@ -109,7 +109,7 @@ class Balance extends REST_Controller
         if ($data) {
             return $this->json($data);
         } else {
-            return $this->json([], 0, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
 
@@ -159,7 +159,7 @@ class Balance extends REST_Controller
         if ($data) {
             return $this->json($data);
         } else {
-            return $this->json([], 0, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
 }

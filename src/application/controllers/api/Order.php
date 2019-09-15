@@ -62,7 +62,7 @@ class Order extends REST_Controller
         if ($data) {
             $this->json($data);
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
     /**
@@ -108,10 +108,10 @@ class Order extends REST_Controller
             if ($data) {
                 $this->json($data);
             } else {
-                $this->json([], 500, $message = '没有数据');
+                $this->json([], 200, $message = '没有数据');
             }
         } else {
-            $this->json([], 500, $message = '没有数据');
+            $this->json([], 200, $message = '没有数据');
         }
     }
     /**
@@ -186,20 +186,20 @@ class Order extends REST_Controller
 
         $this->load->model('OrderAndPay_model');
         $this->load->model('BalanceDetails_model');
-        $this->load->model('User_Model');
+        $this->load->model('User_model');
 
         $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
         if($addOrder) {
             $add = 10;
 
             if($projectData->type == 4){
-                $userInfo = $this->User_Model->find($user_id);
+                $userInfo = $this->User_model->find($user_id);
                 if($userInfo->parent_id){
-                    $parentUser = $this->User_Model->find($userInfo->parent_id);
+                    $parentUser = $this->User_model->find($userInfo->parent_id);
                     //增加parent_id 的余额
                     $balance = $parentUser->balance + $add;
 
-                    $this->User_Model->update($parentUser->id, ['balance' => $balance]);
+                    $this->User_model->update($parentUser->id, ['balance' => $balance]);
                     //增加parent_id 的余额记录
                     $create = [
                         'user_id' => $parentUser->id,
@@ -211,7 +211,7 @@ class Order extends REST_Controller
                     $this->BalanceDetails_model->create($create);
                 }
                 //修改当前用户为vip
-                $this->User_Model->update($this->user_id, ['is_vip' => 1]);
+                $this->User_model->update($this->user_id, ['is_vip' => 1]);
                 //增加当前用户的肝次数和尿次数
                 $this->load->model('CardGrantRecord_model');
                 $startDate = date('Y-m-d H:i:s',time());
