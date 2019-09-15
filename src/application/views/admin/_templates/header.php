@@ -148,6 +148,7 @@
             <ul class="sidebar-menu">
                 <li class="<?= active_link_controller('dashboard') ?>"><a href="/admin/dashboard"><i
                             class="fa fa-dashboard"></i> <span>控制台</span></a></li>
+                <li class="header">业务管理</li>
                 <li class="treeview <?= active_link_controller('order') ?>  <?= active_link_controller('urine_check') ?>">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>
@@ -232,6 +233,25 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('urine_check', 'index') ?>"><a href="/admin/urine_check/index"><i class="fa fa-circle-o"></i> 尿检结果</a></li>
                         <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/index"><i class="fa fa-circle-o"></i> 用户尿检记录</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview <?= active_link_controller('banner') ?>  <?= active_link_controller('config') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>内容管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('banner', 'index') ?>"><a href="/admin/banner/index"><i class="fa fa-circle-o"></i> Bananer图</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=babyLiver"><i class="fa fa-circle-o"></i> 小心肝公益</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=knowledgeWareHouse"><i class="fa fa-circle-o"></i> 知识库</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=publicGoodFree"><i class="fa fa-circle-o"></i> 公益免费</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=liverCheck"><i class="fa fa-circle-o"></i> 肝检测</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=liverCuring"><i class="fa fa-circle-o"></i> 肝养护</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=aboutUs"><i class="fa fa-circle-o"></i> 关于我们</a></li>
                     </ul>
                 </li>
 				<!-- 业务菜单-END -->
