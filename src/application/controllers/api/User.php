@@ -66,7 +66,6 @@ class User extends REST_Controller {
 
         $wx = [];
         $sessionInfo = $this->Wx_model->getSessionKey($codeWx);
-        print_r($sessionInfo);die;
         if(isset($sessionInfo->errcode)){
             $result['msg'] = "与微信通信异常 error({$sessionInfo->errcode}) errorMsg ({$sessionInfo->errmsg})!";
             $result['status'] = '500';
