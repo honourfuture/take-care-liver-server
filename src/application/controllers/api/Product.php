@@ -27,12 +27,26 @@ class Product extends REST_Controller
      *   description="商品列表",
      *   operationId="productList",
      *   produces={"application/json"},
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="type",
+     *     description="商品类型",
+     *     required=false,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function list_get()
     {
-        $data = $this->Product_model->getAllByCid();
+        $type = $this->input->get('type');
+        if(empty($type)){
+            $type = 3;
+        }
+        $wheres = [
+            'type' => $type,
+        ];
+        $data = $this->Product_model->getAllByCid($wheres);
         if ($data) {
 
             foreach ($data as &$datum){

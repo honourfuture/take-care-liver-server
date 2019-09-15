@@ -8,9 +8,13 @@ class Product_model extends Base_Model
 {
     private $table = 'products';
 
-    public function getAllByCid()
+    public function getAllByCid($wheres)
     {
         $this->db->select('id,name,price,details,describe,pic,banner_pic');
+
+        foreach ($wheres as $filed => $where) {
+            $this->db->where($filed, $where);
+        }
 
         $this->db->from($this->table);
         $this->db->order_by('id', 'desc');
