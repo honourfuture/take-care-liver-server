@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit ('No direct script access allowed');
-
 use Restserver\Libraries\REST_Controller;
 
 class Pay extends REST_Controller
@@ -257,14 +256,10 @@ class Pay extends REST_Controller
      * )
      */
     public function test_get() {
-        $options = array(
-            'token'=>'tokenaccesskey', //填写你设定的key
-            'encodingaeskey'=>'encodingaeskey', //填写加密用的EncodingAESKey
-            'appid'=>'wxbe243342b268e138', //填写高级调用功能的app id, 请在微信开发模式后台查询
-            'appsecret'=>'f8a0fecf7b3e26c0089d06203ff6d632' //填写高级调用功能的密钥
-        );
-        $weObj = new Wechat($options); //创建实例对象
-        var_dump($weObj);die;
+
+        $this->load->model('Wechat_model');
+        $data = $this->Wechat_model->pay();
+        print_R($data);
     }
 }
 

@@ -33,6 +33,23 @@ class BalanceDetails_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    /**
+     * @param $keyword
+     * @return mixed
+     */
+    public function getCount($wheres)
+    {
+        $this->db->select("*");
+
+        foreach ($wheres as $filed => $where) {
+            $this->db->where($filed, $where);
+        }
+
+        $this->db->from($this->table);
+        $total = $this->db->count_all_results();
+        return $total;
+    }
+
     public function getSum($wheres)
     {
         $this->db->select([

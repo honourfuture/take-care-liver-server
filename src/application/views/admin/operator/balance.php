@@ -38,28 +38,27 @@
             <table class="table table-condensed table-hover">
               <thead>
               <tr>
-                <th>编号</th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>余额</th>
-                <th width="470">操作</th>
+                <th width="200">金额</th>
+                <th width="200">来源</th>
+                <th width="200">余额</th>
               </tr>
               </thead>
               <tbody>
               <?php foreach($users_list as $user){?>
                 <tr>
-                  <td><?=$user->id?></td>
-                  <td><?=$user->username?></td>
-                  <td><?=$user->mobile?></td>
-                    <td><?=$user->balance?></td>
-                  <td>
-                    <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?=$user->id?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
-                    <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
-                    <a href="/admin/operator/member?user_id=<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看会员</a>
-                    <a href="/admin/operator/balance?user_id=<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 收益明细</a>
-                    <a href="/admin/operator/card?user_id=<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 银行卡</a>
-                  </td>
+                    <td><span style="color:<?php echo $user['status'] == 1 ? 'green' : 'red'; ?>"><?php echo $user['status'] == 1 ? '+' : '-'; ?> <?=$user['money']?></span></td>
+                    <td><?php
+                        if($user['type'] == 1){
+                            echo '提现';
+                        }else if($user['type'] == 2){
+                            echo '用户购买年卡';
+                        }else if($user['type'] == 3){
+                            echo '购买商品';
+                        }else if($user['type'] == 4){
+                            echo '购买年卡';
+                        }
+                        ?></td>
+                    <td><?=$user['create_time']?></td>
                 </tr>
               <?php } ?>
               <?php if(empty($users_list)){?>

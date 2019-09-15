@@ -7,6 +7,10 @@ class Operator extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->model('User_model');
+        $this->load->model('Card_bank_model');
+        $this->load->model('BalanceDetails_model');
+
+
 	}
 
 	public function list()
@@ -80,7 +84,6 @@ class Operator extends Admin_Controller {
 		}else{
 			redirect("/admin/admin");
 		}
-
 	}
 
     public function apply()
@@ -154,7 +157,90 @@ class Operator extends Admin_Controller {
         }else{
             redirect("/admin/admin");
         }
+    }
 
+    public function card()
+    {
+        $admin_id = $this->checkLogin('A');
+        if(!empty($admin_id)){
+            $user_id = $this->input->get("user_id");
+            $wheres = array('user_id' => $user_id);
+            $this->data['list'] = $this->Card_bank_model->get($wheres);
+
+            //加载模板
+            $this->template->admin_load('admin/operator/card', $this->data);
+        }else{
+            redirect("/admin/admin");
+        }
+    }
+
+    public function balance()
+    {
+        $admin_id = $this->checkLogin('A');
+        if(!empty($admin_id)){
+            $user_id = $this->input->get("user_id");
+            $page = $this->input->get("per_page");
+            //此配置文件可自行独立
+            $this->load->library('pagination');
+            $config['use_page_numbers'] = TRUE;
+            $config['page_query_string'] = TRUE;
+            $config['first_link'] = '&laquo;';
+            $config['last_link'] = '&raquo;';
+            $config['next_link'] = '下一页';
+            $config['prev_link'] = '上一页';
+
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+
+            $base_url = base_url('/admin/operator/apply');
+            $wheres = [
+                'user_id' => $user_id,
+            ];
+            if(!empty($keyword)){
+                $base_url .="?keyword=".$keyword;
+            }
+            $config['base_url'] = $base_url;
+            $config['total_rows'] = $this->BalanceDetails_model->getCount($wheres);
+            $config['per_page'] = 20;
+
+            if($page > 1){
+                $page = $page - 1;
+            }
+            else{
+                $page = 0;
+            }
+
+            $show_begin = $config['per_page'] * $page;
+            if($config['total_rows'] > 0)$show_begin = $show_begin+1;
+
+            $show_end = $config['per_page'] * ($page + 1);
+            if($config['total_rows'] < $show_end)$show_end = ($config['per_page'] * $page) + ($config['total_rows'] % $config['per_page']);
+
+            $offset = $config['per_page'] * $page;
+            $this->data['users_show_begin'] = $show_begin;
+            $this->data['users_show_end'] = $show_end;
+            $this->data['users_total_rows'] = $config['total_rows'];
+
+
+            $this->data['users_list'] =  $this->BalanceDetails_model->getList($wheres, $config['per_page'], $offset);
+            //初始化分页
+            $this->load->library('pagination');
+            $this->pagination->initialize($config);
+
+            $this->template->admin_load('admin/operator/balance', $this->data);
+        }else{
+            redirect("/admin/admin");
+        }
     }
 
     public function member()
