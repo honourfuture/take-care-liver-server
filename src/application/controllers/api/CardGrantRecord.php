@@ -18,7 +18,7 @@ class CardGrantRecord extends REST_Controller
         $this->response($res);
     }
     /**
-     * @SWG\Get(path="/cardgrantrecord/list",
+     * @SWG\Get(path="/CardGrantRecord/list",
      *   tags={"cardgrantrecord"},
      *   summary="列表",
      *   description="体检卡的发放记录列表",
@@ -66,7 +66,7 @@ class CardGrantRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Get(path="/cardgrantrecord/info",
+     * @SWG\Get(path="/CardGrantRecord/info",
      *   tags={"cardgrantrecord"},
      *   summary="详情记录",
      *   description="体检卡发放记录详情",
@@ -113,7 +113,7 @@ class CardGrantRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Post(path="/cardgrantrecord/add",
+     * @SWG\Post(path="/CardGrantRecord/add",
      *   consumes={"multipart/form-data"},
      *   tags={"cardgrantrecord"},
      *   summary="发放",
@@ -177,7 +177,7 @@ class CardGrantRecord extends REST_Controller
         echo json_encode($data);die;
     }
     /**
-     * @SWG\Get(path="/cardgrantrecord/have",
+     * @SWG\Get(path="/CardGrantRecord/have",
      *   tags={"cardgrantrecord"},
      *   summary="体检卡次数汇总",
      *   description="体检卡次数汇总",
