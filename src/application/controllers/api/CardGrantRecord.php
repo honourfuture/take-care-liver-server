@@ -183,13 +183,12 @@ class CardGrantRecord extends REST_Controller
      *   description="体检卡次数汇总",
      *   operationId="cardgrantrecordhave",
      *   @SWG\Parameter(
-     *     in="query",
-     *     name="user_id",
-     *     description="用户id唯一标识user_id",
+     *     in="header",
+     *     name="token",
+     *     description="token",
      *     required=true,
-     *     type="integer"
-     *   ),
-     *   produces={"application/json"},
+     *     type="string"
+     *   ),{"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
