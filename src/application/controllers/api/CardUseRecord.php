@@ -18,7 +18,7 @@ class CardUseRecord extends REST_Controller
         $this->response($res);
     }
     /**
-     * @SWG\Get(path="/carduserecord/list",
+     * @SWG\Get(path="/CardUseRecord/list",
      *   tags={"carduserecord"},
      *   summary="列表",
      *   description="体检卡的使用记录列表",
@@ -66,7 +66,7 @@ class CardUseRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Get(path="/carduserecord/info",
+     * @SWG\Get(path="/CardUseRecord/info",
      *   tags={"carduserecord"},
      *   summary="详情记录",
      *   description="体检卡使用记录详情",
@@ -112,7 +112,7 @@ class CardUseRecord extends REST_Controller
         }
     }
     /**
-     * @SWG\Post(path="/carduserecord/add",
+     * @SWG\Post(path="/CardUseRecord/add",
      *   consumes={"multipart/form-data"},
      *   tags={"carduserecord"},
      *   summary="使用",
