@@ -118,6 +118,18 @@ class CardGrantRecord_model extends CI_Model
         $query = $this->db->get($this->table);
         return $query->row();
     }
+
+    function findOne($wheres){
+
+        foreach($wheres as $k=>$val) {
+            if(!is_array($val) && !is_object($val)) {
+                $this->db->where($k, $val);
+            }
+        }
+        $query = $this->db->get($this->table);
+        return $query->row();
+
+    }
 	
     /*
     * 根据id查询指定数据

@@ -211,24 +211,32 @@ class CardGrantRecord extends REST_Controller
         $useRecordRet = $this->CardUseRecord_model->getGroupCountAll($where, [],"*,count(*) as totaltimes");
         $data = [
             'grantRecord'=>[
-                1=>0,
-                2=>0,
+                1 => 0,
+                2 => 0,
             ],
             'useRecord'=>[
-                1=>0,
-                2=>0,
+                1 => 0,
+                2 => 0,
+            ],
+            'totalRecord'=>[
+                1 => 0,
+                2 => 0,
             ],
         ];
         foreach($grantRecordRet as $k=>$v) {
             if(isset($v->type)) {
                 $data['grantRecord'][$v->type]=(isset($v->totaltimes) && $v->totaltimes) ? $v->totaltimes : 0;
+                $data['totalRecord'][$v->type] += $data['grantRecord'][$v->type];
             }
         }
         foreach($useRecordRet as $k=>$v) {
             if(isset($v->type)) {
                 $data['useRecord'][$v->type]=(isset($v->totaltimes) && $v->totaltimes) ? $v->totaltimes : 0;
+                $data['totalRecord'][$v->type] += $data['useRecord'][$v->type];
             }
         }
+
+
         $this->json($data);
     }
 }

@@ -11,6 +11,8 @@ class Urine extends REST_Controller
         parent::__construct();
         $this->load->model('Urine_model');
         $this->load->model('Urine_check_model');
+        $this->load->model('CardGrantRecord_model');
+
     }
 
     private function json($data, $code = 200, $message = '获取数据成功!')
@@ -88,6 +90,7 @@ class Urine extends REST_Controller
     public function color_get()
     {
         $data = $this->Urine_check_model->getList();
+
         if ($data) {
             return $this->json($data);
         } else {
@@ -183,7 +186,16 @@ class Urine extends REST_Controller
             'type' => 1
         ];
 
+        $wheres = [
+//            'valid_start_time' => ' >= '.date('Y-m-d H:i:s'),
+//            'valid_end_time' => ' <= '.date('Y-m-d H:i:s'),
+            'type' => 2,
+        ];
+//        $urineNums = $this->CardGrantRecord_model->findOne($wheres);
+//        var_dump($urineNums);die;
+
         if($this->Urine_model->create($data)) {
+
             return $this->json(true, 200, '添加成功');
         } else {
             return $this->json([], 500, '服务器出错');

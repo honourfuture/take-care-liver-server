@@ -8,20 +8,39 @@ class Product_model extends Base_Model
 {
     private $table = 'products';
 
-    public function getAllByCid($wheres)
+    public function getAllByCid($wheres, $page, $offset)
     {
-        $this->db->select('id,name,price,details,describe,pic,banner_pic');
+        $this->db->select('id,name,price,details,describe,old_price,pic,banner_pic');
 
         foreach ($wheres as $filed => $where) {
             $this->db->where($filed, $where);
         }
 
         $this->db->from($this->table);
-        $this->db->order_by('id', 'desc');
+
+        $this->db->order_by("create_time", "DESC");
+
+        $this->db->limit($page, $offset);
+
         $query = $this->db->get();
 
         return $query->result();
     }
+
+    public function getCount($wheres)
+    {
+        $this->db->select('id');
+
+        foreach ($wheres as $filed => $where) {
+            $this->db->where($filed, $where);
+        }
+
+        $this->db->from($this->table);
+        $total = $this->db->count_all_results();
+
+        return $total;
+    }
+
     public function __construct()
     {
         parent::__construct();
@@ -37,22 +56,6 @@ class Product_model extends Base_Model
         $this->db->insert($this->table, $data);
 
         return $this->db->insert_id();
-    }
-
-    //总数
-
-    public function getCount($keyword = '')
-    {
-        $this->db->select('id');
-
-        if (!empty($keyword)) {
-            $this->db->like('name', $keyword, 'both');
-        }
-
-        $this->db->from($this->table);
-        $total = $this->db->count_all_results();
-
-        return $total;
     }
 
     /*

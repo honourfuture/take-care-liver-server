@@ -213,13 +213,13 @@ class Order extends REST_Controller
                     ];
                     $this->BalanceDetails_model->create($create);
 
-                    //增加分享者
+                    //增加分享者尿检次数
                     $this->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
                 }
                 //修改当前用户为vip
                 $this->User_model->update($this->user_id, ['is_vip' => 1]);
-                //增加当前用户的肝次数和尿次数
 
+                //增加当前用户的肝次数和尿次数
                 $this->CardGrantRecord_model->grantCard($user_id, 1, $startDate, $endDate, 12, 1);
                 $this->CardGrantRecord_model->grantCard($user_id, 2, $startDate, $endDate, 1, 1);
             }

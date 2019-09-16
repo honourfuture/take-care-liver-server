@@ -231,9 +231,9 @@ class User extends REST_Controller {
         if($this->input->post('mobile'))
             $in["id_card"] = $this->input->post('mobile');
         if($this->input->post('id_front_pic'))
-            $in["id_card"] = $this->input->post('id_front_pic');
+            $in["id_front_pic"] = $this->input->post('id_front_pic');
         if($this->input->post('id_back_pic'))
-            $in["id_card"] = $this->input->post('id_back_pic');
+            $in["id_back_pic"] = $this->input->post('id_back_pic');
 
         $in['is_operator'] = 2;
         $updateStatus = $this->User_model->update_info($this->user_id, $in);
