@@ -49,7 +49,7 @@ class User extends REST_Controller {
      *   ),
      *   @SWG\Parameter(
      *     in="formData",
-     *     name="iv",
+     *     name="nickName",
      *     description="nickName",
      *     required=true,
      *     type="string"
