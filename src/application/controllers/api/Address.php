@@ -157,6 +157,10 @@ class Address extends REST_Controller
      */
     public function find_get()
     {
+        if (!$this->user_id) {
+            return $this->json([], 401, '请登录');
+        }
+
         $id = $this->input->get('id');
         $data = $this->Address_model->find($id);
         if ($data) {
