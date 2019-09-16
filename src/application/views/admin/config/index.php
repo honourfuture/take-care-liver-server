@@ -25,24 +25,24 @@
                                 <form action="/admin/config/index?type=aboutUs" class="form-horizontal" id="createForm" method="post"
                                       accept-charset="utf-8"  >
                                     <input type="hidden" name="type" value="<?=$type ?>" >
-                                    <div class="form-group">
+                                    <!--<div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">标题</label>
                                         <div class="col-sm-6">
-                                            <input type="text" name="title" value="<?=$data['title']?>" id="title" class="form-control">                                        </div>
-                                    </div>
+                                            <input type="text" name="title" value="<?/*=$data['title']*/?>" id="title" class="form-control">                                        </div>
+                                    </div>-->
                                     <!--<div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">图片</label>
                                         <div class="col-sm-6">
                                             <input type="text" name="pic" value="<?/*=$data['pic']*/?>" id="pic" class="form-control">                                        </div>
                                     </div>-->
-                                    <div class="form-group">
+                                   <!-- <div class="form-group">
                                         <label for="picture_url" class="col-sm-2 control-label">图片链接</label>
                                         <div class="col-sm-3">
-                                            <img src = "<?=$data['pic'] ? qiniu_image($data['pic'],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
-                                            <input type="hidden" name="pic" id="image" class="spec_image" value="<?=$data['pic'] ?>" />
+                                            <img src = "<?/*=$data['pic'] ? qiniu_image($data['pic'],false) : '/assets/images/upload.png';*/?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
+                                            <input type="hidden" name="pic" id="image" class="spec_image" value="<?/*=$data['pic'] */?>" />
                                             <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">内容</label>

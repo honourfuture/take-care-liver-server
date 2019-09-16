@@ -54,40 +54,51 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="position" class="col-sm-2 control-label">位置</label>
+                            <label for="telphone" class="col-sm-2 control-label">位置</label>
                             <div class="col-sm-3">
                                 <input class="form-control" id="position" name="position" value="<?php echo $data['position'] ?>"
-                                       data-msg="请填写position"
+                                       data-msg="请填写位置"
                                        required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
-                                 />
+                                    />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="detail" class="col-sm-2 control-label">简介</label>
+                            <label for="position" class="col-sm-2 control-label">经纬度</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" id="longitude" name="longitude" value="<?php echo $data['longitude'] ?>"
+                                       data-msg="请填写经度"
+                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
+                                 />
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" id="latitude" name="latitude" value="<?php echo $data['latitude'] ?>"
+                                       data-msg="请填写维度"
+                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
+                                    />
+                            </div>
+                            <div class="col-sm-1">
+                               <!-- $('#modal-default').modal('show');-->
+                                <button type="button" class="btn btn-success"  onclick="open_win()">选择</button>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="picture_url" class="col-sm-2 control-label">图片</label>
                             <div class="col-sm-3">
-                                <input class="form-control" id="detail" name="detail" value="<?php echo $data['detail'] ?>"
-                                       data-msg="请填写detail"
-                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
-                                 />
+                                <img src = "<?=$data['pic'] ? qiniu_image($data['pic'],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
+                                <input type="hidden" name="pic" id="image" class="spec_image" value="<?=$data['pic'] ?>" />
+                                <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="pic" class="col-sm-2 control-label">图片</label>
-                            <div class="col-sm-3">
-                                <input class="form-control" id="pic" name="pic" value="<?php echo $data['pic'] ?>"
-                                       data-msg="请填写pic"
-                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
-                                 />
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="create_time" class="col-sm-2 control-label">创建时间</label>
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" data-msg="请填写create_time" name="create_time" class="form-control pull-right" id="create_time" value="<?php echo $data['create_time'] ?>" />
+                                    <input type="text" data-msg="请填写create_time" name="create_time" class="form-control pull-right" id="create_time" value="<?php /*echo $data['create_time'] */?>" />
                                 </div>
                             </div>
                         </div>
@@ -98,10 +109,10 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" data-msg="请填写update_time" name="update_time" class="form-control pull-right" id="update_time" value="<?php echo $data['update_time'] ?>" />
+                                    <input type="text" data-msg="请填写update_time" name="update_time" class="form-control pull-right" id="update_time" value="<?php /*echo $data['update_time'] */?>" />
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <label for="business_type" class="col-sm-2 control-label">营业时间</label>
                             <div class="col-sm-3">
@@ -109,7 +120,7 @@
                                     <option value="">请选择</option>
                                     <?php if ($business_types != null) : ?>
                                         <?php foreach ($business_types as $key=>$value) : ?>
-                                            <option value="<?php echo $key; ?>" <?php if ($row['business_type'] === (string)$key || set_value('business_type') === (string)$key) : ?>selected="selected"<?php endif; ?>><?php echo $value; ?></option>
+                                            <option value="<?php echo $key; ?>" <?php if ($data['business_type'] === (string)$key || set_value('business_type') === (string)$key) : ?>selected="selected"<?php endif; ?>><?php echo $value; ?></option>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </select>
@@ -117,15 +128,30 @@
                             </div>
                         </div>
 
+                       <!-- <div class="form-group">
+                            <label for="detail" class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="detail" name="detail" value="<?php /*echo $data['detail'] */?>"
+                                       data-msg="请填写detail"
+                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
+                                    />
+                            </div>
+                        </div>-->
                         <div class="form-group">
+                            <label for="indate" class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-6">
+                                <script id="container" name="detail" type="text/plain"></script>
+                            </div>
+                        </div>
+                       <!-- <div class="form-group">
                             <label for="distance" class="col-sm-2 control-label">距离</label>
                             <div class="col-sm-3">
-                                <input class="form-control" id="distance" name="distance" value="<?php echo $data['distance'] ?>"
+                                <input class="form-control" id="distance" name="distance" value="<?php /*echo $data['distance'] */?>"
                                        data-msg="请填写distance"
                                        required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
                                  />
                             </div>
-                        </div>
+                        </div>-->
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="submit" class="btn btn-primary btn-flat"
@@ -143,12 +169,28 @@
         </div>
     </section>
 </div>
+
 <script src="/assets/plugins/pwstrength/pwstrength.min.js"></script>
 <script src="/assets/plugins/validate/jquery.validate.min.js"></script>
+<script src="/assets/js/ajaxfileupload.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container', {
+        autoHeight: false,
+    });
+    ue.ready(function(){
+        //设置编辑器的内容
+        ue.setContent("<?=$data['details']?>");
+    });
+    //$("#createForm").validate();
 
-<script>
     $(function () {
         $("#createForm").validate();
+
         $('#create_time').datepicker({
             language: 'zh-CN',//选择语言
             format: 'yyyy-mm-dd',
@@ -161,10 +203,60 @@
             autoclose: true,
             todayHighlight: true
         });
-        /*$(".prov").change(function () {
-            id = $(".prov").val();
-            $.post("/admin/cities/ajaxGetArea/" + id, {"test": null}, function (data) {
-            });
-        });*/
     });
+
+    //上传图片
+    $("#image_file").on("change",function(){
+        $.ajaxFileUpload({
+            type: "post",
+            url: '/admin/upload/upload_image',
+            secureuri: false,
+            fileElementId: 'image_file',
+            dataType: 'json',
+            success: function(res) {
+                debugger;
+                if(res.status == 1){
+
+                    $('#img_imageupload').attr('src',res.data.url);
+                    $('#image').val(res.data.url);//res.data.file_name
+                }else{
+                    if(res == null || res==false)
+                    {
+                        alert("上传失败！");
+                        return;
+                    }
+                    alert(res.message);
+                }
+            },
+            error:function(data, error){
+                debugger;
+                alert("上传失败");
+            }
+        });
+    });
+    $("#img_imageupload").click(function(){
+        $("#image_file").click();
+    });
+
+    function open_win() {
+        //myWindow=window.open('/admin/hospitals/map','选择位置','width=400,height=300');
+        //myWindow.document.write("<p>这是'我的窗口'</p>");
+        //myWindow.focus();
+        openwindow('/admin/hospitals/map','选择位置',800,600);
+    }
+
+    function openwindow(url,name,iWidth,iHeight)  //window.open新建居中窗口
+    {
+        // url 转向网页的地址  
+        // name 网页名称，可为空  
+        // iWidth 弹出窗口的宽度  
+        // iHeight 弹出窗口的高度  
+        //window.screen.height获得屏幕的高，window.screen.width获得屏幕的宽  
+        var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;  
+        var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;  
+        myWindow = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+        myWindow.focus();
+    }
+
 </script>
+

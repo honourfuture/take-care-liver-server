@@ -159,6 +159,8 @@ class Hospitals extends Admin_Controller {
             $this->form_validation->set_rules('name', 'name', 'trim');
             $this->form_validation->set_rules('telphone', 'telphone', 'trim');
             $this->form_validation->set_rules('position', 'position', 'trim');
+            $this->form_validation->set_rules('longitude', 'longitude', 'trim');
+            $this->form_validation->set_rules('latitude', 'latitude', 'trim');
             $this->form_validation->set_rules('detail', 'detail', 'trim');
             $this->form_validation->set_rules('pic', 'pic', 'trim');
             $this->form_validation->set_rules('create_time', 'create_time', 'trim');
@@ -171,6 +173,8 @@ class Hospitals extends Admin_Controller {
             'name' => $this->input->post('name', TRUE),
             'telphone' => $this->input->post('telphone', TRUE),
             'position' => $this->input->post('position', TRUE),
+            'longitude' => $this->input->post('longitude', TRUE),
+            'latitude' => $this->input->post('latitude', TRUE),
             'detail' => $this->input->post('detail', TRUE),
             'pic' => $this->input->post('pic', TRUE),
             'update_time' => date('Y-m-d H:i:s'),
@@ -301,27 +305,36 @@ class Hospitals extends Admin_Controller {
         $this->load->view('admin/hospitals/modals/del', $this->data);
     }
 
-        //详情
-        public function view()
-        {
-            $id = $this->uri->segment(4);
+    //详情
+    public function view()
+    {
+        $id = $this->uri->segment(4);
 
-            //获取数据
-            $obj = $this->hospital_model->getRow(array("id" => $id));
-            if(empty($obj)){
-                redirect('admin/hospitals/index', 'refresh');
-            }        $this->data['business_types'] = $this->hospital_model->getBusiness_type();
+        //获取数据
+        $obj = $this->hospital_model->getRow(array("id" => $id));
+        if(empty($obj)){
+            redirect('admin/hospitals/index', 'refresh');
+        }        $this->data['business_types'] = $this->hospital_model->getBusiness_type();
 
-            // 传递数据
-            $this->data['data']  = $obj;
+        // 传递数据
+        $this->data['data']  = $obj;
 
-            //当前列表页面的url
-            $form_url = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
-            if(strripos($form_url,"admin/hospitals") === FALSE){
-                $form_url = "/admin/hospitals/index";
-            }
-            $this->data['form_url'] = $form_url;
-            //加载模板
-            $this->template->admin_load('admin/hospitals/view', $this->data);
+        //当前列表页面的url
+        $form_url = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
+        if(strripos($form_url,"admin/hospitals") === FALSE){
+            $form_url = "/admin/hospitals/index";
         }
-   }
+        $this->data['form_url'] = $form_url;
+        //加载模板
+        $this->template->admin_load('admin/hospitals/view', $this->data);
+    }
+
+    //地图
+    public function map()
+    {
+        //加载模板
+        //$this->template->admin_load('admin/hospitals/map', $this->data);
+        $CI = & get_instance();
+        return $CI->load->view('admin/hospitals/map', $this->data);
+    }
+}

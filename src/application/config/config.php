@@ -527,7 +527,7 @@ $config['upload'] = array(
         'secretKey' => 'PiclX7JzLdoajOfQI2_IrMPk3UhTtOTrpmioCpis',
         'bucket'    => 'wendian',
         //'url'       => 'http://localhost/uploads/',
-        'url'       => 'http://localhost4:8887/upload/',
+        'url'       => 'http://localhost:85/upload/',
     ),
 );
 

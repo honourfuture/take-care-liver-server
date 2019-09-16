@@ -23,8 +23,10 @@ class Config extends Admin_Controller
         $data = $this->Config_model->findByAttributes(array('id' => 1), $type);
         $this->data['type'] = $type;
         if ($this->input->method() == "post") {
-            $data['pic'] = $this->input->post('pic');
-            $data['title'] = $this->input->post('title');
+            //$data['pic'] = $this->input->post('pic');
+            //$data['title'] = $this->input->post('title');
+            $data['pic'] = "";
+            $data['title'] = "";
             $data['details'] = $this->input->post('details');
 
             $res = $this->Config_model->update(1, array($type => json_encode($data)));

@@ -44,7 +44,7 @@
                             <th>名称</th>
                             <th>电话</th>
                             <th>位置</th>
-                            <th>简介</th>
+                            <!--<th>简介</th>-->
                             <!--<th>图片</th>-->
                             <th>创建时间</th>
                             <th>更新时间</th>
@@ -61,7 +61,7 @@
                                     <td><?php echo $value['name']; ?></td>
                                     <td><?php echo $value['telphone']; ?></td>
                                     <td><?php echo $value['position']; ?></td>
-                                    <td><?php echo $value['detail']; ?></td>
+                                 <!--   <td><?php /*echo $value['detail']; */?></td>-->
                                    <!-- <td><?php /*echo $value['pic']; */?></td>-->
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
