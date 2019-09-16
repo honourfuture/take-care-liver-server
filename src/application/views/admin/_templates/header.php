@@ -194,6 +194,22 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="treeview <?= active_link_controller('products') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>商品管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('products', 'index') ?>"><a href="/admin/products/index"><i class="fa fa-circle-o"></i>普通商品</a></li>
+                        <li class="<?= active_link_method('products', 'member') ?>"><a href="/admin/products/member"><i class="fa fa-circle-o"></i>年度会员</a></li>
+                    </ul>
+                </li>
+
+
                 <li class="treeview <?= active_link_controller('hospitals') ?>">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>

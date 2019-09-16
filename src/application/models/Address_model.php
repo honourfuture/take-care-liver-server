@@ -16,7 +16,7 @@ class Address_model extends CI_Model
 
     public function myAddress($id)
     {
-        $this->db->select('id, address, name, phone, is_default');
+        $this->db->select('id, address, name, phone, is_default,region');
         $this->db->from($this->table);
         $this->db->where("user_id",$id);
         $this->db->order_by('id', 'desc');

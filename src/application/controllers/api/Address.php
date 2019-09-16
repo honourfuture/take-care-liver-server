@@ -74,10 +74,18 @@ class Address extends REST_Controller
      *     required=false,
      *     type="string"
      *   ),
+     *
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="region",
+     *     description="地区",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Parameter(
      *     in="formData",
      *     name="address",
-     *     description="收货地址",
+     *     description="详细地址",
      *     required=true,
      *     type="string"
      *   ),
@@ -112,11 +120,13 @@ class Address extends REST_Controller
         $name = $this->input->post('name');
         $is_default = $this->input->post('is_default', 0);
         $address_id = $this->input->post('address_id');
+        $region = $this->input->post('region');
 
         if (!$this->user_id) {
             return $this->json([], 401, '请登录');
         }
         $data = [
+            'region' => $region,
             'address' => $address,
             'phone' => $phone,
             'name' => $name,

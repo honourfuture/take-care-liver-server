@@ -34,6 +34,20 @@ class Product extends REST_Controller
      *     required=false,
      *     type="string"
      *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=false,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
+     *     required=false,
+     *     type="integer"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -46,7 +60,7 @@ class Product extends REST_Controller
         $wheres = [
             'type' => $type,
         ];
-        $data = $this->Product_model->getAllByCid($wheres);
+        $data = $this->Product_model->getAllByCid($wheres, $this->per_page, $this->offset);
         if ($data) {
 
             foreach ($data as &$datum){
