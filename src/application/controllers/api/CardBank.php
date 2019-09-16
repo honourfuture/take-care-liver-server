@@ -174,13 +174,6 @@ class CardBank extends REST_Controller
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     in="formData",
-     *     name="verify",
-     *     description="验证码",
-     *     required=true,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
      *     in="header",
      *     name="token",
      *     description="token",
@@ -203,17 +196,17 @@ class CardBank extends REST_Controller
         $cardType = trim($this->input->post('card_type'));
         $cardName = trim($this->input->post('card_name'));
         $phone = $this->input->post('phone');
-        $verify = $this->input->post('verify');
+//        $verify = $this->input->post('verify');
 
-        $redisVerify = $this->Record_model->getVerify($phone, 'addCardBank');
-
-        if($verify == null){
-            return $this->json([], 500, '验证码发送失败，请联系管理员');
-        }
-
-        if ($redisVerify != $verify) {
-            return $this->json([], 500, '验证码错误！');
-        }
+//        $redisVerify = $this->Record_model->getVerify($phone, 'addCardBank');
+//
+//        if($verify == null){
+//            return $this->json([], 500, '验证码发送失败，请联系管理员');
+//        }
+//
+//        if ($redisVerify != $verify) {
+//            return $this->json([], 500, '验证码错误！');
+//        }
 
         $insert = array(
             'card_number' => $cardNumber,

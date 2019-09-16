@@ -26,7 +26,7 @@
                                     <div class="form-group">
                                         <label for="first_name" class="col-sm-2 control-label">姓名</label>
                                         <div class="col-sm-3">
-                                            <span class="form-control"><?=$user->username?></span>
+                                            <span class="form-control"><?=$user->real_name?></span>
                                         </div>
                                     </div>
                                     <div class="form-group">

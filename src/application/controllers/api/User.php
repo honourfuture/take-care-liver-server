@@ -225,7 +225,7 @@ class User extends REST_Controller {
         }
 
         if($this->input->post('username'))
-            $in["username"] = $this->input->post('username');
+            $in["real_name"] = $this->input->post('username');
         if($this->input->post('id_card'))
             $in["id_card"] = $this->input->post('id_card');
         if($this->input->post('mobile'))
@@ -371,6 +371,7 @@ class User extends REST_Controller {
                 //定义返回的信息
                 $user = array(
                     'username'	=> $result->username,
+                    'real_name'	=> $result->real_name,
                     'mobile'	=> $result->mobile,
                     'gender'	=> $result->gender,//性别   0:女  1:男'
                     'active'	=> $result->active,//态状  1:正常    -1:冻结'
