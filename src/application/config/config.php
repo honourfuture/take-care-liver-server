@@ -506,7 +506,7 @@ $config['token_expire'] = 7 * 24 * 60 * 60;
 /**
  * 不需要权限验证的url
  */
-$config['privilege_url'] = array('admin', 'admin/administrators/no_permission', 'admin/dashboard', 'admin/hardware/download_temp', 'admin/upload/upload_image');
+$config['privilege_url'] = array('admin', 'admin/administrators/no_permission', 'admin/dashboard', 'admin/hardware/download_temp', 'admin/upload/upload_image','admin/employee/parent');
 
 /**
  * 文件上传配置
