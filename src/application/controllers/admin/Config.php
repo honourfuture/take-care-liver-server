@@ -19,10 +19,8 @@ class Config extends Admin_Controller
     //关于我们
     public function index()
     {
-        $type = $this->input->get_post('type');
-        $data = $this->Config_model->findByAttributes(array('id' => 1), $type);
-        $this->data['type'] = $type;
         if ($this->input->method() == "post") {
+            $type = $this->input->post('type');
             //$data['pic'] = $this->input->post('pic');
             //$data['title'] = $this->input->post('title');
             $data['pic'] = "";
@@ -46,7 +44,9 @@ class Config extends Admin_Controller
             }
             redirect($form_url, 'refresh');
         } else {
-
+            $type = $this->input->get('type');
+            $data = $this->Config_model->findByAttributes(array('id' => 1), $type);
+            $this->data['type'] = $type;
             $bootPage = json_decode($data[$type],true);
             $this->data['data'] = $bootPage;
             //加载模板
