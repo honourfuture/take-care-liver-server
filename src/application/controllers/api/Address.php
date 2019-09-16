@@ -152,6 +152,13 @@ class Address extends REST_Controller
      *     required=false,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -164,9 +171,9 @@ class Address extends REST_Controller
         $id = $this->input->get('id');
         $data = $this->Address_model->find($id);
         if ($data) {
-            $this->json($data);
+            return $this->json($data);
         } else {
-            $this->json([], 200, $message = '没有数据');
+            return $this->json([], 200, $message = '没有数据');
         }
     }
 
