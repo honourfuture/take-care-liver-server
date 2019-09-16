@@ -191,6 +191,9 @@ class Order extends REST_Controller
         $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
         if($addOrder) {
             $add = 10;
+            $this->load->model('CardGrantRecord_model');
+            $startDate = date('Y-m-d H:i:s',time());
+            $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
 
             if($projectData->type == 4){
                 $userInfo = $this->User_model->find($user_id);
@@ -209,13 +212,13 @@ class Order extends REST_Controller
                         'about_id' => $this->user_id
                     ];
                     $this->BalanceDetails_model->create($create);
+
+                    //增加分享者
+                    $this->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
                 }
                 //修改当前用户为vip
                 $this->User_model->update($this->user_id, ['is_vip' => 1]);
                 //增加当前用户的肝次数和尿次数
-                $this->load->model('CardGrantRecord_model');
-                $startDate = date('Y-m-d H:i:s',time());
-                $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
 
                 $this->CardGrantRecord_model->grantCard($user_id, 1, $startDate, $endDate, 12, 1);
                 $this->CardGrantRecord_model->grantCard($user_id, 2, $startDate, $endDate, 1, 1);

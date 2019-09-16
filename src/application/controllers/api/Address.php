@@ -137,6 +137,35 @@ class Address extends REST_Controller
             return $this->json([], 500, '服务器出错');
         }
     }
+
+    /**
+     * @SWG\Get(path="/address/find",
+     *   tags={"Address"},
+     *   summary="地址",
+     *   description="获取地址",
+     *   operationId="addressFind",
+     *   produces={"application/json"},
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="id",
+     *     description="地址id",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function find_get()
+    {
+        $id = $this->input->get('id');
+        $data = $this->Address_model->find($id);
+        if ($data) {
+            $this->json($data);
+        } else {
+            $this->json([], 200, $message = '没有数据');
+        }
+    }
+
 }
 
 ?>
