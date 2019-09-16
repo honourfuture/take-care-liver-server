@@ -187,6 +187,47 @@ class Address extends REST_Controller
         }
     }
 
+
+    /**
+     * @SWG\Post(path="/address/delete",
+     *   consumes={"multipart/form-data"},
+     *   tags={"Address"},
+     *   summary="删除地址",
+     *   description="删除地址",
+     *   operationId="commentDelete",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="用户登陆token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="formData",
+     *     name="id",
+     *     description="地址id",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function delete_post()
+    {
+        if (!$this->user_id) {
+            return $this->json([], 401, '请登录');
+        }
+
+        $id = (int) $this->input->post('id');
+        $data = $this->Address_model->delete($id, $this->user_id);
+        if ($data) {
+            return $this->json($data, 200, '删除成功');
+        } else {
+            return $this->json([], 200, $message = '删除失败，请联系管理员');
+        }
+    }
+
 }
 
 ?>

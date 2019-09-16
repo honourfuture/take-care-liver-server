@@ -95,9 +95,11 @@ class Address_model extends CI_Model
     * 编辑
     */
 
-    function delete($id)
+    function delete($id, $userId)
     {
-        return $this->db->delete($this->table, array('id' => $id));
+        $this->db->where('id',$id);
+        $this->db->where('user_id',$userId);
+        return $this->db->delete($this->table);
     }
 
     /*

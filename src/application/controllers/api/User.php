@@ -81,6 +81,8 @@ class User extends REST_Controller {
      */
     public function login_post()
     {
+//        $nickName = $this->input->post('nickName');
+//        $user = $this->User_model->firstOrCreate('1531175111', '123', 1, $nickName, '1', 1);die;
         $codeWx = $this->input->post('codeWx');
         $phoneWx = $this->input->post('phoneWx');
 
