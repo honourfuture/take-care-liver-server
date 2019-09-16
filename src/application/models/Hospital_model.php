@@ -11,7 +11,6 @@ class Hospital_model extends Base_model
     public function getAllByCid( $page, $offset)
     {
         $this->db->select('id,name,telphone,position,pic,detail,distance');
-
         $this->db->from($this->table);
         $this->db->order_by("create_time", "DESC");
         $this->db->limit($page, $offset);
@@ -19,6 +18,31 @@ class Hospital_model extends Base_model
 
         return $query->result();
     }
+
+    public function getAllByPosi( $page, $offset,$longitude='', $latitude='',$id=0)
+    {
+        $sql = "select hs.id,hs.name,hs.telphone,hs.position,hs.pic,hs.detail,hs.business_type,hs.create_time,hs.distance1 as distance ".
+            " from (select info.*, convert((st_distance(point(info.longitude,info.latitude),".
+            " point(?,?))*111195)/1000,decimal(10,2) ) as distance1 ".
+            " from hospitals info ) hs ";
+        if($page && $offset){
+            $sql = $sql." limit ".$offset.",".$page;
+        }
+        if($id){
+            $sql = $sql." where hs.id =?";
+        }
+        $sql = $sql. "order by hs.create_time DESC";
+        $param = array();
+        if(!empty($id)){
+            $param = array($longitude, $latitude,$id );
+        }else{
+            $param = array($longitude, $latitude);
+        }
+
+        $query = $this->db->query($sql, $param);
+        return $query->result_array();
+    }
+
     public function __construct()
     {
         parent::__construct();

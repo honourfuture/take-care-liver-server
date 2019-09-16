@@ -41,6 +41,20 @@ class Hospital extends REST_Controller
      *     required=false,
      *     type="integer"
      *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="longitude",
+     *     description="经度，格式如：121.41606",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="latitude",
+     *     description="纬度，格式如：31.21563",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -61,8 +75,9 @@ class Hospital extends REST_Controller
 //            'memberCard' => ''
 //        ];
 //        echo json_encode($openMember);die;
-
-        $data = $this->Hospital_model->getAllByCid($this->per_page, $this->offset);
+        $longitude = trim($this->input->get('longitude'));
+        $latitude = trim($this->input->get('latitude'));
+        $data = $this->Hospital_model->getAllByPosi($this->per_page, $this->offset,$longitude,$latitude);
         if ($data) {
             $this->json($data);
         } else {
@@ -84,6 +99,20 @@ class Hospital extends REST_Controller
      *     required=false,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="longitude",
+     *     description="经度，格式如：121.41606",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="latitude",
+     *     description="纬度，格式如：31.21563",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -95,10 +124,13 @@ class Hospital extends REST_Controller
         ];
 
         $id = $this->input->get('id');
-        $data = $this->Hospital_model->find($id);
+        $longitude = trim($this->input->get('longitude'));
+        $latitude = trim($this->input->get('latitude'));
+        $data = $this->Hospital_model->getAllByPosi(null,null,$longitude,$latitude,$id);
 
         if ($data) {
-            $data->business = $businessDate[$data->business_type];
+            $data = $data[0];
+            $data['business'] = $businessDate[$data['business_type']];
             $this->json($data);
         } else {
             $this->json([], 200, $message = '没有数据');
