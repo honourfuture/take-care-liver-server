@@ -280,8 +280,21 @@
                 <li class="<?= active_link_controller('permissions') ?>"><a href="/admin/permissions"><i
                                 class="fa fa-unlock-alt"></i> <span>权限管理</span></a></li>
                 <li class="<?= active_link_controller('users') ?>"><a href="/admin/users"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
-    
- 
+                <li class="<?= active_link_controller('employee') ?>"><a href="/admin/employee/index"><i class="fa fa-user"></i> <span>内部员工管理</span></a></li>
+                <li class="treeview <?= active_link_controller('employee') ?> ">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>客服管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('employee', 'lists') ?>"><a href="/admin/employee/lists"><i class="fa fa-circle-o"></i> 客服列表</a></li>
+                        <li class="<?= active_link_method('employee', 'edit') ?>"><a href="/admin/employee/edit"><i class="fa fa-circle-o"></i> 新建客服</a></li>
+                    </ul>
+                </li>
+
                 <li class="header">系统设置</li>
                 <li class="treeview <?= active_link_controller('settings') ?>  <?= active_link_controller('smslogs') ?>  <?= active_link_controller('pages') ?> <?= active_link_controller('help') ?> <?= active_link_controller('feedback') ?> <?= active_link_controller('notice') ?>">
                     <a href="#">
