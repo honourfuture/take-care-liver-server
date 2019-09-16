@@ -11,6 +11,9 @@ date_default_timezone_set('Asia/Shanghai');
 class MY_Controller extends CI_Controller
 {
     public $data = array();
+    public $cur_page = 0;//当前页
+    public $per_page = 20;//每页显示条数
+    public $offset = 0;//偏移量
 
     function __construct()
     {
@@ -18,6 +21,18 @@ class MY_Controller extends CI_Controller
         ob_start();
         error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
         $this->load->helper('text');
+
+        //处理分页-satart
+        $cur_page = intval($this->input->get_post('per_page'));
+        $offset = intval($this->input->get_post('offset'));
+        $per_page = 20;
+        if($cur_page < 1){
+            $cur_page = 1;
+        }
+        $this->cur_page = $cur_page;
+        $this->per_page = $per_page ? $per_page : $this->per_page;
+        $this->offset = $offset ? $offset : ($this->cur_page - 1) * $this->per_page;
+        //处理分页-end
 
         /*
          * Connecting Database
@@ -131,6 +146,7 @@ class MY_Controller extends CI_Controller
 class Admin_Controller extends MY_Controller
 {
     public $privStatus;
+    public $admin_pre_page = 20;
 	public function __construct()
 	{
 		parent::__construct();
