@@ -11,16 +11,18 @@ class Dashboard extends Employee_Controller {
 	//加载登录页面
 	public function index()
 	{
-		$admin_id = $this->checkLogin('E');
+		/*$admin_id = $this->checkLogin('E');
 		$admin_name = $this->checkLogin('EmployeeName');
 		$level_name = $this->checkLogin('LevelName');
+        $this->data['admin_id'] = $admin_id;
+        $this->data['admin_name'] = $admin_name;
+        $this->data['level_name'] = $level_name;*/
 		/*if(empty($admin_id)){
 			redirect("admin/login");
 		}*/
-        $this->data['admin_id'] = $admin_id;
-        $this->data['admin_name'] = $admin_name;
-        $this->data['level_name'] = $level_name;
-		$this->template->employee_load('employee/dashboard', $this->data);
+
+        redirect("/employee/users");
+		//$this->template->employee_load('employee/dashboard', $this->data);
 	}
 
 	//加载登录页面

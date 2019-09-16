@@ -1,4 +1,4 @@
-<?php $page_title = '编辑管理员' ?>
+<?php $page_title = '修改密码' ?>
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
@@ -7,7 +7,7 @@
 	  </h1>
 	  <ol class="breadcrumb">
 		<li><a href="/admin/"><i class="fa fa-dashboard"></i> 首页</a></li>
-		<li><a href="/admin/administrator">管理员管理</a></li>
+		<li><a href="/admin/users">会员列表</a></li>
 		<li class="active"><?php echo $page_title; ?></li>
 	  </ol>
 	</section>

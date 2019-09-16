@@ -302,6 +302,13 @@ class Employee_Controller extends MY_Controller
 
                 $this->data['message_type']  = strtolower($this->session->flashdata('message_type'));
                 $this->data['message']  = $this->session->flashdata('message');
+
+                $admin_id = $this->checkLogin('E');
+                $admin_name = $this->checkLogin('EmployeeName');
+                $level_name = $this->checkLogin('LevelName');
+                $this->data['admin_id'] = $admin_id;
+                $this->data['admin_name'] = $admin_name;
+                $this->data['level_name'] = $level_name;
             }
 
         }
