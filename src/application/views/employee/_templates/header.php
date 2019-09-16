@@ -62,7 +62,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>后台</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>管理后台</b></span>
+            <span class="logo-lg"><b>员工PC端</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
