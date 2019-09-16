@@ -54,4 +54,63 @@ class Employee_model extends Base_model {
             return $data;
         }
     }
+
+    //管理员登录(密码md5加密)
+    public function admin_check($user_name, $password)
+    {
+        $this->db->select('id,user_name,level');
+        $this->db->where('user_name', $user_name);
+        $this->db->where('password', md5($password));
+        $query = $this->db->get($this->tableName);
+
+        $admin_detail = $query->row_array();
+
+        return $admin_detail;
+    }
+
+
+    /*
+	* 查找
+	*/
+    function find($id)
+    {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->get($this->tableName);
+
+        return $query->row();
+
+    }
+
+    /*
+    * 创建
+    */
+    function create($values)
+    {
+        $data = array(
+            'id'         => NULL,
+            'user_name'  => $values['user_name'],
+            'password'   => $values['password'],
+            'updated_at' => date('Y-m-d H:i:s'),
+            'created_at' => date('Y-m-d H:i:s')
+        );
+
+        $this->db->insert($this->tableName, $data);
+
+        return $this->db->insert_id();
+    }
+
+    /*
+    * 编辑
+    */
+    function update($id, $values)
+    {
+        $data = array(
+            'user_name'   => $values['user_name'],
+            'password' => $values['password'],
+            'updated_at'  => date('Y-m-d H:i:s')
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update($this->tableName, $data);
+    }
 }

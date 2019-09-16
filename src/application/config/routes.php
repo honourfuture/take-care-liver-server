@@ -65,3 +65,12 @@ $route['admin/logout'] = "admin/dashboard/logout";
 $route['user/login'] = "test/testuser";
 $route['user/send_sms'] = "api/user/sms_send_post";
 $route['user/register'] = "api/user/user_register_post";
+
+
+$route['employee'] = "employee/dashboard/index";
+$route['employee/'] = "employee/dashboard/index";
+$route['employee/dashboard'] = "employee/dashboard/index";
+
+$route['employee/login'] = "employee/dashboard/login";
+$route['employee/check_admin'] = "employee/dashboard/check_admin";
+$route['employee/logout'] = "employee/dashboard/logout";

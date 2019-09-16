@@ -57,6 +57,16 @@ class MY_Controller extends CI_Controller
 			return $this->session->userdata('system_user_id');
         } else if ($type == 'UserName') {
 			return $this->session->userdata('system_user_id');
+        }else if ($type == 'E') {
+            return $this->session->userdata('system_employee_id');
+        }else if ($type == 'EmployeeName') {
+            return $this->session->userdata('system_employee_name');
+        }else if ($type == 'C') {
+            return $this->session->userdata('system_customer_id');
+        }else if ($type == 'CustomerName') {
+            return $this->session->userdata('system_customer_name');
+        }else if ($type == 'LevelName') {
+            return $this->session->userdata('system_level_name');
         }
     }
 
@@ -256,6 +266,49 @@ class Admin_Controller extends MY_Controller
         }
     }	
 	
+}
+
+
+//员工Controller
+class Employee_Controller extends MY_Controller
+{
+    public $privStatus;
+    public $admin_pre_page = 20;
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->model('employee_model');
+
+        $admin_id = $this->checkLogin('E');
+        $method = $this->router->fetch_method();
+        if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
+            if(!empty($admin_id)){
+                redirect("/employee/");
+            }
+        }
+        else{
+            if(empty($admin_id)){
+                redirect("/employee/login");
+            }
+            else{
+                $this->load->library(array('form_validation'));
+
+                //Data
+                $this->data['title']       = $this->config->item('title');
+                $this->data['title_lg']    = $this->config->item('title_lg');
+                $this->data['title_mini']  = $this->config->item('title_mini');
+                $this->data['admin_id'] = $admin_id;
+
+                $this->data['message_type']  = strtolower($this->session->flashdata('message_type'));
+                $this->data['message']  = $this->session->flashdata('message');
+            }
+
+        }
+
+    }
+
+
 }
 
 //PC网站Controller

@@ -30,6 +30,42 @@ class Template {
 	}
 
     /*
+     * 加载员工PC页面
+     */public function employee_load($content, $data = NULL)
+    {
+        if ( ! $content)
+        {
+            return NULL;
+        }
+        else
+        {
+            $this->template['header']          = $this->CI->load->view('employee/_templates/header', $data, TRUE);
+            $this->template['content']         = $this->CI->load->view($content, $data, TRUE);
+            $this->template['footer']          = $this->CI->load->view('employee/_templates/footer', $data, TRUE);
+
+            return $this->CI->load->view('employee/_templates/template', $this->template);
+        }
+    }
+
+    /*
+    * 加载员工PC页面
+    */public function customer_load($content, $data = NULL)
+    {
+        if ( ! $content)
+        {
+            return NULL;
+        }
+        else
+        {
+            $this->template['header']          = $this->CI->load->view('customer/_templates/header', $data, TRUE);
+            $this->template['content']         = $this->CI->load->view($content, $data, TRUE);
+            $this->template['footer']          = $this->CI->load->view('customer/_templates/footer', $data, TRUE);
+
+            return $this->CI->load->view('customer/_templates/template', $this->template);
+        }
+    }
+
+    /*
 	* 加载PC网站页面
 	*/public function web_load($content, $data = NULL)
     {
