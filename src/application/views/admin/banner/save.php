@@ -70,13 +70,19 @@
                                  />
                             </div>
                         </div>-->
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="url" class="col-sm-2 control-label">跳转URL</label>
                             <div class="col-sm-3">
-                                <input class="form-control" id="url" name="url" value="<?php echo $data['url'] ?>"
+                                <input class="form-control" id="url" name="url" value="<?php /*echo $data['url'] */?>"
                                        data-msg="请填写url"
                                        required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
                                  />
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="indate" class="col-sm-2 control-label">跳转URL</label>
+                            <div class="col-sm-6">
+                                <script id="container" name="url" type="text/plain"></script>
                             </div>
                         </div>
                         <!--<div class="form-group">
@@ -147,8 +153,19 @@
 <script src="/assets/plugins/pwstrength/pwstrength.min.js"></script>
 <script src="/assets/plugins/validate/jquery.validate.min.js"></script>
 <script src="/assets/js/ajaxfileupload.js"></script>
-
-<script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container', {
+        autoHeight: false,
+    });
+    ue.ready(function(){
+        //设置编辑器的内容
+        ue.setContent("<?=$data['url']?>");
+    });
     $(function () {
         $("#createForm").validate();
         $('#create_time').datepicker({
