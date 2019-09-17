@@ -271,12 +271,14 @@ class Users extends Customer_Controller {
 
 			if($this->input->post("id") == $id)
 			{
-				if($this->User_model->delete($id)){
+                $param = array();
+                $param['is_link'] = 1;
+				if($this->User_model->update($id, $param)){
 					$this->session->set_flashdata('message_type', 'success');
-					$this->session->set_flashdata('message', "删除成功！");
+					$this->session->set_flashdata('message', "操作成功！");
 				}
 				else{
-					$data["message"] = "<div class=\"alert alert-danger alert-dismissable\"><button class=\"close\" data-dismiss=\"alert\">&times;</button>删除数据时发生错误，请稍后再试！</div>";
+					$data["message"] = "<div class=\"alert alert-danger alert-dismissable\"><button class=\"close\" data-dismiss=\"alert\">&times;</button>操作数据时发生错误，请稍后再试！</div>";
 				}
 			}
 		}
