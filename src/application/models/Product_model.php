@@ -51,8 +51,6 @@ class Product_model extends Base_Model
     function create($data)
     {
 
-        $data['created_at'] = date('Y-m-d H:i:s');
-
         $this->db->insert($this->table, $data);
 
         return $this->db->insert_id();

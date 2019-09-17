@@ -21,7 +21,9 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">
-<!--                <a href="/admin/products/save" class="btn btn-block btn-primary btn-flat"><i class="fa fa-plus"></i> 添加</a>-->
+                <?php if($type == 3){ ?>
+                <a href="/admin/products/create" class="btn btn-block btn-primary btn-flat"><i class="fa fa-plus"></i> 添加</a>
+                <?php } ?>
             </h3>
 
             <div class="box-tools">

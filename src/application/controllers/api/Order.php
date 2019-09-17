@@ -190,7 +190,10 @@ class Order extends REST_Controller
 
         $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
         if($addOrder) {
-            $add = 10;
+            $this->load->model('Config_model');
+            $data = $this->Config_model->findByAttributes(array('id' => 1), 'addMoney');
+            $add = $data['addMoney'];
+
             $this->load->model('CardGrantRecord_model');
             $startDate = date('Y-m-d H:i:s',time());
             $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
