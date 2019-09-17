@@ -517,6 +517,8 @@ $config['upload'] = array(
     'img_filepath' => '/www/wwwroot/jcxcx/src/upload/',//图片保存路径
     //'filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//如果保存到本地，本地路径
     //'img_filepath' => '/Users/mac/PhpstormProjects/jcxcx/src/upload/',//图片保存路径
+//    'filepath' => 'upload/',//如果保存到本地，本地路径
+//    'img_filepath' => 'upload/',//图片保存路径
     'back_filepath' => '/upload/',//图片后台保存路径
 //    'filepath' => './uploads/',//如果保存到本地，本地路径
 //    'img_filepath' => '../uploads/',//图片保存路径
@@ -526,7 +528,8 @@ $config['upload'] = array(
         'accessKey' => 'ys05Nrs6Flbbodd3kOe_tkBniUErL9bRiW3lbInS',
         'secretKey' => 'PiclX7JzLdoajOfQI2_IrMPk3UhTtOTrpmioCpis',
         'bucket'    => 'wendian',
-        //'url'       => 'http://localhost/uploads/',
+//        'url'       => 'http://localhost/uploads/',
+//        'url'       => 'http://www.jkjc.cc/upload/',
         'url'       => 'http://xxg.ahkskj.cn/upload/',
     ),
 );

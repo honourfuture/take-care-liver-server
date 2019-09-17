@@ -54,6 +54,35 @@ class Config extends Admin_Controller
         }
     }
 
+    //关于我们
+    public function money()
+    {
+        if ($this->input->method() == "post") {
 
+            $money = $this->input->post('money');
+            $res = $this->Config_model->update(1, array('addMoney' => $money));
+            if($res){
+                $this->session->set_flashdata('message_type', 'success');
+                $this->session->set_flashdata('message', "操作成功！");
+            }else{
+                $this->session->set_flashdata('message_type', 'error');
+                $this->session->set_flashdata('message', "操作失败！");
+                return ;
+            }
+            $form_url = $this->session->userdata('list_page_url');
+            if (empty($form_url)) {
+                $form_url = "/admin/config/money";
+            } else {
+                $this->session->unset_userdata('list_page_url');
+            }
+            redirect($form_url, 'refresh');
+        } else {
+            $data = $this->Config_model->findByAttributes(array('id' => 1), 'addMoney');
+
+            $this->data['data'] = $data;
+            //加载模板
+            $this->template->admin_load('admin/config/money', $this->data);
+        }
+    }
 
 }

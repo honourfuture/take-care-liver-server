@@ -8,8 +8,6 @@ class Products extends Admin_Controller {
 
 		$this->load->model('User_model');
         $this->load->model('Product_model');
-
-
 	}
 
 	public function index()
@@ -44,10 +42,6 @@ class Products extends Admin_Controller {
 			$config['last_tag_close'] = '</li>';
 
 			$base_url = base_url('/admin/operator/list');
-			$wheres = [
-			  'is_operator' => 1
-            ];
-
             $wheres = [
                 'type' => 3
             ];
@@ -72,6 +66,7 @@ class Products extends Admin_Controller {
 			$offset = $config['per_page'] * $page;
 			$this->data['users_show_begin'] = $show_begin;
 			$this->data['users_show_end'] = $show_end;
+            $this->data['type'] = 3;
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$this->data['users_list'] = $this->Product_model->getAllByCid($wheres, $config['per_page'], $offset);
 			//初始化分页
@@ -160,20 +155,20 @@ class Products extends Admin_Controller {
 	{
 		$id = $this->uri->segment(4);
 		if(empty($id)){
-			redirect('admin/users', 'refresh');
+			redirect('admin/products/index', 'refresh');
 		}
 		$data = array();
 
 		//获取数据
-		$user = $this->User_model->find($id);
+		$product = $this->Product_model->find($id);
 		if(empty($user)){
-			redirect('admin/users', 'refresh');
+			redirect('admin/products/index', 'refresh');
 		}
 		else{
 
 			if($this->input->post("id") == $id)
 			{
-				if($this->User_model->delete($id)){
+				if($this->Product_model->delete($id)){
 					$this->session->set_flashdata('message_type', 'success');
 					$this->session->set_flashdata('message', "删除成功！");
 				}
@@ -183,8 +178,8 @@ class Products extends Admin_Controller {
 			}
 		}
 
-		$data['user'] = $user;
-		$this->load->view('admin/users/modals/del', $data);
+		$data['product'] = $product;
+		$this->load->view('admin/products/modals/del', $data);
 	}
 
 	//更新用户信息
@@ -212,8 +207,8 @@ class Products extends Admin_Controller {
 				$old_price = $this->input->post('old_price');
 				$describe = $this->input->post('describe');
 				$pic = $this->input->post('pic');
+                $banner = $this->input->post('banner');
 				$details = $this->input->post('details');
-
 
 				$data = array(
 					'name' => $name,
@@ -222,7 +217,9 @@ class Products extends Admin_Controller {
 					'describe'  => $describe,
 					'pic'  => $pic,
 					'details'	=> $details,
+                    'banner_pic' => json_encode($banner)
 				);
+
 
 				$this->Product_model->update($id, $data);
 
@@ -240,10 +237,8 @@ class Products extends Admin_Controller {
 				$this->data['price'] = $this->form_validation->set_value('price');
                 $this->data['old_price'] = $this->form_validation->set_value('old_price');
 
-
                 $form_url = "/admin/products/{$url}";
 				$this->data['form_url'] = $form_url;
-
 			}
 		}
 		else{
@@ -251,12 +246,11 @@ class Products extends Admin_Controller {
 			$form_url = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
 			$this->data['form_url'] = $form_url;
-
 		}
 
+		$product->banner_pic = json_decode($product->banner_pic, true);
 		// 传递数据
 		$this->data['product'] = $product;
-
 
 		//加载模板
 		$this->template->admin_load('admin/product/edit', $this->data);
@@ -270,41 +264,38 @@ class Products extends Admin_Controller {
 
 		if($this->input->method() == "post"){
 
-			// 表单校验
-			$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
-			$this->form_validation->set_rules('username', '昵称', 'required|min_length[2]|max_length[20]|is_unique[users.username]');
-			$this->form_validation->set_rules('mobile', '手机', 'required|min_length[11]|max_length[11]|is_unique[users.mobile]');
-			$this->form_validation->set_rules('password', '密码', 'required|min_length[6]|max_length[20]');
-			$this->form_validation->set_rules('active', '状态', 'required');
+            // 表单校验
+			$this->form_validation->set_rules('name', '商品名称', 'required|min_length[2]|max_length[20]');
+			$this->form_validation->set_rules('price', '价格', 'required|min_length[1]|max_length[11]');
+			$this->form_validation->set_rules('describe', '商品描述', 'required');
 
 			if ($this->form_validation->run() == TRUE)
 			{
-				$name = $this->input->post('name');
-				$username = $this->input->post('username');
-				$mobile = $this->input->post('mobile');
-				$password = $this->input->post('password');
-				$active = $this->input->post('active');
-				$gender = $this->input->post('gender');
-				$birthday = $this->input->post('birthday');
-				$info = $this->input->post('info');
+			    $name = $this->input->post('name');
+                $price = $this->input->post('price');
+                $old_price = $this->input->post('old_price');
+                $describe = $this->input->post('describe');
+                $pic = $this->input->post('pic');
+                $banner = $this->input->post('banner');
+                $details = $this->input->post('details');
 
-				$data = array(
-					'name' => $name,
-					'username'  => $username,
-					'mobile'  => $mobile,
-					'password'  => $password,
-					'active'  => $active,
-					'created'	=> time(),
-					'birthday'	=> $birthday,
-					'gender'	=> $gender,
-					'info'	=> $info,
-				);
-				$this->User_model->create($data);
+                $data = array(
+                    'name' => $name,
+                    'price'  => $price,
+                    'old_price'  => $old_price,
+                    'describe'  => $describe,
+                    'pic'  => $pic,
+                    'details'	=> $details,
+                    'banner_pic' => json_encode($banner),
+                    'type' => 3
+                );
+
+                $this->Product_model->create($data);
 
 				$this->session->set_flashdata('message_type', 'success');
 				$this->session->set_flashdata('message', "添加成功！");
 
-				redirect('admin/users', 'refresh');
+				redirect('admin/products/index', 'refresh');
 			}
 			else
 			{
@@ -319,7 +310,7 @@ class Products extends Admin_Controller {
 		}
 
 		//加载模板
-		$this->template->admin_load('admin/users/create', $this->data);
+		$this->template->admin_load('admin/product/create', $this->data);
 	}
 
 }
