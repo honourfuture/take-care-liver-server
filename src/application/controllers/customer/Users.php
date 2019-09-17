@@ -138,7 +138,7 @@ class Users extends Customer_Controller {
 			$this->data['users_show_end'] = $show_end;
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$param = array("is_operator"=>"0");
-			$param['is_vip'] =1;
+			$param['is_link'] =1;
 			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param);
 
 			//初始化分页
@@ -211,7 +211,7 @@ class Users extends Customer_Controller {
 			$this->data['users_show_end'] = $show_end;
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$param = array("is_operator"=>"0");
-			$param['is_vip'] = 0;
+			$param['is_link'] = 0;
 			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param);
 
 			//初始化分页

@@ -128,8 +128,8 @@
 
                 <li class="header">会员管理</li>
                 <li class="<?= active_link_method('users', 'index') ?>"><a href="/customer/users/index"><i class="fa fa-circle-o"></i> <span>会员列表</span></a></li>
-                <li class="<?= active_link_method('users', 'unpay') ?>"><a href="/customer/users/unpay"><i class="fa fa-circle-o"></i> <span>未付费会员</span></a></li>
-                <li class="<?= active_link_method('users', 'pay') ?>"><a href="/customer/users/pay"><i class="fa fa-user"></i> <span>已付费会员</span></a></li>
+                <li class="<?= active_link_method('users', 'unpay') ?>"><a href="/customer/users/unpay"><i class="fa fa-circle-o"></i> <span>未联系过的会员</span></a></li>
+                <li class="<?= active_link_method('users', 'pay') ?>"><a href="/customer/users/pay"><i class="fa fa-user"></i> <span>联系过的会员</span></a></li>
 
             </ul>
         </section>
