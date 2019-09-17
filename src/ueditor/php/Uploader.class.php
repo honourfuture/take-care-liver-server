@@ -332,6 +332,8 @@ class Uploader
             $fullname = '/' . $fullname;
         }
 
+
+
         return $rootPath . $fullname;
     }
 
@@ -359,9 +361,12 @@ class Uploader
      */
     public function getFileInfo()
     {
+        $host = isset($_SERVER['HTTP_HOST']) ? "http://". $_SERVER['HTTP_HOST'] : (
+            isset($_SERVER['SERVER_NAME']) ?  "http://". $_SERVER['HTTP_HOST'] : ""
+        );
         return array(
             "state" => $this->stateInfo,
-            "url" => $this->fullName,
+            "url" => $host .$this->fullName,
             "title" => $this->fileName,
             "original" => $this->oriName,
             "type" => $this->fileType,
