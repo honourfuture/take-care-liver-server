@@ -8,8 +8,8 @@
       用户管理
     </h1>
     <ol class="breadcrumb">
-      <li><a href="/admin/"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/admin/users">用户管理</a></li>
+      <li><a href="/customer/"><i class="fa fa-dashboard"></i> 首页</a></li>
+      <li><a href="/customer/users">用户管理</a></li>
       <li class="active">列表</li>
     </ol>
   </section>
@@ -25,7 +25,7 @@
             </h3>
 
             <div class="box-tools">
-              <form action="/employee/users" method="get">
+              <form action="/customer/users" method="get">
                 <div class="input-group input-group" style="width: 250px;">
                   <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索" value="<?=$keyword?>">
                   <div class="input-group-btn">
@@ -69,7 +69,7 @@
                   <td>
                    <!-- <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?/*=$user->id*/?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
                     <a href="/admin/users/edit/<?/*=$user->id*/?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>-->
-                    <a href="/employee/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
+                    <a href="/customer/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
                   </td>
                 </tr>
               <?php } ?>

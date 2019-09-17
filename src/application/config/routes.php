@@ -70,7 +70,14 @@ $route['user/register'] = "api/user/user_register_post";
 $route['employee'] = "employee/dashboard/index";
 $route['employee/'] = "employee/dashboard/index";
 $route['employee/dashboard'] = "employee/dashboard/index";
-
 $route['employee/login'] = "employee/dashboard/login";
 $route['employee/check_admin'] = "employee/dashboard/check_admin";
 $route['employee/logout'] = "employee/dashboard/logout";
+
+
+$route['customer'] = "customer/dashboard/index";
+$route['customer/'] = "customer/dashboard/index";
+$route['customer/dashboard'] = "customer/dashboard/index";
+$route['customer/login'] = "customer/dashboard/login";
+$route['customer/check_admin'] = "customer/dashboard/check_admin";
+$route['customer/logout'] = "customer/dashboard/logout";

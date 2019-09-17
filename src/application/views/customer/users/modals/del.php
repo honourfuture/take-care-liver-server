@@ -2,7 +2,7 @@
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title modal-red">删除用户</h4>
 </div>
-<form method="post" action="/admin/users/del/<?=$user->id?>" class="ajaxForm">
+<form method="post" action="/customer/users/del/<?=$user->id?>" class="ajaxForm">
 	<div class="modal-body">
 		<div class="boxMessage">
 		<?php

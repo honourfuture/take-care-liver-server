@@ -314,8 +314,50 @@ class Employee_Controller extends MY_Controller
         }
 
     }
+}
 
+//客服Controller
+class Customer_Controller extends MY_Controller
+{
+    public $privStatus;
+    public $admin_pre_page = 20;
+    public function __construct()
+    {
+        parent::__construct();
 
+        $this->load->model('employee_model');
+
+        $admin_id = $this->checkLogin('C');
+        $method = $this->router->fetch_method();
+        if ($this->router->fetch_class() == 'dashboard' && in_array($method,array('login','check_admin'))){
+            if(!empty($admin_id)){
+                redirect("/customer/");
+            }
+        }
+        else{
+            if(empty($admin_id)){
+                redirect("/customer/login");
+            }
+            else{
+                $this->load->library(array('form_validation'));
+                //Data
+                $this->data['title']       = $this->config->item('title');
+                $this->data['title_lg']    = $this->config->item('title_lg');
+                $this->data['title_mini']  = $this->config->item('title_mini');
+                $this->data['admin_id'] = $admin_id;
+
+                $this->data['message_type']  = strtolower($this->session->flashdata('message_type'));
+                $this->data['message']  = $this->session->flashdata('message');
+
+                $admin_id = $this->checkLogin('C');
+                $admin_name = $this->checkLogin('CustomerName');
+                $level_name = $this->checkLogin('LevelName');
+                $this->data['admin_id'] = $admin_id;
+                $this->data['admin_name'] = $admin_name;
+                $this->data['level_name'] = $level_name;
+            }
+        }
+    }
 }
 
 //PC网站Controller

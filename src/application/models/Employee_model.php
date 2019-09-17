@@ -56,9 +56,13 @@ class Employee_model extends Base_model {
     }
 
     //管理员登录(密码md5加密)
-    public function admin_check($user_name, $password)
+    public function admin_check($user_name, $password, $is_customer)
     {
         $this->db->select('id,user_name,level');
+        $this->db->where('user_name', $user_name);
+        if(!empty($is_customer)){
+            $this->db->where('is_customer', $is_customer);
+        }
         $this->db->where('user_name', $user_name);
         $this->db->where('password', md5($password));
         $query = $this->db->get($this->tableName);

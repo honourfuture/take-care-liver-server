@@ -58,11 +58,11 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="/employee" class="logo">
+        <a href="/customer" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>后台</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>员工PC端</b></span>
+            <span class="logo-lg"><b>客服PC端</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -91,11 +91,11 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="/employee/administrators/edit/<?= $admin_id; ?>"
+                                    <a href="/customer/administrators/edit/<?= $admin_id; ?>"
                                        class="btn btn-default btn-flat">修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="/employee/logout" class="btn btn-default btn-flat">登出</a>
+                                    <a href="/customer/logout" class="btn btn-default btn-flat">登出</a>
                                 </div>
                             </li>
                         </ul>
@@ -127,9 +127,9 @@
             <ul class="sidebar-menu">
 
                 <li class="header">会员管理</li>
-                <li class="<?= active_link_method('users', 'index') ?>"><a href="/employee/users/index"><i class="fa fa-circle-o"></i> <span>会员列表</span></a></li>
-                <li class="<?= active_link_method('users', 'unpay') ?>"><a href="/employee/users/unpay"><i class="fa fa-circle-o"></i> <span>未付费会员</span></a></li>
-                <li class="<?= active_link_method('users', 'pay') ?>"><a href="/employee/users/pay"><i class="fa fa-user"></i> <span>已付费会员</span></a></li>
+                <li class="<?= active_link_method('users', 'index') ?>"><a href="/customer/users/index"><i class="fa fa-circle-o"></i> <span>会员列表</span></a></li>
+                <li class="<?= active_link_method('users', 'unpay') ?>"><a href="/customer/users/unpay"><i class="fa fa-circle-o"></i> <span>未付费会员</span></a></li>
+                <li class="<?= active_link_method('users', 'pay') ?>"><a href="/customer/users/pay"><i class="fa fa-user"></i> <span>已付费会员</span></a></li>
 
             </ul>
         </section>
