@@ -149,9 +149,9 @@ class CardUseRecord_model extends CI_Model
             if ($data) {
                 $update = $this->db->query("update card_grant_record set times=times-1 where id=$card_grand_record_id");
                 if($update) {
-                    $res['status'] = 0;
+                    $res['status'] = 200;
                     $res['data'] = $update;
-                    $res['msg'] = "";
+                    $res['msg'] = "使用成功";
                     return $res;
                 }else{
                     $res['status'] = 500;

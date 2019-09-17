@@ -106,7 +106,25 @@ class Balance extends REST_Controller
         ];
 
         $data = $this->BalanceDetails_model->getList($wheres, $this->per_page, $this->offset, 1);
+
         if ($data) {
+            foreach ($data as &$datum) {
+                switch ($datum['type']){
+                    case 1:
+                        $datum['title'] = '提现';
+                        break;
+                    case 2:
+                        $datum['title'] = $datum['username'].'购买会员奖励';
+                        break;
+                    case 3:
+                        $datum['title'] = '购买尿检产品';
+                        break;
+                    case 4:
+                        $datum['title'] = '购买年卡';
+                        break;
+                }
+                unset($datum['username']);
+            }
             return $this->json($data);
         } else {
             return $this->json([], 200, $message = '没有数据');
@@ -157,6 +175,10 @@ class Balance extends REST_Controller
 
         $data = $this->BalanceDetails_model->getList($wheres, $this->per_page, $this->offset, 1);
         if ($data) {
+            foreach ($data as &$datum) {
+                $datum['title'] = $datum['username'].'购买会员奖励';
+                unset($datum['username']);
+            }
             return $this->json($data);
         } else {
             return $this->json([], 200, $message = '没有数据');

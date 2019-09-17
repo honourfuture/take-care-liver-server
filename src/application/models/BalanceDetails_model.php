@@ -70,20 +70,24 @@ class BalanceDetails_model extends CI_Model
     public function getList($wheres, $page, $offset)
     {
         $this->db->select([
-            'money',
-            'status',
-            'type',
-            'status',
-            'create_time'
+            'bd.id',
+            'bd.money',
+            'bd.status',
+            'bd.type',
+            'bd.status',
+            'bd.create_time',
+            'bd.about_id',
+            'u.username'
         ]);
 
         foreach ($wheres as $filed => $where) {
-            $this->db->where($filed, $where);
+            $this->db->where('bd.'.$filed, $where);
         }
 
-        $this->db->from('balance_details');
+        $this->db->join('users as u', 'u.id = bd.about_id', 'left');
+        $this->db->from('balance_details as bd');
 
-        $this->db->order_by("create_time", "DESC");
+        $this->db->order_by("bd.create_time", "DESC");
         $this->db->limit($page, $offset);
         $query = $this->db->get();
 

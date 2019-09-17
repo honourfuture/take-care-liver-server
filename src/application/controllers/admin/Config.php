@@ -26,7 +26,6 @@ class Config extends Admin_Controller
             $data['pic'] = "";
             $data['title'] = "";
             $data['details'] = $this->input->post('details');
-
             $res = $this->Config_model->update(1, array($type => json_encode($data)));
             if($res){
                 $this->session->set_flashdata('message_type', 'success');
@@ -48,6 +47,7 @@ class Config extends Admin_Controller
             $data = $this->Config_model->findByAttributes(array('id' => 1), $type);
             $this->data['type'] = $type;
             $bootPage = json_decode($data[$type],true);
+
             $this->data['data'] = $bootPage;
             //加载模板
             $this->template->admin_load('admin/config/index', $this->data);

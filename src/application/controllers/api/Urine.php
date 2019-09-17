@@ -12,6 +12,8 @@ class Urine extends REST_Controller
         $this->load->model('Urine_model');
         $this->load->model('Urine_check_model');
         $this->load->model('CardGrantRecord_model');
+        $this->load->model('CardUseRecord_model');
+
 
     }
 
@@ -187,16 +189,26 @@ class Urine extends REST_Controller
         ];
 
         $wheres = [
-//            'valid_start_time' => ' >= '.date('Y-m-d H:i:s'),
-//            'valid_end_time' => ' <= '.date('Y-m-d H:i:s'),
+            'valid_start_time <= ' =>  date('Y-m-d H:i:s'),
+            'valid_end_time  >= ' =>date('Y-m-d H:i:s'),
             'type' => 2,
+            'times > ' => 0,
+            'user_id' => $this->user_id
         ];
-//        $urineNums = $this->CardGrantRecord_model->findOne($wheres);
-//        var_dump($urineNums);die;
+
+        $urineNums = $this->CardGrantRecord_model->findOne($wheres);
+        if(!$urineNums){
+            return $this->json(true, 500, '没有尿检次数');
+        }
 
         if($this->Urine_model->create($data)) {
+            $data = $this->CardUseRecord_model->useCard($this->user_id, $urineNums->id);
+            if($data['status'] == 200){
+                return $this->json(true, 200, '添加成功');
+            }else{
+                return $this->response($data);
+            }
 
-            return $this->json(true, 200, '添加成功');
         } else {
             return $this->json([], 500, '服务器出错');
         }
