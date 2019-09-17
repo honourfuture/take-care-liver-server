@@ -135,7 +135,7 @@ class CardBank extends REST_Controller
      *     in="formData",
      *     name="phone",
      *     description="预留手机号码",
-     *     required=true,
+     *     required=false,
      *     type="string"
      *   ),
      *   @SWG\Parameter(

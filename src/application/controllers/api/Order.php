@@ -204,18 +204,18 @@ class Order extends REST_Controller
                     $parentUser = $this->User_model->find($userInfo->parent_id);
                     //增加parent_id 的余额
                     $balance = $parentUser->balance + $add;
-
-                    $this->User_model->update($parentUser->id, ['balance' => $balance]);
-                    //增加parent_id 的余额记录
-                    $create = [
-                        'user_id' => $parentUser->id,
-                        'money' => $add,
-                        'type' => 2,
-                        'status' => 1,
-                        'about_id' => $this->user_id
-                    ];
-                    $this->BalanceDetails_model->create($create);
-
+                    if($parentUser->is_operator == 1){
+                        $this->User_model->update($parentUser->id, ['balance' => $balance]);
+                        //增加parent_id 的余额记录
+                        $create = [
+                            'user_id' => $parentUser->id,
+                            'money' => $add,
+                            'type' => 2,
+                            'status' => 1,
+                            'about_id' => $this->user_id
+                        ];
+                        $this->BalanceDetails_model->create($create);
+                    }
                     //增加分享者尿检次数
                     $this->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
                 }
@@ -230,7 +230,7 @@ class Order extends REST_Controller
             //增加当前用户的余额记录
             $create = [
                 'user_id' => $this->user_id,
-                'money' => $add,
+                'money' => $addOrder['now_price'],
                 'type' => 2,
                 'status' => 2,
                 'about_id' => $products_id
