@@ -70,6 +70,11 @@
                    <!-- <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?/*=$user->id*/?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
                     <a href="/admin/users/edit/<?/*=$user->id*/?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>-->
                     <a href="/customer/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
+
+                      <?php if($user->is_link == 0){ ?>
+                      <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/customer/users/del/<?=$user->id?>')" style="margin-right: 5px;"
+                              class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 标记联系</button>
+                      <?php } ?>
                   </td>
                 </tr>
               <?php } ?>

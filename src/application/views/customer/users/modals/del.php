@@ -1,6 +1,6 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title modal-red">删除用户</h4>
+	<h4 class="modal-title modal-red">提示信息</h4>
 </div>
 <form method="post" action="/customer/users/del/<?=$user->id?>" class="ajaxForm">
 	<div class="modal-body">
@@ -11,7 +11,7 @@
 		?>
 		</div>
 		<input type="hidden" name="id" value="<?=$user->id?>">
-		<label class="modal-red">确定要删除用户信息吗？</label>
+		<label class="modal-red">确定要标记为已联系吗？</label>
 	</div>
 
 	<div class="modal-footer">
