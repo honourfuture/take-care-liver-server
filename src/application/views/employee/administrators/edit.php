@@ -48,7 +48,7 @@
 									<div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
 											<button type="submit" class="btn btn-primary btn-flat" style="margin-right: 5px;">提交</button>
-											<a href="/employee/administrators" class="btn btn-default btn-flat">取消</a>
+											<a href="/employee/users" class="btn btn-default btn-flat">取消</a>
 										</div>
 									</div>
 								</form>
