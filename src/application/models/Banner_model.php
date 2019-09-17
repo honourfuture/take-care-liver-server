@@ -17,7 +17,7 @@ class Banner_model extends Base_Model
 
     public function getShowAllData()
     {
-        $this->db->select('picture_url,url');
+        $this->db->select('id,picture_url,url as content');
         $this->db->where('status',1);
         $this->db->limit(5,0);
         $this->db->from($this->table);
@@ -89,7 +89,8 @@ class Banner_model extends Base_Model
 
     function find($id)
     {
-        $query = $this->db->where('id', $id);
+        $this->db->select('id,name,picture_url,url as content');
+        $this->db->where('id', $id);
         $query = $this->db->get($this->table);
 
         return $query->row();

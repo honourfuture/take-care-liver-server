@@ -231,7 +231,7 @@ class User extends REST_Controller {
         if($this->input->post('id_card'))
             $in["id_card"] = $this->input->post('id_card');
         if($this->input->post('mobile'))
-            $in["id_card"] = $this->input->post('mobile');
+            $in["mobile"] = $this->input->post('mobile');
         if($this->input->post('id_front_pic'))
             $in["id_front_pic"] = $this->input->post('id_front_pic');
         if($this->input->post('id_back_pic'))
