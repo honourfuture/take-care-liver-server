@@ -139,8 +139,12 @@
                         </div>-->
                         <div class="form-group">
                             <label for="indate" class="col-sm-2 control-label">简介</label>
-                            <div class="col-sm-6">
+                            <!--<div class="col-sm-6">
                                 <script id="container" name="detail" type="text/plain"></script>
+                            </div>-->
+                            <div class="col-sm-3" style="width:800px;">
+                                <!-- 加载编辑器的容器 -->
+                                <textarea type="text"   name="detail" id="detail" class="form-control"><?php echo $data['detail'] ;?></textarea>
                             </div>
                         </div>
                        <!-- <div class="form-group">
@@ -173,19 +177,11 @@
 <script src="/assets/plugins/pwstrength/pwstrength.min.js"></script>
 <script src="/assets/plugins/validate/jquery.validate.min.js"></script>
 <script src="/assets/js/ajaxfileupload.js"></script>
-<!-- 配置文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
+<script src="/assets/plugins/ckeditor/ckeditor.js"></script>
+
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    var ue = UE.getEditor('container', {
-        autoHeight: false,
-    });
-    ue.ready(function(){
-        //设置编辑器的内容
-        ue.setContent("<?=$data['details']?>");
-    });
+    CKEDITOR.replace('detail');
     //$("#createForm").validate();
 
     $(function () {

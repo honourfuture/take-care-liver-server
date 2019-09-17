@@ -82,7 +82,8 @@
                         <div class="form-group">
                             <label for="indate" class="col-sm-2 control-label">跳转URL</label>
                             <div class="col-sm-6">
-                                <script id="container" name="url" type="text/plain"></script>
+                                <!-- 加载编辑器的容器 -->
+                                <textarea type="text"   name="url" id="url" class="form-control"><?php echo $data['url'] ;?></textarea>
                             </div>
                         </div>
                         <!--<div class="form-group">
@@ -153,19 +154,11 @@
 <script src="/assets/plugins/pwstrength/pwstrength.min.js"></script>
 <script src="/assets/plugins/validate/jquery.validate.min.js"></script>
 <script src="/assets/js/ajaxfileupload.js"></script>
-<!-- 配置文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
+<script src="/assets/plugins/ckeditor/ckeditor.js"></script>
+
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    var ue = UE.getEditor('container', {
-        autoHeight: false,
-    });
-    ue.ready(function(){
-        //设置编辑器的内容
-        ue.setContent("<?=$data['url']?>");
-    });
+    CKEDITOR.replace('url');
     $(function () {
         $("#createForm").validate();
         $('#create_time').datepicker({
