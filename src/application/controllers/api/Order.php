@@ -187,7 +187,7 @@ class Order extends REST_Controller
         $this->load->model('OrderAndPay_model');
         $this->load->model('BalanceDetails_model');
         $this->load->model('User_model');
-
+        $price = $addOrder['price'];
         $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
         if($addOrder) {
             $this->load->model('Config_model');
@@ -230,12 +230,11 @@ class Order extends REST_Controller
             //增加当前用户的余额记录
             $create = [
                 'user_id' => $this->user_id,
-                'money' => $addOrder['now_price'],
-                'type' => 2,
+                'money' => $price,
+                'type' => 3,
                 'status' => 2,
                 'about_id' => $products_id
             ];
-
             $this->BalanceDetails_model->create($create);
 
             return $this->json($addOrder);

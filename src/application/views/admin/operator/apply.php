@@ -53,7 +53,7 @@
                   <td>
                     <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
                     <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
-                     <a href="/admin/operator/editReal/<?=$user->id?>" style="margin-right: 5px;"  class="btn <?php echo $user->is_real == 1 ? 'btn-warning': 'btn-success'?> btn-sm pull-left"><i class="fa fa-check-circle-o"></i><?php echo $user->is_real == 2 ? '经营者审核': '经营者信息'?></a>
+                     <a href="/admin/operator/editReal/<?=$user->id?>" style="margin-right: 5px;"  class="btn <?php echo $user->is_real == 1 ? 'btn-warning': 'btn-success'?> btn-sm pull-left"><i class="fa fa-check-circle-o"></i><?php echo $user->is_operator == 2 ? '经营者审核': '经营者信息'?></a>
                   </td>
                 </tr>
               <?php } ?>
