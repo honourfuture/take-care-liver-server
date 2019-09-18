@@ -121,7 +121,7 @@
     });
     ue.ready(function(){
         //设置编辑器的内容
-        ue.setContent('<?=$data['details']?>');
+        ue.setContent('<?=$product->details?>');
     });
 </script>
 <script>
