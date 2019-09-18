@@ -10,7 +10,7 @@ class Product_model extends Base_Model
 
     public function getAllByCid($wheres, $page, $offset)
     {
-        $this->db->select('id,name,price,details,describe,old_price,pic,banner_pic');
+        $this->db->select('id,name,price,details,describe,old_price,pic,banner_pic,is_delete');
 
         foreach ($wheres as $filed => $where) {
             $this->db->where($filed, $where);
@@ -79,7 +79,7 @@ class Product_model extends Base_Model
     {
 
         $this->db->where('id', $id);
-        $this->db->update($this->table, $data);
+        return $this->db->update($this->table, $data);
     }
 
     /*

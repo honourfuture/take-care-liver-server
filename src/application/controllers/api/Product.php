@@ -59,6 +59,7 @@ class Product extends REST_Controller
         }
         $wheres = [
             'type' => $type,
+            'is_delete' => 1
         ];
         $data = $this->Product_model->getAllByCid($wheres, $this->per_page, $this->offset);
         if ($data) {
@@ -100,8 +101,6 @@ class Product extends REST_Controller
             $this->json([], 200, $message = '没有数据');
         }
     }
-
-
 }
 
 ?>

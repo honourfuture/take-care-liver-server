@@ -151,7 +151,7 @@ class Products extends Admin_Controller {
     }
 
 	//删除用户
-	public function del($id=0)
+	public function delete($id=0)
 	{
 		$id = $this->uri->segment(4);
 		if(empty($id)){
@@ -161,25 +161,21 @@ class Products extends Admin_Controller {
 
 		//获取数据
 		$product = $this->Product_model->find($id);
-		if(empty($user)){
+		if(empty($product)){
 			redirect('admin/products/index', 'refresh');
+		}else{
+            $query = $this->Product_model->update($id, ['is_delete' => $product->is_delete == 0 ? 1 : 0]);
+            if($query){
+                $this->session->set_flashdata('message_type', 'success');
+                $this->session->set_flashdata('message', "操作成功！");
+            }
+            else{
+                $this->session->set_flashdata('message_type', 'error');
+                $this->session->set_flashdata('message', "操作失败！");
+            }
 		}
-		else{
-
-			if($this->input->post("id") == $id)
-			{
-				if($this->Product_model->delete($id)){
-					$this->session->set_flashdata('message_type', 'success');
-					$this->session->set_flashdata('message', "删除成功！");
-				}
-				else{
-					$data["message"] = "<div class=\"alert alert-danger alert-dismissable\"><button class=\"close\" data-dismiss=\"alert\">&times;</button>删除数据时发生错误，请稍后再试！</div>";
-				}
-			}
-		}
-
-		$data['product'] = $product;
-		$this->load->view('admin/products/modals/del', $data);
+        $form_url = "/admin/products/index";
+        redirect($form_url, 'refresh');
 	}
 
 	//更新用户信息

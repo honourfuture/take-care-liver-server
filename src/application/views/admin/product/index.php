@@ -57,6 +57,14 @@
                   <td><?=$user->price?></td>
                     <td><?=$user->old_price?></td>
                   <td>
+                      <?php if($type == 3){ ?>
+                          <a href="/admin/products/delete/<?=$user->id?>" class="btn <?php
+
+                          echo $user->is_delete == 0 ? 'btn-success' : 'btn-danger';
+                          ?> btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i><?php
+                              echo $user->is_delete == 0 ? '上架' : '下架';
+                          ?></a>
+                      <?php } ?>
                     <a href="/admin/products/details/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
                   </td>
                 </tr>
