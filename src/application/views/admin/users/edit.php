@@ -30,12 +30,12 @@
 								</div>
 								<?php }?>
 								<form action="/admin/users/edit/<?=$user->id?>" class="form-horizontal" id="createForm" method="post" accept-charset="utf-8">
-									<div class="form-group">
+									<!--<div class="form-group">
 										<label for="name" class="col-sm-2 control-label">姓名</label>
 										<div class="col-sm-3">
-											<input type="text" name="name" value="<?=$name?>" id="name" class="form-control">
+											<input type="text" name="name" value="<?/*=$name*/?>" id="name" class="form-control">
 										</div>
-									</div>
+									</div>-->
 									<div class="form-group">
 										<label for="username" class="col-sm-2 control-label">昵称</label>
 										<div class="col-sm-3">
@@ -70,12 +70,12 @@
 											</select>
 										</div>
 									</div>
-									<div class="form-group">
+									<!--<div class="form-group">
 										<label for="info" class="col-sm-2 control-label">简介</label>
 										<div class="col-sm-3">
-											<textarea type="text" name="info" id="info" class="form-control"><?=$info?></textarea>
+											<textarea type="text" name="info" id="info" class="form-control"><?/*=$info*/?></textarea>
 										</div>
-									</div>
+									</div>-->
 									<div class="form-group">
 										<label for="active" class="col-sm-2 control-label">状态</label>
 										<div class="col-sm-3">
@@ -86,6 +86,19 @@
 											</select>
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label for="parent_id" class="col-sm-2 control-label">内部管理员</label>
+										<div class="col-sm-3">
+											<select name="employee_id" id="employee_id" class="form-control" >
+												<option value="0">请选择</option>
+												<?php foreach($employee_list as $employee){ ?>
+													<option value="<?=$employee['id']?>" <?=($employee['id'] == $employee_id)?'selected = "selected"':''?>><?=$employee['user_name']?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+
 									<div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
 											<button type="submit" class="btn btn-primary btn-flat" style="	margin-right: 5px;">提交</button>

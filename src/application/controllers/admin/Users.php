@@ -5,8 +5,8 @@ class Users extends Admin_Controller {
 
 	public function __construct(){
 		parent::__construct();
-
 		$this->load->model('User_model');
+		$this->load->model('Employee_model');
 	}
 
 	public function index()
@@ -99,8 +99,11 @@ class Users extends Admin_Controller {
 			$form_url = "/admin/users";
 		}
 		$this->data['form_url'] = $form_url;
-
-
+		//获取数据
+		$param = array();
+		$param['level'] = "K";
+		$result = $this->Employee_model->getResult($param);
+		$this->data['employee_list'] = $result;
 		//加载模板
 		$this->template->admin_load('admin/users/view', $this->data);
 	}
@@ -152,7 +155,7 @@ class Users extends Admin_Controller {
 		if($this->input->method() == "post")
 		{
 			// 表单校验
-			$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
+			//$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
 			$this->form_validation->set_rules('username', '昵称', 'required|min_length[2]|max_length[20]');
 			$this->form_validation->set_rules('mobile', '手机', 'required|min_length[11]|max_length[11]');
 			$this->form_validation->set_rules('active', '状态', 'required');
@@ -167,11 +170,12 @@ class Users extends Admin_Controller {
 				$active = $this->input->post('active');
 				$gender = $this->input->post('gender');
 				$birthday = $this->input->post('birthday');
+				$employee_id = $this->input->post('employee_id');
 				$info = $this->input->post('info');
 
 
 				$data = array(
-					'name' => $name,
+					//'name' => $name,
 					'username'  => $username,
 					'mobile'  => $mobile,
 					'password'  => $password,
@@ -179,7 +183,8 @@ class Users extends Admin_Controller {
 					'updated'	=> time(),
 					'birthday'	=> $birthday,
 					'gender'	=> $gender,
-					'info'	=> $info,
+					'employee_id'	=> $employee_id,
+					//'info'	=> $info,
 				);
 
 				$this->User_model->update($id, $data);
@@ -207,7 +212,7 @@ class Users extends Admin_Controller {
 				$this->data['mobile'] = $this->form_validation->set_value('mobile');
 				$this->data['password'] = $this->form_validation->set_value('password');
 				$this->data['active'] = $this->form_validation->set_value('active');
-
+				$this->data['employee_id'] = $this->form_validation->set_value('employee_id');
 
 				//当前列表页面的url
 				$form_url = $this->session->userdata('list_page_url');
@@ -229,19 +234,24 @@ class Users extends Admin_Controller {
 			}
 			$this->data['form_url'] = $form_url;
 
+			//获取数据
+			$param = array();
+			$param['level'] = "K";
+			$result = $this->Employee_model->getResult($param);
+			$this->data['employee_list'] = $result;
 		}
 
 		// 传递数据
 		$this->data['user'] = $user;
 
-		$this->data['name'] = isset($this->data['name']) ? $this->data['name'] : $user->name ;
+		//$this->data['name'] = isset($this->data['name']) ? $this->data['name'] : $user->name ;
 		$this->data['username'] = isset($this->data['username']) ? $this->data['username'] : $user->username ;
 		$this->data['mobile'] = isset($this->data['mobile']) ? $this->data['mobile'] : $user->mobile ;
 		$this->data['password'] = isset($this->data['password']) ? $this->data['password'] : $user->password ;
 		$this->data['active'] = isset($this->data['active']) ? $this->data['active'] : $user->active ;
 		$this->data['birthday'] = isset($this->data['birthday']) ? $this->data['birthday'] : $user->birthday ;
 		$this->data['gender'] = isset($this->data['gender']) ? $this->data['gender'] : $user->gender ;
-		$this->data['info'] = isset($this->data['info']) ? $this->data['info'] : $user->info ;
+		$this->data['employee_id'] = isset($this->data['employee_id']) ? $this->data['employee_id'] : $user->employee_id ;
 
 		//加载模板
 		$this->template->admin_load('admin/users/edit', $this->data);
@@ -256,7 +266,7 @@ class Users extends Admin_Controller {
 		if($this->input->method() == "post"){
 
 			// 表单校验
-			$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
+			//$this->form_validation->set_rules('name', '姓名', 'required|min_length[2]|max_length[20]');
 			$this->form_validation->set_rules('username', '昵称', 'required|min_length[2]|max_length[20]|is_unique[users.username]');
 			$this->form_validation->set_rules('mobile', '手机', 'required|min_length[11]|max_length[11]|is_unique[users.mobile]');
 			$this->form_validation->set_rules('password', '密码', 'required|min_length[6]|max_length[20]');
@@ -264,17 +274,17 @@ class Users extends Admin_Controller {
 
 			if ($this->form_validation->run() == TRUE)
 			{
-				$name = $this->input->post('name');
+				//$name = $this->input->post('name');
 				$username = $this->input->post('username');
 				$mobile = $this->input->post('mobile');
 				$password = $this->input->post('password');
 				$active = $this->input->post('active');
 				$gender = $this->input->post('gender');
 				$birthday = $this->input->post('birthday');
-				$info = $this->input->post('info');
+				$employee_id = $this->input->post('employee_id');
 
 				$data = array(
-					'name' => $name,
+					//'name' => $name,
 					'username'  => $username,
 					'mobile'  => $mobile,
 					'password'  => $password,
@@ -282,7 +292,7 @@ class Users extends Admin_Controller {
 					'created'	=> time(),
 					'birthday'	=> $birthday,
 					'gender'	=> $gender,
-					'info'	=> $info,
+					'employee_id'	=> $employee_id,
 				);
 				$this->User_model->create($data);
 
@@ -294,15 +304,19 @@ class Users extends Admin_Controller {
 			else
 			{
 				$this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-
 				$this->data['name'] = $this->form_validation->set_value('name');
 				$this->data['username'] = $this->form_validation->set_value('username');
 				$this->data['password'] = $this->form_validation->set_value('password');
 				$this->data['mobile'] = $this->form_validation->set_value('mobile');
 				$this->data['active'] = $this->form_validation->set_value('active');
+				$this->data['employee_id'] = $this->form_validation->set_value('employee_id');
 			}
 		}
-
+		//获取数据
+		$param = array();
+		$param['level'] = "K";
+		$result = $this->Employee_model->getResult($param);
+		$this->data['employee_list'] = $result;
 		//加载模板
 		$this->template->admin_load('admin/users/create', $this->data);
 	}

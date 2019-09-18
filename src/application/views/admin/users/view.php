@@ -69,6 +69,15 @@
                                             <img height="240px" width="400px" src="<?=$user->id_back_pic?>">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="parent_id" class="col-sm-2 control-label">内部管理员</label>
+                                        <div class="col-sm-3">
+                                                <?php foreach($employee_list as $employee){ ?>
+                                                    <?=($employee['id'] == $employee_id)?$employee['user_name']:'暂无'?>
+                                                <?php } ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
