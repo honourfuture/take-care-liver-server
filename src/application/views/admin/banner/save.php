@@ -169,7 +169,7 @@
     });
     ue.ready(function(){
         //设置编辑器的内容
-        ue.setContent("<?=$data['url']?>");
+        ue.setContent('<?=$data['url']?>');
     });
 </script>
 

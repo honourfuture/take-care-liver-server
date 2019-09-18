@@ -77,9 +77,9 @@
                                     <div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">内容</label>
                                         <div class="col-sm-6">
-                                          <!--  <script id="container" name="details" type="text/plain"></script>-->
+                                            <script id="container" name="details" type="text/plain"></script>
                                             <!-- 加载编辑器的容器 -->
-                                            <textarea type="text"   name="details" id="details" class="form-control"><?php echo $data['details'] ;?></textarea>
+                                           <!-- <textarea type="text"   name="details" id="details" class="form-control"><?php /*echo $data['details'] ;*/?></textarea>-->
                                         </div>
                                     </div>
                                     <input type="hidden" name="type" id="type"/>
@@ -103,11 +103,24 @@
 <script src="/assets/plugins/validate/jquery.validate.min.js"></script>
 <script src="/assets/plugins/chosen/chosen.jquery.min.js"></script>
 <script src="/assets/js/ajaxfileupload.js"></script>
-<script src="/assets/plugins/ckeditor/ckeditor.js"></script>
+<!--<script src="/assets/plugins/ckeditor/ckeditor.js"></script>
 
-<!-- 实例化编辑器 -->
 <script type="text/javascript">
     CKEDITOR.replace('details');
+</script>-->
+<!-- 配置文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container', {
+        autoHeight: false,
+    });
+    ue.ready(function(){
+        //设置编辑器的内容
+        ue.setContent('<?=$product->details?>');
+    });
 </script>
 <script>
     $(function () {
