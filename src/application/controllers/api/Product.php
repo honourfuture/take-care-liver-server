@@ -96,7 +96,7 @@ class Product extends REST_Controller
         $data = $this->Product_model->find($id);
         if ($data) {
             if($data->is_delete == 0){
-                $this->json([], 500, $message = '该商品已下架!');
+                return $this->json([], 500, $message = '该商品已下架!');
             }
             $data->banner_pic = json_decode($data->banner_pic);
             $this->json($data);
