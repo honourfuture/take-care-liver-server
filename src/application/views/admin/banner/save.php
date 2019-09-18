@@ -108,17 +108,17 @@
                                 </div>
                             </div>
                         </div>-->
-                        <div class="form-group">
+                       <!-- <div class="form-group">
                             <label for="overdue_time" class="col-sm-2 control-label">过期时间</label>
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" data-msg="请填写overdue_time" name="overdue_time" class="form-control pull-right" id="overdue_time" value="<?php echo $data['overdue_time'] ?>" />
+                                    <input type="text" data-msg="请填写overdue_time" name="overdue_time" class="form-control pull-right" id="overdue_time" value="<?php /*echo $data['overdue_time'] */?>" />
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <label for="status" class="col-sm-2 control-label">状态</label>
                             <div class="col-sm-3">

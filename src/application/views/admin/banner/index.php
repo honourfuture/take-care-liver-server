@@ -44,7 +44,7 @@
                             <th>名称</th>
                             <th>排序</th>
                            <!-- <th>图片链接</th>-->
-                            <th>跳转URL</th>
+                           <!-- <th>跳转URL</th>-->
                             <th>创建时间</th>
                             <th>更新时间</th>
                             <th>过期时间</th>
@@ -60,7 +60,7 @@
                                     <td><?php echo $value['name']; ?></td>
                                     <td><?php echo $value['sort']; ?></td>
                                    <!-- <td><?php /*echo $value['picture_url']; */?></td>-->
-                                    <td><?php echo $value['url']; ?></td>
+                                   <!-- <td><?php /*echo $value['url']; */?></td>-->
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
                                     <td><?php echo $value['overdue_time']; ?></td>
