@@ -186,7 +186,7 @@ class User_Model extends Base_Model
 	/*
 	* 查找
 	*/
-	function getAll($num=30, $offset=0, $keyword='', $wheres=[])
+	function getAll($num=30, $offset=0, $keyword='', $wheres=[], $whereIns=array())
 	{
 		$this->db->select('*');
 
@@ -203,6 +203,11 @@ class User_Model extends Base_Model
                     $this->db->where($k, $val);
                 }
             }
+        }
+
+        //查询
+        if (!empty($whereIns) && is_array($whereIns)) {
+            $this->db->where_in("employee_id", $whereIns);
         }
 
 		$this->db->order_by('id','desc');

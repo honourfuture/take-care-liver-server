@@ -7,6 +7,7 @@ class Users extends Customer_Controller {
 		parent::__construct();
 
 		$this->load->model('User_model');
+		$this->load->model('Employee_model');
 	}
 
 	public function index()
@@ -66,7 +67,10 @@ class Users extends Customer_Controller {
 			$this->data['users_show_end'] = $show_end;
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$param = array("is_operator"=>"0");
-			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param);
+
+			$level = $this->checkLogin('LevelName');
+			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
+			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param,$employee_ids);
 
 			//初始化分页
 			$this->load->library('pagination');
@@ -139,7 +143,10 @@ class Users extends Customer_Controller {
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$param = array("is_operator"=>"0");
 			$param['is_link'] =1;
-			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param);
+
+			$level = $this->checkLogin('LevelName');
+			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
+			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param,$employee_ids);
 
 			//初始化分页
 			$this->load->library('pagination');
@@ -212,7 +219,10 @@ class Users extends Customer_Controller {
 			$this->data['users_total_rows'] = $config['total_rows'];
 			$param = array("is_operator"=>"0");
 			$param['is_link'] = 0;
-			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param);
+
+			$level = $this->checkLogin('LevelName');
+			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
+			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param,$employee_ids);
 
 			//初始化分页
 			$this->load->library('pagination');

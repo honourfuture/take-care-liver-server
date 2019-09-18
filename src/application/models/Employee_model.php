@@ -117,4 +117,46 @@ class Employee_model extends Base_model {
         $this->db->where('id', $id);
         $this->db->update($this->tableName, $data);
     }
+
+    //查询K级管理员id数组
+    public function get_k_ids($level='', $employee_id=0)
+    {
+        $result = array();
+        if(empty($level) || empty($employee_id)){
+            return $result;
+        }
+        //$int= chr($int);
+        $indexStrat = ord($level);
+        $indexEnd = ord("K");
+
+        $sql1= "";
+        $prexx_last = "t";
+        for($i =0;$i<($indexEnd-$indexStrat);$i++){
+            $prexx = "t".($i+1);
+            $prexx_pre = "t".$i;
+            if($i == 0){
+                $prexx_pre = "t";
+            }
+            $sql1 .= " left join employee {$prexx} on {$prexx}.parent_id = {$prexx_pre}.id ";
+            if($i== ($indexEnd-$indexStrat-1)){
+                $prexx_last = "t".($i+1);
+            }
+        }
+        $sql = " select {$prexx_last}.id from employee t ";
+        $sql2 =  " where t.level = ? and t.id=? ";
+        if(!empty($sql1)) {
+            $sql = $sql.$sql1.$sql2;
+        }else{
+            $sql = $sql.$sql2;
+        }
+        $param = array($level, $employee_id);
+        $query = $this->db->query($sql, $param);
+        $query_result = $query->result_array();
+        if(!empty($query_result) && count($query_result)>0){
+            foreach($query_result as $key=>$value){
+                $result[] = $value['id'];
+            }
+        }
+        return $result;
+    }
 }
