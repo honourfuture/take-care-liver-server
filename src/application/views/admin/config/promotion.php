@@ -1,4 +1,4 @@
-<?php $page_title = '分销金额管理' ?>
+<?php $page_title = '促销图管理' ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -7,7 +7,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="/admin/"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li><a href="">分销金额管理</a></li>
+            <li><a href="">促销图管理</a></li>
             <li class="active"><?php echo $page_title; ?></li>
         </ol>
     </section>
@@ -26,9 +26,19 @@
                                       accept-charset="utf-8"  >
                                     <input type="hidden" name="type" value="<?=$type ?>" >
                                     <div class="form-group">
-                                        <label for="indate" class="col-sm-2 control-label">金额</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" name="money" value="<?=$data['addMoney']?>" id="title" class="form-control">
+                                        <label for="picture_url" class="col-sm-2 control-label">促销图一</label>
+                                        <div class="col-sm-3">
+                                            <img src = "<?=$data[0] ? qiniu_image($data[0],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
+                                            <input type="hidden" name="pic" id="image" class="spec_image" value="<?=$data[0]?>" />
+                                            <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="picture_url" class="col-sm-2 control-label">促销图二</label>
+                                        <div class="col-sm-3">
+                                            <img src = "<?=$data[1] ? qiniu_image($data[1],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload_1"/>
+                                            <input type="hidden" name="pic1" id="image" class="spec_image" value="<?=$data[1]?>" />
+                                            <input type="file"  style="display:none;" class="file-btn"  id="image_file_1"  name="upload_file_1"  />
                                         </div>
                                     </div>
 
@@ -53,19 +63,6 @@
 <script src="/assets/plugins/chosen/chosen.jquery.min.js"></script>
 <script src="/assets/js/ajaxfileupload.js"></script>
 <!-- 配置文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="<?php echo base_url() ?>ueditor/ueditor.all.js"></script>
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    var ue = UE.getEditor('container', {
-        autoHeight: false,
-    });
-    ue.ready(function(){
-        //设置编辑器的内容
-        ue.setContent('<?=$data['details']?>');
-    });
-</script>
 <script>
     $(function () {
         $("#createForm").validate();
@@ -102,5 +99,37 @@
     });
     $("#img_imageupload").click(function(){
         $("#image_file").click();
+    });
+
+    $("#image_file_1").on("change",function(){
+        $.ajaxFileUpload({
+            type: "post",
+            url: '/admin/upload/upload_image',
+            secureuri: false,
+            fileElementId: 'image_file_1',
+            dataType: 'json',
+            success: function(res) {
+                debugger;
+                if(res.status == 1){
+
+                    $('#img_imageupload').attr('src',res.data.url);
+                    $('#image').val(res.data.url);//res.data.file_name
+                }else{
+                    if(res == null || res==false)
+                    {
+                        alert("上传失败！");
+                        return;
+                    }
+                    alert(res.message);
+                }
+            },
+            error:function(data, error){
+                debugger;
+                alert("上传失败");
+            }
+        });
+    });
+    $("#img_imageupload_1").click(function(){
+        $("#image_file_1").click();
     });
 </script>

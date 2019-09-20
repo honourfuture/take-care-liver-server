@@ -85,4 +85,38 @@ class Config extends Admin_Controller
         }
     }
 
+    public function promotion()
+    {
+        if ($this->input->method() == "post") {
+            $data[] = $this->input->post('pic');
+            $data[] = $this->input->post('pic1');
+            $type = $this->input->post('type');
+            $res = $this->Config_model->update(1, array($type => json_encode($data)));
+            if($res){
+                $this->session->set_flashdata('message_type', 'success');
+                $this->session->set_flashdata('message', "操作成功！");
+            }else{
+                $this->session->set_flashdata('message_type', 'error');
+                $this->session->set_flashdata('message', "操作失败！");
+                return ;
+            }
+            $form_url = $this->session->userdata('list_page_url');
+            if (empty($form_url)) {
+                $form_url = "/admin/config/promotion?type=".$type;
+            } else {
+                $this->session->unset_userdata('list_page_url');
+            }
+            redirect($form_url, 'refresh');
+        } else {
+            $type = $this->input->get('type');
+            $data = $this->Config_model->findByAttributes(array('id' => 1), $type);
+            $this->data['type'] = $type;
+            $bootPage = json_decode($data[$type],true);
+
+            $this->data['data'] = $bootPage;
+            //加载模板
+            $this->template->admin_load('admin/config/promotion', $this->data);
+        }
+    }
+
 }

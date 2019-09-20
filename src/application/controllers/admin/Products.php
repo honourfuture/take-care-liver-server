@@ -200,20 +200,20 @@ class Products extends Admin_Controller {
 			{
 				$name = $this->input->post('name');
 				$price = $this->input->post('price');
-				$old_price = $this->input->post('old_price');
+//				$old_price = $this->input->post('old_price');
 				$describe = $this->input->post('describe');
 				$pic = $this->input->post('pic');
-                $banner = $this->input->post('banner');
+//                $banner = $this->input->post('banner');
 				$details = $this->input->post('details');
 
 				$data = array(
 					'name' => $name,
 					'price'  => $price,
-					'old_price'  => $old_price,
+//					'old_price'  => $old_price,
 					'describe'  => $describe,
 					'pic'  => $pic,
 					'details'	=> $details,
-                    'banner_pic' => json_encode($banner)
+//                    'banner_pic' => json_encode($banner)
 				);
 
 
@@ -244,7 +244,7 @@ class Products extends Admin_Controller {
 			$this->data['form_url'] = $form_url;
 		}
 
-		$product->banner_pic = json_decode($product->banner_pic, true);
+//		$product->banner_pic = json_decode($product->banner_pic, true);
 		// 传递数据
 		$this->data['product'] = $product;
 
@@ -269,20 +269,20 @@ class Products extends Admin_Controller {
 			{
 			    $name = $this->input->post('name');
                 $price = $this->input->post('price');
-                $old_price = $this->input->post('old_price');
+//                $old_price = $this->input->post('old_price');
                 $describe = $this->input->post('describe');
                 $pic = $this->input->post('pic');
-                $banner = $this->input->post('banner');
+//                $banner = $this->input->post('banner');
                 $details = $this->input->post('details');
 
                 $data = array(
                     'name' => $name,
                     'price'  => $price,
-                    'old_price'  => $old_price,
+//                    'old_price'  => $old_price,
                     'describe'  => $describe,
                     'pic'  => $pic,
                     'details'	=> $details,
-                    'banner_pic' => json_encode($banner),
+//                    'banner_pic' => json_encode($banner),
                     'type' => 3
                 );
 

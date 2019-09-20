@@ -45,7 +45,6 @@
                 <th>编号</th>
                 <th>商品名称</th>
                 <th>价格</th>
-                <th>历史价格</th>
                 <th width="200">操作</th>
               </tr>
               </thead>
@@ -55,7 +54,6 @@
                   <td><?=$user->id?></td>
                   <td><?=$user->name?></td>
                   <td><?=$user->price?></td>
-                    <td><?=$user->old_price?></td>
                   <td>
                       <?php if($type == 3){ ?>
                           <a href="/admin/products/delete/<?=$user->id?>" class="btn <?php

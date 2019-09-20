@@ -30,24 +30,22 @@
 								</div>
 								<?php }?>
 								<form action="/admin/products/details/<?=$product->id?>" class="form-horizontal" id="createForm" method="post" accept-charset="utf-8">
-									<div class="form-group">
-										<label for="name" class="col-sm-2 control-label">商品名称</label>
-										<div class="col-sm-3">
-											<input type="text" name="name" value="<?=$product->name?>" id="name" class="form-control">
-										</div>
-									</div>
+                                    <?php if($product->type == 3){ ?>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-2 control-label">商品名称</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" name="name" value="<?=$product->name?>" id="name" class="form-control">
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
                                     <div class="form-group">
                                         <label for="name" class="col-sm-2 control-label">价格</label>
                                         <div class="col-sm-3">
                                             <input type="text" name="price" value="<?=$product->price?>" id="price" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="name" class="col-sm-2 control-label">历史价格</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="old_price" value="<?=$product->old_price?>" id="old_price" class="form-control">
-                                        </div>
-                                    </div>
+                                    <?php if($product->type == 3){ ?>
                                     <div class="form-group">
                                         <label for="name" class="col-sm-2 control-label">商品描述</label>
                                         <div class="col-sm-3">
@@ -63,17 +61,6 @@
                                             <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
                                         </div>
                                     </div>
-                                    <?php for($i = 1;$i <= 3; $i++){ ?>
-                                    <div class="form-group">
-                                        <label for="picture_url" class="col-sm-2 control-label">banner图片<?=$i?></label>
-                                        <div class="col-sm-3">
-                                            <img src = "<?=$product->banner_pic[$i-1] ? qiniu_image($product->banner_pic[$i-1] ,false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload<?=$i?>"/>
-                                            <input type="hidden" name="banner[]" id="image<?=$i?>" class="spec_image" value="<?=$product->banner_pic[$i-1]?>" />
-                                            <input type="file"  style="display:none;" class="file-btn"  id="image_file<?=$i?>"  name="upload_file"  />
-                                        </div>
-                                    </div>
-                                    <?php }?>
-
 
                                     <div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">内容</label>
@@ -83,6 +70,7 @@
                                            <!-- <textarea type="text"   name="details" id="details" class="form-control"><?php /*echo $product->details ;*/?></textarea>-->
                                         </div>
                                     </div>
+                                    <?php } ?>
                                     <input type="hidden" name="type" id="type" value="<?=$product->type?>" />
 									<div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
@@ -161,42 +149,6 @@
     $("#img_imageupload").click(function(){
         $("#image_file").click();
     });
-
-    <?php for($i = 1;$i <= 3; $i++){ ?>
-    //上传图片
-        $("#image_file<?=$i?>").on("change",function(){
-        $.ajaxFileUpload({
-            type: "post",
-            url: '/admin/upload/upload_image',
-            secureuri: false,
-            fileElementId: 'image_file<?=$i?>',
-            dataType: 'json',
-            success: function(res) {
-                debugger;
-                if(res.status == 1){
-
-                    $('#img_imageupload<?=$i?>').attr('src',res.data.url);
-                    $('#image<?=$i?>').val(res.data.url);//res.data.file_name
-                }else{
-                    if(res == null || res==false)
-                    {
-                        alert("上传失败！");
-                        return;
-                    }
-                    alert(res.message);
-                }
-            },
-            error:function(data, error){
-                debugger;
-                alert("上传失败");
-            }
-        });
-    });
-        $("#img_imageupload<?=$i?>").click(function(){
-        $("#image_file<?=$i?>").click();
-    });
-
-    <?php }?>
 </script>
 
 <script>
