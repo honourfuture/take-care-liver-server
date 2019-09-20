@@ -41,7 +41,7 @@ class Statics extends REST_Controller
      * 知识库 : knowledgeWarehouse
      * 转发详情 : aboutShare
      * 关于我们 : aboutUs
-     * 首页介绍以及价格 : homePage"
+     * 首页介绍以及价格 : homePage
      * 首页促销图 : promotion",
      *     required=false,
      *     type="string"
