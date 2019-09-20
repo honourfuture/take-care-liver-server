@@ -107,7 +107,7 @@
             type: "post",
             url: '/admin/upload/upload_image',
             secureuri: false,
-            fileElementId: 'image_file',
+            fileElementId: 'image_file_1',
             dataType: 'json',
             success: function(res) {
                 debugger;
