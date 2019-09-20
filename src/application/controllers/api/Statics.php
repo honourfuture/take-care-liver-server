@@ -53,19 +53,19 @@ class Statics extends REST_Controller
     public function find_get()
     {
         $type = $this->input->get('type');
-        $info = ['publicGoodFree', 'liverCheck', 'liverCuring', 'babyLiver', 'babyLiver', 'knowledgeWarehouse', 'aboutUs', 'aboutShare', 'homePage'];
+        $info = ['publicGoodFree', 'liverCheck', 'liverCuring', 'babyLiver', 'babyLiver', 'knowledgeWarehouse', 'aboutUs', 'aboutShare', 'homePage', 'promotion'];
         if(!in_array($type, $info)){
-            return $this->json(null,500, '未找到该数据！');
+            return $this->json(null,200, '未找到该数据！');
         }
         try{
             $data = $this->Config_model->findByAttributes(array(), $type);
         }catch (\Exception $e){
-            return $this->json(null, 500, '未找到该数据！');
+            return $this->json(null, 200, '未找到该数据！');
         }
         if ($data) {
             return $this->json(json_decode($data[$type]));
         } else {
-            return $this->json(null,500, '未找到该数据！');
+            return $this->json(null,200, '未找到该数据！');
         }
     }
 
