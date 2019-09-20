@@ -33,12 +33,13 @@
                                             <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="picture_url" class="col-sm-2 control-label">促销图二</label>
                                         <div class="col-sm-3">
                                             <img src = "<?=$data[1] ? qiniu_image($data[1],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload_1"/>
                                             <input type="hidden" name="pic1" id="image_1" class="spec_image" value="<?=$data[1]?>" />
-                                            <input type="file"  style="display:none;" class="file-btn"  id="image_file_1"  name="upload_file_1"  />
+                                            <input type="file"  style="display:none;" class="file-btn"  id="image_file_1"  name="upload_file"  />
                                         </div>
                                     </div>
 
