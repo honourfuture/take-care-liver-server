@@ -22,7 +22,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-xs-12">
-                                <form action="/admin/config/money" class="form-horizontal" id="createForm" method="post"
+                                <form action="/admin/config/promotion" class="form-horizontal" id="createForm" method="post"
                                       accept-charset="utf-8"  >
                                     <input type="hidden" name="type" value="<?=$type ?>" >
                                     <div class="form-group">
