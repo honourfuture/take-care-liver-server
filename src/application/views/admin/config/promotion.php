@@ -37,7 +37,7 @@
                                         <label for="picture_url" class="col-sm-2 control-label">促销图二</label>
                                         <div class="col-sm-3">
                                             <img src = "<?=$data[1] ? qiniu_image($data[1],false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload_1"/>
-                                            <input type="hidden" name="pic1" id="image" class="spec_image" value="<?=$data[1]?>" />
+                                            <input type="hidden" name="pic1" id="image_1" class="spec_image" value="<?=$data[1]?>" />
                                             <input type="file"  style="display:none;" class="file-btn"  id="image_file_1"  name="upload_file_1"  />
                                         </div>
                                     </div>
@@ -112,8 +112,8 @@
                 debugger;
                 if(res.status == 1){
 
-                    $('#img_imageupload').attr('src',res.data.url);
-                    $('#image').val(res.data.url);//res.data.file_name
+                    $('#img_imageupload_1').attr('src',res.data.url);
+                    $('#image_1').val(res.data.url);//res.data.file_name
                 }else{
                     if(res == null || res==false)
                     {
