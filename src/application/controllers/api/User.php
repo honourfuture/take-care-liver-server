@@ -81,8 +81,6 @@ class User extends REST_Controller {
      */
     public function login_post()
     {
-//        $nickName = $this->input->post('nickName');
-//        $user = $this->User_model->firstOrCreate('1531175111', '123', 1, $nickName, '1', 1);die;
         $codeWx = $this->input->post('codeWx');
         $phoneWx = $this->input->post('phoneWx');
 
@@ -145,6 +143,7 @@ class User extends REST_Controller {
             $this->session->set_userdata('user_id', $user['id']);
             $result['msg'] = '登陆成功!';
             $result['status'] = '200';
+            $result['data']['id'] = $user['user_id'];
             $result['data']['token'] = $token;
         }else{
             $result['msg'] = '登陆成功!';
@@ -372,6 +371,7 @@ class User extends REST_Controller {
             if(!empty($result)){
                 //定义返回的信息
                 $user = array(
+                    'id'	=> $result->id,
                     'username'	=> $result->username,
                     'real_name'	=> $result->real_name,
                     'mobile'	=> $result->mobile,
