@@ -143,7 +143,7 @@ class User extends REST_Controller {
             $this->session->set_userdata('user_id', $user['id']);
             $result['msg'] = '登陆成功!';
             $result['status'] = '200';
-            $result['data']['id'] = $user['user_id'];
+            $result['data']['id'] = $user['id'];
             $result['data']['token'] = $token;
         }else{
             $result['msg'] = '登陆成功!';
