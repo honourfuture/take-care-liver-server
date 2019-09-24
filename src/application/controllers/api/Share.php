@@ -55,6 +55,9 @@ class Share extends REST_Controller
 
         $parentId = intval($this->input->post('user_id'));
 
+        if($parentId == $this->user_id){
+            return $this->json(null, 500, '自己不能邀请自己为会员！');//未登录
+        }
         $result = $this->User_model->find($this->user_id);
 
         if(empty($result)){
