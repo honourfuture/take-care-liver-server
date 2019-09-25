@@ -37,7 +37,7 @@ class User_Model extends Base_Model
     }
 
     //新注册用户
-    public function create_user($phone, $openId, $parentId= 0, $nickName, $avatarUrl, $gender)
+    public function create_user($phone, $openId, $parentId, $nickName, $avatarUrl, $gender, $shareId)
     {
         if($gender == 0){
             $gender = 2;
@@ -55,6 +55,7 @@ class User_Model extends Base_Model
             'openId' => $openId,
             'parent_id' => $parentId,
             'last_ip_address' => $this->getIP(),
+            'share_id' => $shareId,
         );
 
         $this->db->insert('users', $data);
@@ -62,7 +63,7 @@ class User_Model extends Base_Model
         return $id;
     }
 
-    public function firstOrCreate($phone, $openId, $parentId, $nickName, $avatarUrl, $gender)
+    public function firstOrCreate($phone, $openId, $parentId, $nickName, $avatarUrl, $gender, $shareId)
     {
         $this->db->select('*');
         $this->db->where('mobile', $phone);
@@ -71,7 +72,7 @@ class User_Model extends Base_Model
             $res = $this->db->get();
             $first_row = $res->row_array(0);
             if(!$first_row["id"]){
-                return array('id' => $this->create_user($phone, $openId, $parentId, $nickName, $avatarUrl, $gender), 'isNewUser' => 1);
+                return array('id' => $this->create_user($phone, $openId, $parentId, $nickName, $avatarUrl, $gender, $shareId), 'isNewUser' => 1);
             }
             return array('id' => $first_row["id"], 'isNewUser' => 0);
         }catch (\Exception $e){

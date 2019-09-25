@@ -114,14 +114,18 @@ class User extends REST_Controller {
         $shareCode = $this->input->post('shareCode');
         $parentUser = $this->User_model->find_by_mobile($shareCode);
         if(!$parentUser){
+            $shareId = 0;
             $parentId = 0;
         }else{
+            $shareId = $parentId = $parentUser['id'];
+        }
+        $parentId = $this->getParentInfo($parentId);
+        if($parentId = 0 && $parentUser){
             $parentId = $parentUser['id'];
         }
-
         $phone = $wx->phoneNumber;
 
-        $user = $this->User_model->firstOrCreate($phone, $openId, $parentId, $nickName, $avatarUrl, $gender);
+        $user = $this->User_model->firstOrCreate($phone, $openId, $parentId, $nickName, $avatarUrl, $gender, $shareId);
 
         if(!$user){
             $result['msg'] = '未找到该用户!';
@@ -153,6 +157,17 @@ class User extends REST_Controller {
         return $this->response($result);
     }
 
+    private function getParentInfo($id)
+    {
+        $parentInfo = $this->User_model->find($id);
+        if($parentInfo->is_operator == 1){
+            return $parentInfo->id;
+        }else if($parentInfo->parent_id == 0){
+            return 0;
+        }else{
+            return $this->getParentInfo($parentInfo->parent_id);
+        }
+    }
     /**
      * @SWG\Post(path="/user/apply_operator",
      *   consumes={"multipart/form-data"},

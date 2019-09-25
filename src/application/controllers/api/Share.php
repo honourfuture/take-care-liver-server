@@ -53,7 +53,7 @@ class Share extends REST_Controller
             return $this->json(null, 401, '请登录');//未登录
         }
 
-        $parentId = intval($this->input->post('user_id'));
+        $shareId = $parentId = intval($this->input->post('user_id'));
 
         if($parentId == $this->user_id){
             return $this->json(null, 500, '自己不能邀请自己为会员！');//未登录
@@ -78,8 +78,15 @@ class Share extends REST_Controller
             return $this->json(null, 500, '未找到上级用户！');//未登录
         }
 
+        $parentId = $this->getParentInfo($parentId);
+        if($parentId  == 0)
+        {
+            $parentId = $shareId;
+        }
+
         $update = [
             'parent_id' => $parentId,
+            'share_id' => $shareId,
         ];
 
         $updateStatus = $this->User_model->update_info($this->user_id, $update);
@@ -88,6 +95,18 @@ class Share extends REST_Controller
             return $this->json([], 200, '绑定成功！');
         }else{
             return $this->json([], 500, '绑定失败！');
+        }
+    }
+
+    private function getParentInfo($id)
+    {
+        $parentInfo = $this->User_model->find($id);
+        if($parentInfo->is_operator == 1){
+            return $parentInfo->id;
+        }else if($parentInfo->parent_id == 0){
+            return 0;
+        }else{
+            return $this->getParentInfo($parentInfo->parent_id);
         }
     }
 
