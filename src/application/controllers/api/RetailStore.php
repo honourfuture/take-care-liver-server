@@ -70,6 +70,7 @@ class RetailStore extends REST_Controller
 
         $where = [
             'parent_id' => $this->user_id,
+            'is_vip' => 1
         ];
 
         $total = $this->User_model->getAllPageTotal($where);
