@@ -120,7 +120,8 @@ class User extends REST_Controller {
             $shareId = $parentId = $parentUser['id'];
         }
         $parentId = $this->getParentInfo($parentId);
-        if($parentId = 0 && $parentUser){
+
+        if($parentId == 0 && $parentUser){
             $parentId = $parentUser['id'];
         }
         $phone = $wx->phoneNumber;
