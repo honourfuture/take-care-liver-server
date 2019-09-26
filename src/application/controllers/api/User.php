@@ -159,6 +159,9 @@ class User extends REST_Controller {
 
     private function getParentInfo($id)
     {
+        if(!$id){
+            return 0;
+        }
         $parentInfo = $this->User_model->find($id);
         if($parentInfo->is_operator == 1){
             return $parentInfo->id;
