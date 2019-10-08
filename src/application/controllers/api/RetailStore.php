@@ -89,7 +89,7 @@ class RetailStore extends REST_Controller
         $totalVip = $this->User_model->getAllPageTotal($where);
 
         $results['nextMember'] = $nextMembers;
-        $results['memberTotal'] = $total;
+        $results['memberTotal'] = $totalVip;
         $results['urineTotal'] = $totalVip;
 
         return $this->json($results);
