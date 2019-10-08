@@ -781,7 +781,7 @@ abstract class REST_Controller extends \CI_Controller {
      * @param int|NULL $http_code HTTP status code
      * running the script; otherwise, exit
      */
-    public function response($data = NULL, $http_code = NULL)
+    public function response($data = NULL, $http_code = NULL, $hearder= [])
     {
 		ob_start();
         // If the HTTP status is not NULL, then cast as an integer
@@ -842,6 +842,16 @@ abstract class REST_Controller extends \CI_Controller {
         {
             $this->_log_response_code($http_code);
         }
+        if($hearder){
+            foreach ($hearder as $k => $h) {
+                if($h){
+                    $str = $k.': '.$h;
+                    $this->output->set_header($str);
+
+                }
+            }
+        }
+
 
         // Output the data
         $this->output->set_output($output);
