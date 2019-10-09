@@ -183,28 +183,28 @@ class Liver extends REST_Controller
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     in="post",
+     *     in="formData",
      *     name="file_name",
      *     description="file_name",
      *     required=false,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     in="post",
+     *     in="formData",
      *     name="file_path",
      *     description="file_path",
      *     required=false,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     in="post",
+     *     in="formData",
      *     name="machine_id",
      *     description="machine_id",
      *     required=false,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
-     *     in="post",
+     *     in="formData",
      *     name="detection_time",
      *     description="detection_time",
      *     required=false,
