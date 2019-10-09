@@ -180,7 +180,6 @@ class CI_Input {
 
 		// If $index is NULL, it means that the whole $array is requested
 		isset($index) OR $index = array_keys($array);
-
 		// allow fetching multiple keys at once
 		if (is_array($index))
 		{

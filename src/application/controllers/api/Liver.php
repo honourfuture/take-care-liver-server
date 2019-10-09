@@ -216,14 +216,14 @@ class Liver extends REST_Controller
     public function xxg_post()
     {
         $header['vison'] = $this->input->get_request_header('vison');
-        $header['compression_chioce'] = $this->input->get_request_header('compression_chioce');
+        $header['compression_chioce'] = $this->input->get_request_header('compression-chioce');
         $header['encryption'] = $this->input->get_request_header('encryption');
-        $header['encryption_choice'] = $this->input->get_request_header('encryption_choice');
-        $header['proto_type'] = $this->input->get_request_header('proto_type');
-        $header['proto_token'] = $this->input->get_request_header('proto_token');
-        $header['package_type'] = $this->input->get_request_header('package_type');
-        $header['package_id'] = $this->input->get_request_header('package_id');
-        $header['package_seq'] = $this->input->get_request_header('package_seq');
+        $header['encryption_choice'] = $this->input->get_request_header('encryption-choice');
+        $header['proto_type'] = $this->input->get_request_header('proto-type');
+        $header['proto_token'] = $this->input->get_request_header('proto-token');
+        $header['package_type'] = $this->input->get_request_header('package-type');
+        $header['package_id'] = $this->input->get_request_header('package-id');
+        $header['package_seq'] = $this->input->get_request_header('package-seq');
 
         $fileName = $this->input->get_post('file_name');
         if($fileName){
