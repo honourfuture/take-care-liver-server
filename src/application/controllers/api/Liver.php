@@ -216,7 +216,7 @@ class Liver extends REST_Controller
     public function xxg_post()
     {
         $data=file_get_contents("php://input"); //取得json数据
-        $data = json_decode($data, TRUE);   //格式化
+//        $data = json_decode($data, TRUE);   //格式化
 
         $this->File_model->create(['vison' => $data]);
         die;
