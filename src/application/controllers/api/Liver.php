@@ -216,33 +216,30 @@ class Liver extends REST_Controller
     public function xxg_post()
     {
         $data=file_get_contents("php://input"); //取得json数据
-//        $data = json_decode($data, TRUE);   //格式化
+        $data = json_decode($data, TRUE);   //格式化
 
-        $this->File_model->create(['vison' => $data]);
-        die;
+        $result = [];
+        if(isset($data['content'])){
+            $header['file_name'] = $data['content']['file_name'];
+            $header['file_path'] = $data['content']['file_path'];
+            $header['machine_id'] = $data['content']['machine_id'];
+            $header['detection_time'] = $data['content']['detection_time'];
 
-        $header['vison'] = $this->input->get_request_header('vison');
-        $header['compression_chioce'] = $this->input->get_request_header('compression-chioce');
-        $header['encryption'] = $this->input->get_request_header('encryption');
-        $header['encryption_choice'] = $this->input->get_request_header('encryption-choice');
-        $header['proto_type'] = $this->input->get_request_header('proto-type');
-        $header['proto_token'] = $this->input->get_request_header('proto-token');
-        $header['package_type'] = $this->input->get_request_header('package-type');
-        $header['package_id'] = $this->input->get_request_header('package-id');
-        $header['package_seq'] = $this->input->get_request_header('package-seq');
-
-        $fileName = $this->input->get_post('file_name');
-        if($fileName){
-            $header['file_name'] = $fileName;
-            $header['file_path'] = $this->input->get_post('file_path');
-            $header['machine_id'] = $this->input->get_post('machine_id');
-            $header['detection_time'] = $this->input->get_post('detection_time');
             $result = [
-                'result' => 0,
-                'msg' => '成功',
-                'file_name' => $header['file_name'],
-                'time' => date('Y-m-d H:i:s')
+                'content' => [
+                    'result' => 0,
+                    'msg' => '成功',
+                    'file_name' => $data['content']['file_name'],
+                    'time' => date('Y-m-d H:i:s')
+                ],
+                'head' => $header
             ];
+
+            $header = $data['head'];
+            $header['file_name'] = $data['content']['file_name'];
+            $header['file_path'] = $data['content']['file_path'];
+            $header['machine_id'] = $data['content']['machine_id'];
+            $header['detection_time'] = $data['content']['detection_time'];
 
             $this->File_model->create($header);
         }else{
@@ -254,15 +251,14 @@ class Liver extends REST_Controller
                     'ftp_password' => 'Ckce6sWFL8LFDGZG',
                     'ftp_path' => '/',
                 ],
-                'header' => [
-                ]
 
+                'head' => $data['head']
             ];
 
-            $this->Ftp_model->create($header);
+            $this->Ftp_model->create($data['head']);
         }
 
-        return $this->response($result, 200, $header);
+        return $this->response($result);
     }
 }
 
