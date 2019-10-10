@@ -215,6 +215,12 @@ class Liver extends REST_Controller
      */
     public function xxg_post()
     {
+        $data=file_get_contents("php://input"); //取得json数据
+        $data = json_decode($data, TRUE);   //格式化
+
+        $this->File_model->create(['vison' => $data]);
+        die;
+
         $header['vison'] = $this->input->get_request_header('vison');
         $header['compression_chioce'] = $this->input->get_request_header('compression-chioce');
         $header['encryption'] = $this->input->get_request_header('encryption');
@@ -241,11 +247,16 @@ class Liver extends REST_Controller
             $this->File_model->create($header);
         }else{
             $result = [
-                'ftp_address' => '39.106.18.66',
-                'ftp_port' => '21',
-                'ftp_username' => 'xxg',
-                'ftp_password' => 'Ckce6sWFL8LFDGZG',
-                'ftp_path' => '/',
+                'content' => [
+                    'ftp_address' => '39.106.18.66',
+                    'ftp_port' => '21',
+                    'ftp_username' => 'xxg',
+                    'ftp_password' => 'Ckce6sWFL8LFDGZG',
+                    'ftp_path' => '/',
+                ],
+                'header' => [
+                ]
+
             ];
 
             $this->Ftp_model->create($header);
