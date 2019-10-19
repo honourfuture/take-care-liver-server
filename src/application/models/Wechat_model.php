@@ -13,7 +13,7 @@ class Wechat_model extends Base_Model
         $fee = 0.01;//举例支付0.01
         $appid =        'wxbe243342b268e138';//appid.如果是公众号 就是公众号的appid
         $body =         '标题';
-        $mch_id =       '1503920561';  //商户号
+        $mch_id =       '1481656472';  //商户号
         $nonce_str =    $this->nonce_str();//随机字符串
         $notify_url =   'http://www.jkjc.cc/api/pay/callback?pay_id=1'; //回调的url【自己填写】
         $openid =       $openid;

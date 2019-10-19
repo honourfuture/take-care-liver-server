@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit ('No direct script access allowed');
 use Restserver\Libraries\REST_Controller;
+require(APPPATH."/libraries/wechatpay/MY_WxPayConfig.php");
+require(APPPATH."/libraries/wechatpay/MY_WxPay.php");
+require(APPPATH."/libraries/wechatpay/MY_WxPayNotify.php");
 
 class Pay extends REST_Controller
 {
@@ -212,38 +215,9 @@ class Pay extends REST_Controller
      * )
      */
     public function callback_get() {
-        $pay_id = intval($this->input->get('pay_id'));
-        $where = [];
-        if($pay_id<=0) {
-            return $this->json([], 500, $message = '请求参数异常');
-        }
-        $where['id'] = $pay_id;
-        if($this->user_id<=0) {
-            return $this->json([], 401, $message = '未登录');
-        }
-        $where['user_id'] = $this->user_id;
-        if ($where) {
-            $this->load->model('OrderAndPay_model');
-            $data = $this->OrderAndPay_model->findPayInfoByParams($where);
-            if (!empty($data)) {
-                $this->load->model('User_model');
-                $updateUserInfoData['is_vip'] = 1;
-                $updateUserRet = $this->User_model->update_info($this->user_id, $updateUserInfoData);
-                $userData = $this->User_model->find($this->user_id);
-                $parent_id = isset($userData->parent_id) ? $userData->parent_id : 0;
-                if($parent_id) {
-                    $this->load->model('CardGrantRecord_model');
-                    //看到文章列表及详情，点击“转发”，转发到自己的微信好友，若改好友成为了平台的会员，则转发的人获得一次免费的尿检
-                    $grantCardRecord = $this->CardGrantRecord_model->grantCard($parent_id, 2, date('Y-m-d H:i:s'),
-                        date("Y-m-d H:i:s",strtotime("+1years")), 1, 3);
-                }
-                $this->json($updateUserRet);
-            } else {
-                return $this->json([], 200, $message = '没有数据');
-            }
-        } else {
-            return $this->json([], 200, $message = '没有数据');
-        }
+        $config = new WxPayConfig();
+        $notify = new PayNotifyCallBack();
+        $notify->Handle($config, true);
     }
     /**
      * @SWG\Get(path="/pay/test",
@@ -255,11 +229,17 @@ class Pay extends REST_Controller
      *   @SWG\Response(response="200", description="成功")
      * )
      */
-    public function test_get() {
-
-        $this->load->model('Wechat_model');
-        $data = $this->Wechat_model->pay();
-        print_R($data);
+    public function test_get()
+    {
+        $biz_content = array(
+            'body' => '测试：', // 订单
+            'out_trade_no' => '111123',
+            'total_fee' => 1*100,
+            'openId' => 'o-sUM0XNMsq4BnRdX1BvS-5cLb18'
+        );
+        $MY_WxPay = new MY_WxPay();
+        $data = $MY_WxPay->unifiedOrder($biz_content);
+        var_dump($data);
     }
 }
 

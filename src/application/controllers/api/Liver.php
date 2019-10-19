@@ -89,26 +89,16 @@ class Liver extends REST_Controller
      */
     public function ftp_post()
     {
-        $header['vison'] = $this->input->get_request_header('vison');
-        $header['compression_chioce'] = $this->input->get_request_header('compression_chioce');
-        $header['encryption'] = $this->input->get_request_header('encryption');
-        $header['encryption_choice'] = $this->input->get_request_header('encryption_choice');
-        $header['proto_type'] = $this->input->get_request_header('proto_type');
-        $header['proto_token'] = $this->input->get_request_header('proto_token');
-        $header['package_type'] = $this->input->get_request_header('package_type');
-        $header['package_id'] = $this->input->get_request_header('package_id');
-        $header['package_seq'] = $this->input->get_request_header('package_seq');
-
-        $ftp = [
-            'ftp_address' => '39.106.18.66',
-            'ftp_port' => '21',
-            'ftp_username' => 'xxg',
-            'ftp_password' => 'Ckce6sWFL8LFDGZG',
-            'ftp_path' => '/',
-        ];
-
-        $this->Ftp_model->create($header);
-        return $this->response($ftp, 200, $header);
+        $file = 'xxg/2019-10-13/cd-ii16050668/cd-ii16050668-201910130023.zip';
+//        $file = 'xxg/2019-10-13/cd-ii16050668/111';
+        $outPath = '/xxg/2019-10-13/cd-ii16050668/';
+        $zip = new ZipArchive();
+        $openRes = $zip->open($file, true);
+        var_dump($openRes);
+        if ($openRes === TRUE) {
+            $zip->extractTo($outPath);
+            $zip->close();
+        }
     }
 
     /**

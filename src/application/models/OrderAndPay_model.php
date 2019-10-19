@@ -215,6 +215,17 @@ class OrderAndPay_model extends CI_Model
         $query = $this->db->get($this->order_table);
         return $query->row();
     }
+
+    /*
+   * 根据id查询订单详情指定数据
+   */
+    function findOrderSnInfo($orderSn)
+    {
+        $this->db->where('order_no', $orderSn);
+        $query = $this->db->get($this->order_table);
+        return $query->row();
+    }
+
     /*
     * 根据id查询支付详情指定数据
     */

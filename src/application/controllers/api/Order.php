@@ -2,7 +2,9 @@
 defined('BASEPATH') or exit ('No direct script access allowed');
 
 use Restserver\Libraries\REST_Controller;
-
+require(APPPATH."/libraries/wechatpay/MY_WxPayConfig.php");
+require(APPPATH."/libraries/wechatpay/MY_WxPay.php");
+require(APPPATH."/libraries/wechatpay/MY_WxPayNotify.php");
 class Order extends REST_Controller
 {
 
@@ -168,8 +170,10 @@ class Order extends REST_Controller
         if($this->user_id) {
             $user_id = $this->user_id;
         } else {
-            $this->json([], 401, $message = '登录状态异常');
+
+            return $this->json([], 401, $message = '登录状态异常');
         }
+
         $addOrder['old_price'] =isset($projectData->old_price) ? $projectData->old_price : 0;//原价
         $addOrder['now_price'] =isset($projectData->price) ? $projectData->price : 0;//现价
         $addOrder['price'] =isset($projectData->price) ? $projectData->price*$buy_number : 0;//下单金额
@@ -181,63 +185,33 @@ class Order extends REST_Controller
         $addOrder['pay_from'] = $pay_from;
         $addOrder['pay_type'] = $pay_type;
         $addOrder['user_id'] = $user_id;
-        $addOrder['status'] = 20;
+        $addOrder['status'] = 10;
         $addOrder['order_no'] = createLongNumberNo(19);
 
         $this->load->model('OrderAndPay_model');
         $this->load->model('BalanceDetails_model');
         $this->load->model('User_model');
         $price = $addOrder['price'];
-        $addOrder = $this->OrderAndPay_model->addOrder($addOrder);
-        if($addOrder) {
-            $this->load->model('Config_model');
-            $data = $this->Config_model->findByAttributes(array('id' => 1), 'addMoney');
-            $add = $data['addMoney'];
+        $addOrderStatus = $this->OrderAndPay_model->addOrder($addOrder);
+        if($addOrderStatus) {
+            $userInfo = $this->User_model->find($user_id);
 
-            $this->load->model('CardGrantRecord_model');
-            $startDate = date('Y-m-d H:i:s',time());
-            $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
+            $biz_content = array(
+                'body' => $addOrder['products_title'], // 订单
+                'out_trade_no' => $addOrder['order_no'],
+                'total_fee' => $price*100,
+                'openId' => $userInfo->openId
+            );
+            $MY_WxPay = new MY_WxPay();
 
-            if($projectData->type == 4){
-                $userInfo = $this->User_model->find($user_id);
-                if($userInfo->parent_id){
-                    $parentUser = $this->User_model->find($userInfo->parent_id);
-                    //增加parent_id 的余额
-                    $balance = $parentUser->balance + $add;
-                    if($parentUser->is_operator == 1){
-                        $this->User_model->update($parentUser->id, ['balance' => $balance]);
-                        //增加parent_id 的余额记录
-                        $create = [
-                            'user_id' => $parentUser->id,
-                            'money' => $add,
-                            'type' => 2,
-                            'status' => 1,
-                            'about_id' => $this->user_id
-                        ];
-                        $this->BalanceDetails_model->create($create);
-                    }
-                    //增加分享者尿检次数
-                    $this->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
-                }
-                //修改当前用户为vip
-                $this->User_model->update($this->user_id, ['is_vip' => 1]);
+            $data = $MY_WxPay->unifiedOrder($biz_content);
 
-                //增加当前用户的肝次数和尿次数
-                $this->CardGrantRecord_model->grantCard($user_id, 1, $startDate, $endDate, 12, 1);
-                $this->CardGrantRecord_model->grantCard($user_id, 2, $startDate, $endDate, 1, 1);
+            if($data){
+                return $this->json($data, 200, $message = '拉起支付');
+            }else{
+                return $this->json($data, 500, $message = '拉起支付失败');
             }
 
-            //增加当前用户的余额记录
-            $create = [
-                'user_id' => $this->user_id,
-                'money' => $price,
-                'type' => 3,
-                'status' => 2,
-                'about_id' => $products_id
-            ];
-            $this->BalanceDetails_model->create($create);
-
-            return $this->json($addOrder);
         }
         return $this->json([], 500, $message = '下单异常');
     }
