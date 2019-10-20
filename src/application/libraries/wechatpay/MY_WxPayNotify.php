@@ -18,6 +18,13 @@ class PayNotifyCallBack extends WxPayNotify
         // 获得 CI 超级对象 使得自定义类可以使用Controller类的方法
         $this->_CI = & get_instance();
         $this->_CI->load->model('Information_model');
+        $this->_CI->load->model('User_model');
+        $this->_CI->load->model('BalanceDetails_model');
+        $this->_CI->load->model('CardGrantRecord_model');
+        $this->_CI->load->model('OrderAndPay_model');
+        $this->_CI->load->model('Config_model');
+        $this->_CI->load->model('Product_model');
+
     }
 
     /**
@@ -127,13 +134,13 @@ class PayNotifyCallBack extends WxPayNotify
         //判断订单状态
 //        LOG::DEBUG("判断订单状态".$out_trade_no);
         $order = $this->_CI->OrderAndPay_model->findOrderSnInfo($out_trade_no);
+
         if(empty($order)){
             $msg = "非本系统订单！";
             $upd_data['return_msg'] = $msg;
             $this->_CI->Information_model->update_pay_log($upd_data, $log_id);
             return false;
         }
-
         if($order->status == 0){
             $msg = "订单已取消，请勿支付！";
             $upd_data['return_msg'] = $msg;
@@ -145,14 +152,15 @@ class PayNotifyCallBack extends WxPayNotify
             $this->_CI->Information_model->update_pay_log($upd_data, $log_id);
             return true;
         }
-
         $pay_data['status'] = 20;//已支付
-        $this->_CI->OrderAndPay_model->updateOrderInfo($order->id, $data);
+        $this->_CI->OrderAndPay_model->updateOrderInfo($order->id, $pay_data);
         $startDate = date('Y-m-d H:i:s',time());
         $endDate = date("Y-m-d H:i:s",strtotime("+1 years",strtotime($startDate)));
         $data = $this->_CI->Config_model->findByAttributes(array('id' => 1), 'addMoney');
         $add = $data['addMoney'];
-        if($order->type == 4){
+
+        $product = $this->_CI->Product_model->find($order->products_id);
+        if($product->type == 4){
             $userInfo = $this->_CI->User_model->find($order->user_id);
             if($userInfo->parent_id){
                 $parentUser = $this->_CI->User_model->find($userInfo->parent_id);
@@ -173,8 +181,9 @@ class PayNotifyCallBack extends WxPayNotify
                 //增加分享者尿检次数
                 $this->_CI->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
             }
+
             //修改当前用户为vip
-            $this->_CI->User_model->update($this->user_id, ['is_vip' => 1]);
+            $this->_CI->User_model->update($order->user_id, ['is_vip' => 1]);
 
             //增加当前用户的肝次数和尿次数
             $this->_CI->CardGrantRecord_model->grantCard($order->user_id, 1, $startDate, $endDate, 12, 1);

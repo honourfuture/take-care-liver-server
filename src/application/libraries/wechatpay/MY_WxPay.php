@@ -26,7 +26,7 @@ class MY_WxPay {
             $input->SetBody($biz_content['body']);
             $input->SetOut_trade_no($biz_content['out_trade_no']);
 //            $input->SetTotal_fee($biz_content['total_fee']);
-            $input->SetTotal_fee(100);
+            $input->SetTotal_fee(1);
             $input->SetNotify_url(config_item('wechatpay_config')['notify_url']);
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($biz_content['openId']);

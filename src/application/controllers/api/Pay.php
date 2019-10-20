@@ -191,30 +191,17 @@ class Pay extends REST_Controller
         return $this->json([], 500, $message = '下单异常');
     }
     /**
-     * @SWG\Get(path="/pay/callback",
+     * @SWG\Post(path="/pay/callback",
+     *   consumes={"multipart/form-data"},
      *   tags={"Pay"},
      *   summary="支付回调",
      *   description="支付回调",
      *   operationId="paycallback",
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="pay_id",
-     *     description="当前支付的唯一标识标识id",
-     *     required=true,
-     *     type="integer"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="token",
-     *     description="token",
-     *     required=true,
-     *     type="string"
-     *   ),
      *   produces={"application/json"},
      *   @SWG\Response(response="200", description="成功")
      * )
      */
-    public function callback_get() {
+    public function callback_post() {
         $config = new WxPayConfig();
         $notify = new PayNotifyCallBack();
         $notify->Handle($config, true);
