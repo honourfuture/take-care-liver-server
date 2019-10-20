@@ -34,7 +34,7 @@ class WxPayDataBase
 	{
 		$sign = $this->MakeSign($config);
 		$this->values['sign'] = $sign;
-		return $sign;
+        return $sign;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ class WxPayDataBase
     		}
         }
         $xml.="</xml>";
-        return $xml; 
+        return $xml;
 	}
 
     /**

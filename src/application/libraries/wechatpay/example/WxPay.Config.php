@@ -29,12 +29,12 @@ class WxPayConfig extends WxPayConfigInterface
 	 */
 	public function GetAppId()
 	{
-		return 'wx426b3015555a46be';
+        return config_item('wechatpay_config')['app_id'];
 	}
 	public function GetMerchantId()
 	{
-		return '1900009851';
-	}
+        return trim(config_item('wechatpay_config')['mch_id']);
+    }
 	
 	//=======【支付相关配置：支付成功回调地址/签名方式】===================================
 	/**
@@ -43,12 +43,12 @@ class WxPayConfig extends WxPayConfigInterface
 	**/
 	public function GetNotifyUrl()
 	{
-		return "";
+        return config_item('wechatpay_config')['notify_url'];
 	}
 	public function GetSignType()
 	{
-		return "HMAC-SHA256";
-	}
+        return config_item('wechatpay_config')['sign_type'];
+    }
 
 	//=======【curl代理设置】===================================
 	/**
@@ -59,8 +59,8 @@ class WxPayConfig extends WxPayConfigInterface
 	 */
 	public function GetProxy(&$proxyHost, &$proxyPort)
 	{
-		$proxyHost = "0.0.0.0";
-		$proxyPort = 0;
+        $proxyHost = config_item('wechatpay_config')['curl_proxy_host'];
+        $proxyPort = config_item('wechatpay_config')['curl_proxy_port'];
 	}
 	
 
@@ -74,7 +74,7 @@ class WxPayConfig extends WxPayConfigInterface
 	 */
 	public function GetReportLevenl()
 	{
-		return 1;
+        return config_item('wechatpay_config')['report_levenl'];
 	}
 
 
@@ -89,11 +89,11 @@ class WxPayConfig extends WxPayConfigInterface
 	 */
 	public function GetKey()
 	{
-		return '8934e7d15453e97507ef794cf7b0519d';
+        return config_item('wechatpay_config')['key'];
 	}
 	public function GetAppSecret()
 	{
-		return '7813490da6f1265e4901ffb80afaa36f';
+        return config_item('wechatpay_config')['app_secret'];
 	}
 
 
@@ -110,7 +110,7 @@ class WxPayConfig extends WxPayConfigInterface
 	 */
 	public function GetSSLCertPath(&$sslCertPath, &$sslKeyPath)
 	{
-		$sslCertPath = '../cert/apiclient_cert.pem';
-		$sslKeyPath = '../cert/apiclient_key.pem';
+        $sslCertPath = config_item('wechatpay_config')['sslcert_path'];
+        $sslKeyPath = config_item('wechatpay_config')['sslkey_path'];
 	}
 }

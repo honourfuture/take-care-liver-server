@@ -207,7 +207,7 @@ class Order extends REST_Controller
             $data = $MY_WxPay->unifiedOrder($biz_content);
 
             if($data){
-                return $this->json($data, 200, $message = '拉起支付');
+                return $this->json($data,200, $message = '拉起支付');
             }else{
                 return $this->json($data, 500, $message = '拉起支付失败');
             }

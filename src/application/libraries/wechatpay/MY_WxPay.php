@@ -23,20 +23,22 @@ class MY_WxPay {
         try{
             //②、统一下单
             $input = new WxPayUnifiedOrder();
-            $input->SetBody("test");
-            $input->SetAttach("test");
-            $input->SetOut_trade_no("sdkphp".date("YmdHis"));
-            $input->SetTotal_fee("1");
-            $input->SetTime_start(date("YmdHis"));
-            $input->SetTime_expire(date("YmdHis", time() + 600));
-            $input->SetGoods_tag("test");
-            $input->SetNotify_url("http://paysdk.weixin.qq.com/notify.php");
+            $input->SetBody($biz_content['body']);
+            $input->SetOut_trade_no($biz_content['out_trade_no']);
+//            $input->SetTotal_fee($biz_content['total_fee']);
+            $input->SetTotal_fee(100);
+            $input->SetNotify_url(config_item('wechatpay_config')['notify_url']);
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($biz_content['openId']);
             $config = new WxPayConfig();
             $order = WxPayApi::unifiedOrder($config, $input);
+//            $order['timeStamp'] = (string) time();
+//            $order['prepay_id'] = 'prepay_id='.$order['prepay_id'];
 
-            return $order;
+            $key = config_item('wechatpay_config')['key'];
+            $jsApiParameters = $this->GetJsApiParameters($config, $order);
+            $jsApiParameters['paySign'] = MD5("appId={$jsApiParameters['appId']}&nonceStr={$jsApiParameters['nonceStr']}&package={$jsApiParameters['prepayId']}&signType=MD5&timeStamp={$jsApiParameters['timeStamp']}&key={$key}");
+            return $jsApiParameters;
         } catch(Exception $e) {
             Log::ERROR(json_encode($e));
             return false;
@@ -72,7 +74,7 @@ class MY_WxPay {
         $data = array(
             'appId' => $jsapi->GetAppid(),
             'partnerId' => $jsapi->GetPartnerid(),
-            'prepayId' => $jsapi->GetPrepayid(),
+            'prepayId' => 'prepay_id='.$jsapi->GetPrepayid(),
             'packageValue' => $jsapi->GetPackage(),
             'nonceStr' => $jsapi->GetNoncestr(),
             'timeStamp' => $jsapi->GetTimeStamp(),
@@ -80,7 +82,7 @@ class MY_WxPay {
         );
         $parameters = json_encode($data);
         Log::DEBUG("to_app:".$parameters);
-        return $parameters;
+        return $data;
     }
 
     /**

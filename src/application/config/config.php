@@ -564,7 +564,7 @@ $config['wechatpay_config'] = array (
     'notify_url' => "http://xxg.ahkskj.cn/api/pay/callback",
 
     //签名方式
-    'sign_type'=>"HMAC-SHA256",
+    'sign_type'=>"MD5",
     /**
      * 这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
      * 本例程通过curl使用HTTP POST方法，此处可修改代理服务器，
