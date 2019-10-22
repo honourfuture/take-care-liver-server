@@ -10,9 +10,10 @@ class File_model extends CI_Model
 
     public function getAllByCid()
     {
-        $this->db->select('id,name,price,details,describe,pic,banner_pic');
+        $this->db->select('*');
 
         $this->db->from($this->table);
+        $this->db->where('is_zip', 0);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get();
 
@@ -22,34 +23,6 @@ class File_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
-    }
-
-    public function getList($uid, $page, $offset, $type = 1)
-    {
-        $this->db->select([
-            'uu.id',
-            'uu.date',
-            'uc.color',
-            'uc.waring_type',
-            'uc.summary',
-            'uc.details',
-            'u.username',
-            'u.mobile'
-        ]);
-
-        $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
-        $this->db->join('users as u', 'uu.user_id = u.id', 'left');
-        $this->db->where('uu.user_id', $uid);
-        $this->db->where('uu.type', $type);
-
-
-        $this->db->from($this->table);
-
-        $this->db->order_by("uu.create_time", "DESC");
-        $this->db->limit($page, $offset);
-        $query = $this->db->get();
-
-        return $query->result_array();
     }
 
     public function getFind($id)

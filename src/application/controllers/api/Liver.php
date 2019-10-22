@@ -11,96 +11,100 @@ class Liver extends REST_Controller
         parent::__construct();
         $this->load->model('Ftp_model');
         $this->load->model('File_model');
+        $this->load->model('Liver_model');
+        $this->load->model('User_model');
+        $this->load->model('Urine_model');
+        $this->load->model('Urine_check_model');
+        $this->load->model('CardGrantRecord_model');
+        $this->load->model('CardUseRecord_model');
+    }
+    private function json($data, $code = 200, $message = '获取数据成功!')
+    {
+        $res['status'] = $code;
+        $res['data'] = $data;
+        $res['msg'] = $message;
+        $this->response($res);
     }
 
     /**
-     * @SWG\Post(path="/liver/ftp",
-     *   consumes={"multipart/form-data"},
+     * @SWG\Get(path="/liver/zip",
      *   tags={"Liver"},
-     *   summary="肝检测接口",
-     *   description="肝检测接口",
-     *   operationId="liverFtp",
+     *   summary="解压接口",
+     *   description="解压接口",
+     *   operationId="liverZip",
      *   produces={"application/json"},
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="vison",
-     *     description="vison",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="compression_chioce",
-     *     description="compression_chioce",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="encryption",
-     *     description="encryption",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="encryption_choice",
-     *     description="encryption_choice",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="proto_type",
-     *     description="proto_type",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="proto_token",
-     *     description="proto_token",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="package_type",
-     *     description="package_type",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="package_id",
-     *     description="package_id",
-     *     required=false,
-     *     type="string"
-     *   ),
-     *   @SWG\Parameter(
-     *     in="header",
-     *     name="package_seq",
-     *     description="package_seq",
-     *     required=false,
-     *     type="string"
-     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
-    public function ftp_post()
+    public function zip_get()
     {
-        $file = 'xxg/2019-10-13/cd-ii16050668/cd-ii16050668-201910130023.zip';
-//        $file = 'xxg/2019-10-13/cd-ii16050668/111';
-        $outPath = '/xxg/2019-10-13/cd-ii16050668/';
-        $zip = new ZipArchive();
-        $openRes = $zip->open($file, true);
-        var_dump($openRes);
-        if ($openRes === TRUE) {
-            $zip->extractTo($outPath);
-            $zip->close();
+        $files = $this->File_model->getAllByCid();
+        foreach ($files as $file){
+            $filePath = 'xxg/'.$file->file_path.$file->file_name;
+            $outPath = 'xxg/'.$file->file_path.time().rand(0,1000);
+            $zip = new ZipArchive();
+            $openRes = $zip->open($filePath, true);
+            if ($openRes === TRUE) {
+                $zip->extractTo($outPath);
+                $zip->close();
+
+                $update = [
+                    'is_zip' => 1,
+                    'path_file' => $outPath.'/Clinet.xml'
+                ];
+
+                $this->File_model->update($file->id, $update);
+
+                $xml = file_get_contents($outPath.'/Clinet.xml');
+                $xml =simplexml_load_string($xml); //xml转object
+                $json = json_encode($xml);
+                $xmlData = json_decode($json,true); //json转array
+                $phone = isset($xmlData['telePhone']) && $xmlData['telePhone'] ? $xmlData['telePhone'] : '';
+                $name = $xmlData['patientName'];
+
+                $liver = [
+                    'phone' => $phone,
+                    'name' => $name,
+                    'info' => $json
+                ];
+                $id = $this->Liver_model->create($liver);
+                $user = $this->User_model->find_by_mobile($phone);
+                if($user){
+                    $data = [
+                        'date' => $xmlData['examinationDate'] ? $xmlData['examinationDate'] : date('Y-m-d H:i:s'),
+                        'user_id'=> $user['id'],
+                        'urine_check_id' => $id,
+                        'type' => 2
+                    ];
+
+                    $wheres = [
+                        'valid_start_time <= ' =>  date('Y-m-d H:i:s'),
+                        'valid_end_time  >= ' =>date('Y-m-d H:i:s'),
+                        'type' => 1,
+                        'times > ' => 0,
+                        'user_id' => $user['id']
+                    ];
+
+                    $urineNums = $this->CardGrantRecord_model->findOne($wheres);
+                    if(!$urineNums){
+                        return $this->json(true, 500, '没有尿检次数');
+                    }
+
+                    if($this->Urine_model->create($data)) {
+                        $data = $this->CardUseRecord_model->useCard($this->user_id, $urineNums->id);
+                        if($data['status'] == 200){
+                            return $this->json(true, 200, '添加成功');
+                        }else{
+                            return $this->response($data);
+                        }
+
+                    } else {
+                        return $this->json([], 500, '服务器出错');
+                    }
+                }
+            }
         }
     }
-
     /**
      * @SWG\Post(path="/liver/xxg",
      *   consumes={"multipart/form-data"},
@@ -239,7 +243,7 @@ class Liver extends REST_Controller
                     'ftp_port' => '21',
                     'ftp_username' => 'xxg',
                     'ftp_password' => 'Ckce6sWFL8LFDGZG',
-                    'ftp_path' => '/',
+                    'ftp_path' => '/',#
                 ],
 
                 'head' => $data['head']
