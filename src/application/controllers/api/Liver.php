@@ -52,23 +52,28 @@ class Liver extends REST_Controller
                     'is_zip' => 1,
                     'path_file' => $outPath.'/Clinet.xml'
                 ];
-
                 $this->File_model->update($file->id, $update);
 
                 $xml = file_get_contents($outPath.'/Clinet.xml');
                 $xml =simplexml_load_string($xml); //xml转object
                 $json = json_encode($xml);
                 $xmlData = json_decode($json,true); //json转array
+
                 $phone = isset($xmlData['telePhone']) && $xmlData['telePhone'] ? $xmlData['telePhone'] : '';
                 $name = $xmlData['patientName'];
-
+                $date = isset($xmlData['examinationDate']) && $xmlData['examinationDate'] ? $xmlData['examinationDate'] : '';
                 $liver = [
                     'phone' => $phone,
                     'name' => $name,
-                    'info' => $json
+                    'info' => $json,
+                    'path' => $outPath,
+                    'file_id' => $file->id,
+                    'check_date' => $date
                 ];
+
                 $id = $this->Liver_model->create($liver);
                 $user = $this->User_model->find_by_mobile($phone);
+
                 if($user){
                     $data = [
                         'date' => $xmlData['examinationDate'] ? $xmlData['examinationDate'] : date('Y-m-d H:i:s'),
@@ -87,19 +92,18 @@ class Liver extends REST_Controller
 
                     $urineNums = $this->CardGrantRecord_model->findOne($wheres);
                     if(!$urineNums){
-                        return $this->json(true, 500, '没有尿检次数');
+                        continue;
                     }
 
                     if($this->Urine_model->create($data)) {
-                        $data = $this->CardUseRecord_model->useCard($this->user_id, $urineNums->id);
+                        $data = $this->CardUseRecord_model->useCard($user['id'], $urineNums->id);
                         if($data['status'] == 200){
-                            return $this->json(true, 200, '添加成功');
                         }else{
-                            return $this->response($data);
+                            continue;
                         }
 
                     } else {
-                        return $this->json([], 500, '服务器出错');
+                        continue;
                     }
                 }
             }
@@ -253,6 +257,93 @@ class Liver extends REST_Controller
         }
 
         return $this->response($result);
+    }
+
+    /**
+     * @SWG\Get(path="/liver/list",
+     *   tags={"Liver"},
+     *   summary="肝检",
+     *   description="肝检列表",
+     *   operationId="urineList",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="cur_page",
+     *     description="当前页",
+     *     required=true,
+     *     type="integer"
+     *   ),
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="per_page",
+     *     description="每页数量 [默认10条]",
+     *     required=false,
+     *     type="integer"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function list_get()
+    {
+        if(!$this->user_id){
+            return  $this->json([], 401, '请登录');
+        }
+
+        $data = $this->Urine_model->getList($this->user_id, $this->per_page, $this->offset, 2);
+
+        if ($data) {
+            $results = [];
+            foreach ($data as $key => &$datum){
+                $results[$key] = json_decode($datum['info'], true);
+                $results[$key]['id'] = $datum['id'];
+            }
+            return $this->json($results);
+        } else {
+            return $this->json([], 200, $message = '没有数据');
+        }
+    }
+
+    /**
+     * @SWG\Get(path="/liver/find",
+     *   tags={"Liver"},
+     *   summary="肝检",
+     *   description="肝检详情",
+     *   operationId="liverFind",
+     *   produces={"application/json"},
+     *  @SWG\Parameter(
+     *     in="query",
+     *     name="id",
+     *     description="肝检id",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function find_get()
+    {
+        $id = $this->input->get('id');
+        $data = $this->Urine_model->getFind($id, 2);
+        if ($data) {
+            $data = json_decode($data->info, true);
+            $this->json($data);
+        } else {
+            $this->json([], 200, $message = '没有数据');
+        }
     }
 }
 

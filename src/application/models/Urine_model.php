@@ -27,7 +27,7 @@ class Urine_model extends CI_Model
 
     public function getList($uid, $page, $offset, $type = 1)
     {
-        $this->db->select([
+        $select = $type == 1 ? [
             'uu.id',
             'uu.date',
             'uc.color',
@@ -36,13 +36,24 @@ class Urine_model extends CI_Model
             'uc.details',
             'u.username',
             'u.mobile'
-        ]);
+        ] : [
+            'uu.id',
+            'uc.check_date',
+            'uc.info',
+            'u.username',
+            'u.mobile'
+        ];
+        $this->db->select($select);
 
-        $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        if($type == 1){
+            $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        }else{
+            $this->db->join('liver as uc', 'uc.id = uu.urine_check_id', 'left');
+        }
+
         $this->db->join('users as u', 'uu.user_id = u.id', 'left');
         $this->db->where('uu.user_id', $uid);
         $this->db->where('uu.type', $type);
-
 
         $this->db->from($this->table);
 
@@ -53,9 +64,9 @@ class Urine_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getFind($id)
+    public function getFind($id, $type = 1)
     {
-        $this->db->select([
+        $select = $type == 1 ? [
             'uu.id',
             'uu.date',
             'uc.color',
@@ -64,9 +75,21 @@ class Urine_model extends CI_Model
             'uc.details',
             'u.username',
             'u.mobile'
-        ]);
+        ] : [
+            'uu.id',
+            'uc.check_date',
+            'uc.info',
+            'u.username',
+            'u.mobile'
+        ];
+        $this->db->select($select);
 
-        $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        if($type == 1){
+            $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        }else{
+            $this->db->join('liver as uc', 'uc.id = uu.urine_check_id', 'left');
+        }
+
         $this->db->join('users as u', 'uu.user_id = u.id', 'left');
         $this->db->where('uu.id', $id);
         $this->db->from($this->table);

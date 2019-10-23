@@ -99,6 +99,7 @@ class Urine extends REST_Controller
             return $this->json([], 200, $message = '没有数据');
         }
     }
+
     /**
      * @SWG\Get(path="/urine/find",
      *   tags={"Urine"},
