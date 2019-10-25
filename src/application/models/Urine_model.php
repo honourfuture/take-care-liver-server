@@ -64,6 +64,43 @@ class Urine_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getAll($uid, $type = 1)
+    {
+        $select = $type == 1 ? [
+            'uu.id',
+            'uu.date',
+            'uc.color',
+            'uc.waring_type',
+            'uc.summary',
+            'uc.details',
+            'u.username',
+            'u.mobile'
+        ] : [
+            'uu.id',
+            'uc.check_date',
+            'uc.info',
+            'u.username',
+            'u.mobile'
+        ];
+        $this->db->select($select);
+
+        if($type == 1){
+            $this->db->join('urine_check as uc', 'uc.id = uu.urine_check_id', 'left');
+        }else{
+            $this->db->join('liver as uc', 'uc.id = uu.urine_check_id', 'left');
+        }
+
+        $this->db->join('users as u', 'uu.user_id = u.id', 'left');
+        $this->db->where('uu.user_id', $uid);
+        $this->db->where('uu.type', $type);
+
+        $this->db->from($this->table);
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function getFind($id, $type = 1)
     {
         $select = $type == 1 ? [
@@ -122,21 +159,6 @@ class Urine_model extends CI_Model
         $total = $this->db->count_all_results();
 
         return $total;
-    }
-
-    /*
-    * 查找
-    */
-    function getAll($num = 30, $offset = 0)
-    {
-        $this->db->select('*');
-
-        $this->db->from($this->table);
-        $this->db->order_by('id', 'desc');
-        $this->db->limit($num, $offset);
-        $query = $this->db->get();
-
-        return $query->result();
     }
 
     /*

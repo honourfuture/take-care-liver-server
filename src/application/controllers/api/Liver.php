@@ -296,13 +296,26 @@ class Liver extends REST_Controller
             return  $this->json([], 401, '请登录');
         }
 
-        $data = $this->Urine_model->getList($this->user_id, $this->per_page, $this->offset, 2);
+        $results = [];
+        $months = $this->_month();
+        $data = $this->Urine_model->getAll($this->user_id, 2);
 
         if ($data) {
-            $results = [];
+            $result = [];
+
             foreach ($data as $key => &$datum){
-                $results[$key] = json_decode($datum['info'], true);
-                $results[$key]['id'] = $datum['id'];
+                $result[$key] = json_decode($datum['info'], true);
+                $result[$key]['id'] = $datum['id'];
+
+                $stiffness = $result[$key]['stiffness'];
+                $date = date('Y-m', strtotime($result[$key]['examinationDate']));
+
+                if(isset($months[$date]) && $stiffness > $months[$date]['stiffness']){
+                    $months[$date]['stiffness'] = $stiffness;
+                }
+
+                $results['month'] = array_values($months);
+                $results['data'] = $result;
             }
             return $this->json($results);
         } else {
@@ -310,6 +323,23 @@ class Liver extends REST_Controller
         }
     }
 
+    private function _month()
+    {
+        $key = date('Y-m');
+        $result[$key] = [
+            'date' => $key,
+            'stiffness' => 0,
+        ];
+        for ($i = 1; $i <= 11; $i++ ){
+            $date = date('Y-m', strtotime("-{$i} month"));
+             $result[$date] = [
+                 'date' => $date,
+                 'stiffness' => 0
+             ];
+        }
+
+        return $result;
+    }
     /**
      * @SWG\Get(path="/liver/find",
      *   tags={"Liver"},
