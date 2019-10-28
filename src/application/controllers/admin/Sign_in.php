@@ -90,7 +90,6 @@ class Sign_in extends Admin_Controller {
 
         //    }
         //}
-
         $this->data['result'] = $result;
 
         //加载模板
@@ -105,8 +104,8 @@ class Sign_in extends Admin_Controller {
         $likeParam = array();
         $likeParam1 = array();
 
-        //$this->data['userss'] = $this->User_model->getResult(array(), '', '', 'id DESC');
         $this->data['is_sends'] = $this->Sign_in_model->getIs_send();
+        $this->data['is_apply'] = $this->Sign_in_model->getIs_send();
 
         //搜索筛选
         $this->data['keyword'] = $this->input->get('keyword', TRUE);
@@ -348,7 +347,9 @@ class Sign_in extends Admin_Controller {
             $obj = $this->Sign_in_model->getRow(array("id" => $id));
             if(empty($obj)){
                 redirect('admin/sign_in/index', 'refresh');
-            }        $this->data['userss'] = $this->User_model->getResult(array(), '', '', 'id DESC');        $this->data['is_sends'] = $this->Sign_in_model->getIs_send();
+            }
+            $this->data['userss'] = $this->User_model->getResult(array(), '', '', 'id DESC');
+            $this->data['is_sends'] = $this->Sign_in_model->getIs_send();
 
             // 传递数据
             $this->data['data']  = $obj;

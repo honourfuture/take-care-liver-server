@@ -54,7 +54,6 @@ class SignIn_model extends CI_Model
     }
 
     public function findByAttributes($wheres = array())  {
-
         foreach ($wheres as $filed => $where) {
             $this->db->where($filed, $where);
         }
@@ -63,12 +62,16 @@ class SignIn_model extends CI_Model
         return $query->row_array();
     }
 
-    public function find($code)
+    public function find($wheres)
     {
         $select = $this->_select();
 
         $this->db->select($select);
-        $query = $this->db->from($this->table)->where(array('bank_code' => $code))->get();
+        $query = $this->db->from($this->table);
+        foreach ($wheres as $filed => $where) {
+            $this->db->where($filed, $where);
+        }
+        $query = $query->get();
         return $query->row_array();
     }
 

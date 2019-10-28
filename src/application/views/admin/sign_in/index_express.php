@@ -51,6 +51,7 @@
                           <!--  <th>创建时间</th>
                             <th>更新时间</th>-->
                             <th>是否已邮寄礼物</th>
+                            <th>是否申请领取</th>
                             <th>邮寄地址ID</th>
                             <th>邮寄地址</th>
                             <th>快递单号</th>
@@ -70,6 +71,7 @@
                                    <!-- <td><?php /*echo $value['create_time']; */?></td>
                                     <td><?php /*echo $value['update_time']; */?></td>-->
                                     <td><span class="label label-success"><?php echo $is_sends[$value['is_send']]; ?></span></td>
+                                    <td><span class="label label-success"><?php echo $is_sends[$value['is_apply']]; ?></span></td>
                                     <td><?php echo $value['address_id']; ?></td>
                                     <td><?php echo $value['address']; ?></td>
                                     <td><?php echo $value['express_no']; ?></td>

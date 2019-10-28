@@ -154,6 +154,49 @@ class SignIn extends REST_Controller
             return $this->json([], 500, '服务器出错');
         }
     }
+
+    /**
+     * @SWG\Post(path="/signIn/apply",
+     *   consumes={"multipart/form-data"},
+     *   tags={"SignIn"},
+     *   summary="领取奖品",
+     *   description="领取奖品",
+     *   operationId="signInApply",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function apply_post()
+    {
+        if (!$this->user_id) {
+            return $this->json([], 401, '请登录');
+        }
+
+        $where = [
+            'user_id' => $this->user_id,
+            'continue >=' => 21,
+            'is_apply' => 1
+        ];
+        $lastData = $this->SignIn_model->findByAttributes($where);
+        if(!$lastData){
+            return $this->json([], 500, '未到达领取条件，请继续努力');
+        }
+        $data = [
+          'is_apply' => 2
+        ];
+        if($this->SignIn_model->update($lastData['id'], $data)) {
+            return $this->json([], 200, '领取成功，请等待发货！');
+        } else {
+            return $this->json([], 500, '服务器出错');
+        }
+    }
 }
 
 ?>
