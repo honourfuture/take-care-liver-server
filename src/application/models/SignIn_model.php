@@ -16,6 +16,7 @@ class SignIn_model extends CI_Model
             'id',
             'date',
             'continue',
+            'is_apply'
         );
     }
     public function __construct()

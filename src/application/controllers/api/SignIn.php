@@ -75,8 +75,9 @@ class SignIn extends REST_Controller
         for($time = $startTime; $time <= $endTime; $time+=86400){
             $key = date('Y-m-d', $time);
             $results[$key] = [
-              'date' => $key,
-              'continue' => 0
+                'date' => $key,
+                'continue' => 0,
+                'is_apply' => 1,
             ];
         }
 
@@ -91,6 +92,7 @@ class SignIn extends REST_Controller
         foreach ($data as $datum){
             if(isset($results[$datum['date']])){
                 $results[$datum['date']]['continue'] = $datum['continue'];
+                $results[$datum['date']]['is_apply'] = $datum['is_apply'];
             }
         }
         $results = array_values($results);
