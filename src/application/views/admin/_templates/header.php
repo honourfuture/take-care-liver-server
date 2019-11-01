@@ -252,6 +252,20 @@
                         <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/index"><i class="fa fa-circle-o"></i> 用户尿检记录</a></li>
                     </ul>
                 </li>
+                <li class="treeview <?= active_link_controller('check_postion') ?>  <?= active_link_controller('check_postion_record') ?>">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>检测点管理</span>
+                        <span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="<?= active_link_method('check_postion', 'index') ?>"><a href="/admin/check_postion/index"><i class="fa fa-circle-o"></i> 检测点列表</a></li>
+                        <li class="<?= active_link_method('check_postion', 'save') ?>"><a href="/admin/check_postion/save"><i class="fa fa-circle-o"></i> 新建检测点</a></li>
+                        <li class="<?= active_link_method('check_postion_record', 'index') ?>"><a href="/admin/check_position_record/index"><i class="fa fa-circle-o"></i> 检测点检测记录</a></li>
+                    </ul>
+                </li>
 
                 <li class="treeview <?= active_link_controller('banner') ?>  <?= active_link_controller('config') ?>">
                     <a href="#">
@@ -370,3 +384,33 @@
         </section>
         <!-- /.sidebar -->
     </aside>
+
+    <!-- 模态框定义 -->
+    <input type="hidden" id="common_confirm_btn" class="btn btn-primary btn-lg" data-toggle="modal"
+           data-target="#common_confirm_model">
+    <div id="common_confirm_model" class="modal" style="padding-top:180px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+
+                        <span aria-hidden="true">×</span>
+
+                        <span class="sr-only">Close</span></button>
+                    <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i>
+
+                        <span class="title"></span>
+
+                    </h5>
+                </div>
+                <div class="modal-body small">
+                    <p><span class="message"></span></p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary ok" data-dismiss="modal">确认</button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>

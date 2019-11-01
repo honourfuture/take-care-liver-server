@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * )
  */
 class Home extends CI_Controller {
-	
+	//host="xxg.ahkskj.cn",
 	public function index()
 	{
 		echo 'api';

@@ -1670,7 +1670,7 @@ model;
                                 <option value="">请选择</option>
                                 <?php if (\${$idStr}s != null) : ?>
                                     <?php foreach (\${$idStr}s as \$value) : ?>
-                                        <option value="<?php echo \$value['id']; ?>" <?php if (\$row['{$column['COLUMN_NAME']}'] === (string)\$value['id'] || set_value('{$column['COLUMN_NAME']}') === (string)\$value['id']) : ?>selected="selected"<?php endif; ?>><?php echo \$value['id']; ?></option>
+                                        <option value="<?php echo \$value['id']; ?>" <?php if (\$data['{$column['COLUMN_NAME']}'] === (string)\$value['id'] || set_value('{$column['COLUMN_NAME']}') === (string)\$value['id']) : ?>selected="selected"<?php endif; ?>><?php echo \$value['id']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
@@ -1693,7 +1693,7 @@ sss;
                                     <option value="">请选择</option>
                                     <?php if (\${$column['COLUMN_NAME']}s != null) : ?>
                                         <?php foreach (\${$column['COLUMN_NAME']}s as \$key=>\$value) : ?>
-                                            <option value="<?php echo \$key; ?>" <?php if (\$row['{$column['COLUMN_NAME']}'] === (string)\$key || set_value('{$column['COLUMN_NAME']}') === (string)\$key) : ?>selected="selected"<?php endif; ?>><?php echo \$value; ?></option>
+                                            <option value="<?php echo \$key; ?>" <?php if (\$data['{$column['COLUMN_NAME']}'] === (string)\$key || set_value('{$column['COLUMN_NAME']}') === (string)\$key) : ?>selected="selected"<?php endif; ?>><?php echo \$value; ?></option>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </select>

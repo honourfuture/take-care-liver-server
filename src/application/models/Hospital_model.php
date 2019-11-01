@@ -82,7 +82,9 @@ class Hospital_model extends Base_model
 
         $this->db->from($this->table);
         $this->db->order_by('id', 'desc');
-        $this->db->limit($num, $offset);
+        if($num && $offset){
+            $this->db->limit($num, $offset);
+        }
         $query = $this->db->get();
 
         return $query->result();
