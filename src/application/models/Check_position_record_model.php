@@ -14,4 +14,13 @@ class Check_position_record_model extends Base_model {
         $this->tableName = $this->_name;
     }
 
+    function create($data)
+    {
+        $data['create_time'] = date('Y-m-d H:i:s');
+
+        $this->db->insert($this->tableName, $data);
+
+        return $this->db->insert_id();
+    }
+
 }

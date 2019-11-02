@@ -97,6 +97,5 @@ class Feedback_model extends CI_Model
         $query = $this->db->get($this->table);
 
         return $query->row();
-
     }
 }

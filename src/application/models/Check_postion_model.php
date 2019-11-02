@@ -30,4 +30,13 @@ class Check_postion_model extends Base_model {
 
         return $this->db->update($this->tableName, $data);
     }
+
+    public function find($check_postion)
+    {
+        $query = $this->db->where('check_postion', $check_postion);
+        $query = $this->db->get($this->tableName);
+
+        return $query->row();
+    }
+
 }

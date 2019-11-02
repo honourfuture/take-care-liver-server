@@ -17,6 +17,8 @@ class Liver extends REST_Controller
         $this->load->model('Urine_check_model');
         $this->load->model('CardGrantRecord_model');
         $this->load->model('CardUseRecord_model');
+        $this->load->model('Check_position_record_model');
+        $this->load->model('Check_postion_model');
     }
     private function json($data, $code = 200, $message = '获取数据成功!')
     {
@@ -40,6 +42,20 @@ class Liver extends REST_Controller
     {
         $files = $this->File_model->getAllByCid();
         foreach ($files as $file){
+            $machine_id = $file->machine_id;
+            $machine = $this->Check_postion_model->find($machine_id);
+            if($machine){
+                $this->Check_postion_model->updates($machine->id, ['money' => $machine->money + 100]);
+                $data = [
+                    'date' => date('Y-m-d H:i:s'),
+                    'check_position_id' => $machine->id,
+                    'user_id' => 0,
+                    'money' => 100
+                ];
+
+                $this->Check_position_record_model->create($data);
+            }
+
             $filePath = 'xxg/'.$file->file_path.$file->file_name;
             $outPath = 'xxg/'.$file->file_path.time().rand(0,1000);
             $zip = new ZipArchive();
@@ -70,6 +86,7 @@ class Liver extends REST_Controller
                     'file_id' => $file->id,
                     'check_date' => $date
                 ];
+
 
                 $id = $this->Liver_model->create($liver);
                 $user = $this->User_model->find_by_mobile($phone);
