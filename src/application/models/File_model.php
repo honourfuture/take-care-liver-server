@@ -13,7 +13,7 @@ class File_model extends CI_Model
         $this->db->select('*');
 
         $this->db->from($this->table);
-        $this->db->where('is_zip', 1);
+        $this->db->where('is_zip', 0);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get();
 
