@@ -44,7 +44,7 @@
               <thead>
               <tr>
                             <th><b>ID</b></th>
-                            <th>用户ID</th>
+                            <th>手机号</th>
                             <th>检测点ID</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
@@ -58,7 +58,7 @@
                             <?php foreach ($result as $value) : ?>
                                 <tr>
                                     <td><input type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>" /> <?php echo $value['id']; ?></td>
-                                    <td><?php echo $value['user_id']; ?></td>
+                                    <td><?php echo $value['user_id'] ? $value['user_id'] : '未获取到手机号码'; ?></td>
                                     <td><?php echo $value['check_position_id']; ?></td>
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
