@@ -74,24 +74,28 @@ class Liver extends REST_Controller
                     'check_date' => $date
                 ];
 
-                $machine_id = $file->machine_id;
-                $machine = $this->Check_postion_model->find($machine_id);
-                if($machine){
-                    $this->Check_postion_model->updates($machine->id, ['money' => $machine->money + 100]);
-                    $data = [
-                        'date' => date('Y-m-d H:i:s'),
-                        'check_position_id' => $machine->id,
-                        'user_id' => $phone,
-                        'money' => 100
-                    ];
 
-                    $this->Check_position_record_model->create($data);
-                }
 
                 $id = $this->Liver_model->create($liver);
                 $user = $this->User_model->find_by_mobile($phone);
-
+                $check = $this->Check_position_record_model->find($phone);
                 if($user){
+                    if(!$check){
+                        $machine_id = $file->machine_id;
+                        $machine = $this->Check_postion_model->find($machine_id);
+                        if($machine){
+                            $this->Check_postion_model->updates($machine->id, ['money' => $machine->money + 100]);
+                            $data = [
+                                'date' => date('Y-m-d H:i:s'),
+                                'check_position_id' => $machine->id,
+                                'user_id' => $phone,
+                                'money' => 100
+                            ];
+
+                            $this->Check_position_record_model->create($data);
+                        }
+                    }
+
                     $data = [
                         'date' => $xmlData['examinationDate'] ? $xmlData['examinationDate'] : date('Y-m-d H:i:s'),
                         'user_id'=> $user['id'],

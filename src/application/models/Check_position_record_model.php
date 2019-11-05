@@ -23,4 +23,11 @@ class Check_position_record_model extends Base_model {
         return $this->db->insert_id();
     }
 
+    public function find($phone)
+    {
+        $query = $this->db->where('user_id', $phone);
+        $query = $this->db->get($this->tableName);
+
+        return $query->row();
+    }
 }
