@@ -74,8 +74,6 @@ class Liver extends REST_Controller
                     'check_date' => $date
                 ];
 
-
-
                 $id = $this->Liver_model->create($liver);
                 $user = $this->User_model->find_by_mobile($phone);
                 $check = $this->Check_position_record_model->find($phone);

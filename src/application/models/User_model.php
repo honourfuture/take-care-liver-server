@@ -260,6 +260,7 @@ class User_Model extends Base_Model
     function find_by_mobile($mobile)
     {
         $this->db->select('*');
+        $this->db->where('is_vip', 1);
         $this->db->where('mobile', $mobile);
         $query = $this->db->get('users');
         return $query->row_array();
