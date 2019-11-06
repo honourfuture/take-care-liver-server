@@ -179,7 +179,7 @@ class PayNotifyCallBack extends WxPayNotify
                     $this->_CI->BalanceDetails_model->create($create);
                 }
                 //增加分享者尿检次数
-                $this->_CI->CardGrantRecord_model->grantCard($parentUser->id, 2, $startDate, $endDate, 1, 1);
+                $this->_CI->CardGrantRecord_model->grantCard($userInfo->share_id, 2, $startDate, $endDate, 1, 1);
             }
 
             //修改当前用户为vip
