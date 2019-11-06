@@ -279,7 +279,7 @@ class Operator extends Admin_Controller {
 
             $wheres = [
                 'is_operator' => 0,
-                'is_vip' => 1,
+                'is_vip' => 0,
                 'parent_id' => $user_id
             ];
 
