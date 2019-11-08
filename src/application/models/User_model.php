@@ -294,7 +294,7 @@ class User_Model extends Base_Model
      * @param $wheres
      * @return mixed
      */
-    public function getAllPage($wheres, $page, $offset)
+    public function getAllPage($wheres, $page, $offset, $user_id)
     {
         $select = $this->_select();
 
@@ -306,6 +306,9 @@ class User_Model extends Base_Model
                     $this->db->where($k, $val);
                 }
             }
+        }
+        if($user_id){
+            $this->db->or_where('share_id', $user_id);
         }
         $this->db->order_by('id', 'desc');
         $this->db->limit($page, $offset);

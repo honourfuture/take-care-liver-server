@@ -72,8 +72,7 @@ class RetailStore extends REST_Controller
             'parent_id' => $this->user_id,
         ];
 
-        $total = $this->User_model->getAllPageTotal($where);
-        $sonUsers = $this->User_model->getAllPage($where,$this->per_page, $this->offset);
+        $sonUsers = $this->User_model->getAllPage($where,$this->per_page, $this->offset, $this->user_id);
         $nextMembers = [];
 
         foreach ($sonUsers as $sonUser){
@@ -84,7 +83,9 @@ class RetailStore extends REST_Controller
                 'is_vip' => $sonUser['is_vip']
             ];
         }
-
+        $where = [
+            'share_id' => $this->user_id,
+        ];
         $where['is_vip'] = 1;
         $totalVip = $this->User_model->getAllPageTotal($where);
 
