@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit ('No direct script access allowed');
-
+require(APPPATH . '/libraries/REST_Controller.php');
 use Restserver\Libraries\REST_Controller;
 
 class Common extends REST_Controller
@@ -61,4 +61,31 @@ class Common extends REST_Controller
         }
         return $this->json([], 0, $message = '上传失败');
     }
+
+    /**
+     * @SWG\Get(path="/common/check",
+     *   tags={"Common"},
+     *   summary="是否审核中",
+     *   description="是否审核中",
+     *   operationId="commonCheck",
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function check_get()
+    {
+        $this->load->model('Config_model');
+        $type = 'isCheck';
+        try{
+            $data = $this->Config_model->findByAttributes(array(), $type);
+        }catch (\Exception $e){
+            return $this->json(null, 200, '未找到该数据！');
+        }
+        if ($data) {
+            return $this->json(json_decode($data[$type]));
+        } else {
+            return $this->json(null,200, '未找到该数据！');
+        }
+    }
+
 }
