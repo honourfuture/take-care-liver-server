@@ -66,7 +66,7 @@
                                             <label for="picture_url" class="col-sm-2 control-label">banner图片<?=$i?></label>
                                             <div class="col-sm-3">
                                                 <img src = '<?=json_decode($product->banner_pic)[$i-1] ? json_decode($product->banner_pic)[$i-1]: '/assets/images/upload.png';?>'  style="cursor: pointer;height:64px;" id="img_imageupload<?=$i?>"/>
-                                                <input type="hidden" name="banner[]" id="image<?=$i?>" class="spec_image" />
+                                                <input type="hidden" name="banner[]" id="image<?=$i?>" value="<?=json_decode($product->banner_pic)[$i-1] ? json_decode($product->banner_pic)[$i-1]: '';?>" class="spec_image" />
                                                 <input type="file"  style="display:none;" class="file-btn"  id="image_file<?=$i?>"  name="upload_file"  />
                                             </div>
                                         </div>
