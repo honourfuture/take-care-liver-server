@@ -56,13 +56,23 @@
                                     <div class="form-group">
                                         <label for="picture_url" class="col-sm-2 control-label">商品图片</label>
                                         <div class="col-sm-3">
-                                            <img src = "<?=$product->pic ? qiniu_image($product->pic,false) : '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
+                                            <img src = "<?=$product->pic ? qiniu_image($product->pic,false): '/assets/images/upload.png';?>" style="cursor: pointer;height:64px;" id="img_imageupload"/>
                                             <input type="hidden" name="pic" id="image" class="spec_image" value="<?=$product->pic?>" />
                                             <input type="file"  style="display:none;" class="file-btn"  id="image_file"  name="upload_file"  />
                                         </div>
                                     </div>
+                                    <?php for($i = 1;$i <= 3; $i++){ ?>
+                                        <div class="form-group">
+                                            <label for="picture_url" class="col-sm-2 control-label">banner图片<?=$i?></label>
+                                            <div class="col-sm-3">
+                                                <img src = '<?=json_decode($product->banner_pic)[$i-1] ? json_decode($product->banner_pic)[$i-1]: '/assets/images/upload.png';?>'  style="cursor: pointer;height:64px;" id="img_imageupload<?=$i?>"/>
+                                                <input type="hidden" name="banner[]" id="image<?=$i?>" class="spec_image" />
+                                                <input type="file"  style="display:none;" class="file-btn"  id="image_file<?=$i?>"  name="upload_file"  />
+                                            </div>
+                                        </div>
+                                    <?php }?>
 
-                                    <div class="form-group">
+                                        <div class="form-group">
                                         <label for="indate" class="col-sm-2 control-label">内容</label>
                                         <div class="col-sm-6">
                                             <script id="container" name="details" type="text/plain"></script>
@@ -149,6 +159,43 @@
     $("#img_imageupload").click(function(){
         $("#image_file").click();
     });
+
+
+    <?php for($i = 1;$i <= 3; $i++){ ?>
+    //上传图片
+    $("#image_file<?=$i?>").on("change",function(){
+        $.ajaxFileUpload({
+            type: "post",
+            url: '/admin/upload/upload_image',
+            secureuri: false,
+            fileElementId: 'image_file<?=$i?>',
+            dataType: 'json',
+            success: function(res) {
+                debugger;
+                if(res.status == 1){
+
+                    $('#img_imageupload<?=$i?>').attr('src',res.data.url);
+                    $('#image<?=$i?>').val(res.data.url);//res.data.file_name
+                }else{
+                    if(res == null || res==false)
+                    {
+                        alert("上传失败！");
+                        return;
+                    }
+                    alert(res.message);
+                }
+            },
+            error:function(data, error){
+                debugger;
+                alert("上传失败");
+            }
+        });
+    });
+    $("#img_imageupload<?=$i?>").click(function(){
+        $("#image_file<?=$i?>").click();
+    });
+
+    <?php }?>
 </script>
 
 <script>
