@@ -203,7 +203,7 @@ class Products extends Admin_Controller {
 //				$old_price = $this->input->post('old_price');
 				$describe = $this->input->post('describe');
 				$pic = $this->input->post('pic');
-//                $banner = $this->input->post('banner');
+                $banner = $this->input->post('banner');
 				$details = $this->input->post('details');
 
 				$data = array(
@@ -213,7 +213,7 @@ class Products extends Admin_Controller {
 					'describe'  => $describe,
 					'pic'  => $pic,
 					'details'	=> $details,
-//                    'banner_pic' => json_encode($banner)
+                    'banner_pic' => json_encode($banner)
 				);
 
 
