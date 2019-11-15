@@ -126,7 +126,7 @@ class SignIn extends REST_Controller
         }
         $hour = date('H', time());
         if($hour < 21 || $hour > 23){
-            return $this->json(false, 500, '对不起，现在不是约定的打卡签到时段。请在每天21:00--23:00时段参与打卡！');
+            return $this->json([], 500, '对不起，现在不是约定的打卡签到时段。请在每天21:00--23:00时段参与打卡！');
         }
         $where = [
             'date' => date('Y-m-d', time()),
@@ -135,7 +135,7 @@ class SignIn extends REST_Controller
 
         $data = $this->SignIn_model->findByAttributes($where);
         if($data){
-            return $this->json(true, 200, '您已经签到过了！');
+            return $this->json([], 500, '您已经签到过了！');
         }
 
         $where = [
