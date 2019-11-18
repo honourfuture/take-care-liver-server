@@ -12,10 +12,19 @@ class Dashboard extends Admin_Controller {
 	public function index()
 	{
 		$admin_id = $this->checkLogin('A');
-		/*if(empty($admin_id)){
-			redirect("admin/login");
-		}*/
 
+        $this->load->model('User_Model');
+        $this->load->model('OrderAndPay_model');
+        $this->load->model('Product_model');
+
+        $this->data['userCount'] = $this->User_Model->getAllPageTotal();
+        $this->data['vipCount'] = $this->User_Model->getAllPageTotal(['is_vip'=> 1]);
+        $this->data['operatorCount'] = $this->User_Model->getAllPageTotal(['is_operator'=> 1]);
+        $this->data['orderCount'] = $this->OrderAndPay_model->getOrderCount();
+        $this->data['orders'] = $this->OrderAndPay_model->getOrderAll(['status' => 20]);
+//        $this->data['products'] = $this->Product_model->getAll(['type' => 3]);
+
+//        print_r($this->data['products']);die;
 		$this->template->admin_load('admin/dashboard', $this->data);
 	}
 

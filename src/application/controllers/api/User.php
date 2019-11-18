@@ -243,7 +243,6 @@ class User extends REST_Controller {
         if($user->is_operator == 2){
             return $this->json([], 500, '您的审核已提交，请耐心等待审核');
         }
-
         if($this->input->post('username'))
             $in["real_name"] = $this->input->post('username');
         if($this->input->post('id_card'))

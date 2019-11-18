@@ -248,7 +248,7 @@
 					</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="<?= active_link_method('urine_check', 'index') ?>"><a href="/admin/urine_check/index"><i class="fa fa-circle-o"></i> 尿检结果</a></li>
+                        <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/urine_check/index"><i class="fa fa-circle-o"></i> 尿检结果</a></li>
                         <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/index"><i class="fa fa-circle-o"></i> 用户尿检记录</a></li>
                     </ul>
                 </li>
