@@ -40,7 +40,7 @@ class Users extends Admin_Controller {
 			$config['last_tag_open'] = '<li>';
 			$config['last_tag_close'] = '</li>';
 
-			$base_url = base_url('/admin/users/index');
+			$base_url = base_url('/admin/users/');
 			if(!empty($keyword)){
 				$base_url .="?keyword=".$keyword;
 			}

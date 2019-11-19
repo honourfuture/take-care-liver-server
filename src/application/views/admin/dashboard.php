@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        控制台1
+        控制台
         <small>版本 2.0</small>
       </h1>
       <ol class="breadcrumb">
