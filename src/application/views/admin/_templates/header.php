@@ -307,6 +307,7 @@
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=publicGoodFree"><i class="fa fa-circle-o"></i> 公益免费</a></li>
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=liverCheck"><i class="fa fa-circle-o"></i> 肝检测</a></li>
                         <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=liverCuring"><i class="fa fa-circle-o"></i> 肝养护</a></li>
+                        <li class="<?= active_link_method('config', 'index') ?>"><a href="/admin/config/index?type=aboutShare"><i class="fa fa-circle-o"></i> 分享文案管理</a></li>
                         <li class="<?= active_link_method('config', 'promotion') ?>"><a href="/admin/config/promotion?type=promotion"><i class="fa fa-circle-o"></i>首页促销图</a></li>
                     </ul>
                 </li>
