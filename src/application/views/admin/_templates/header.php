@@ -223,6 +223,7 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('hospitals', 'index') ?>"><a href="/admin/hospitals/index"><i class="fa fa-circle-o"></i> 医院列表</a></li>
                         <li class="<?= active_link_method('hospitals', 'save') ?>"><a href="/admin/hospitals/save"><i class="fa fa-circle-o"></i> 新建医院</a></li>
+                        <li class="<?= active_link_method('hospitals', 'finance') ?>"><a href="/admin/hospitals/finance"><i class="fa fa-circle-o"></i> 检测分成</a></li>
                     </ul>
                 </li>
 
@@ -264,7 +265,8 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('check_postion', 'index') ?>"><a href="/admin/check_postion/index"><i class="fa fa-circle-o"></i> 检测点列表</a></li>
                         <li class="<?= active_link_method('check_postion', 'save') ?>"><a href="/admin/check_postion/save"><i class="fa fa-circle-o"></i> 新建检测点</a></li>
-                        <li class="<?= active_link_method('check_postion_record', 'index') ?>"><a href="/admin/check_position_record/index"><i class="fa fa-circle-o"></i> 检测点检测记录</a></li>
+                       <li class="<?= active_link_method('check_postion_record', 'index') ?>"><a href="/admin/check_position_record/index"><i class="fa fa-circle-o"></i> 检测点检测记录</a></li>
+                        <li class="<?= active_link_method('check_postion', 'finance') ?>"><a href="/admin/check_postion/finance"><i class="fa fa-circle-o"></i> 检测分成</a></li>
                     </ul>
                 </li>
 

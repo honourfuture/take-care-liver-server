@@ -131,4 +131,40 @@ class Hospital_model extends Base_model
             return $data;
         }
     }
+
+
+    public function getFinance( $page, $offset, $from_date ='', $end_date ='', $is_count=0, $keyword = '')
+    {
+        if($is_count){
+            $this->db->select('cpr.id');
+        }else{
+            $this->db->select('h.id as hospital_id, h.name , cp.id as cp_id, cp.check_postion, cpr.user_id, cpr.date, cpr.money');
+        }
+        $this->db->from('check_position_record as cpr');
+        $this->db->join('check_postion as cp', 'cpr.check_position_id = cp.id', 'left');
+        $this->db->join($this->table." as h", 'h.id = cp.hospital_id', 'left');
+
+        if (!empty($keyword)) {
+            $this->db->like('h.name', $keyword, 'both');
+            $this->db->like('cp.check_position', $keyword, 'both');
+        }
+        if($from_date){
+            $this->db->where('cpr.date >=', $from_date);
+        }
+        if($end_date){
+            $this->db->where('cpr.date <=', $end_date);
+        }
+        if($is_count){
+            $total = $this->db->count_all_results();
+            return $total;
+        }else{
+            $this->db->order_by("cpr.create_time", "DESC");
+            if($page && $offset){
+                $this->db->limit($page, $offset);
+            }
+            $query = $this->db->get();
+            return $query->result();
+        }
+
+    }
 }
