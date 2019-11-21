@@ -48,23 +48,23 @@
 											<input type="text" name="mobile" value="<?=$mobile?>" class="form-control" required minlength="11"  maxlength="11" data-msg="请填写手机号码" data-msg-minlength="请至少输入11位数字">
 										</div>
 									</div>
-									<div class="form-group">
-										<label for="password" class="col-sm-2 control-label">密码</label>
-										<div class="col-sm-3">
-											<input type="text" name="password" value="<?=$password?>" id="password" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="birthday" class="col-sm-2 control-label">生日</label>
-										<div class="col-sm-3">
-											<input type="text" name="birthday" value="<?=$birthday?>" id="birthday" class="form-control">
-										</div>
-									</div>
+<!--									<div class="form-group">-->
+<!--										<label for="password" class="col-sm-2 control-label">密码</label>-->
+<!--										<div class="col-sm-3">-->
+<!--											<input type="text" name="password" value="--><?//=$password?><!--" id="password" class="form-control">-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<div class="form-group">-->
+<!--										<label for="birthday" class="col-sm-2 control-label">生日</label>-->
+<!--										<div class="col-sm-3">-->
+<!--											<input type="text" name="birthday" value="--><?//=$birthday?><!--" id="birthday" class="form-control">-->
+<!--										</div>-->
+<!--									</div>-->
 									<div class="form-group">
 										<label for="gender" class="col-sm-2 control-label">性别</label>
 										<div class="col-sm-3">
 											<select name="gender" id="gender" class="form-control">
-												<option value="">请选择性别</option>
+												<option value="2">请选择性别</option>
 												<option value="0" <?=($gender == '0')?'selected = "selected"':''?>>女</option>
 												<option value="1" <?=($gender == '1')?'selected = "selected"':''?>>男</option>
 											</select>

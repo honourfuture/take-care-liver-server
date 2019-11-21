@@ -126,7 +126,7 @@ class SignIn extends REST_Controller
         }
         $hour = date('H', time());
         if($hour < 21 || $hour > 23){
-            return $this->json([], 500, '对不起，现在不是约定的打卡签到时段。请在每天21:00--23:00时段参与打卡！');
+            return $this->json([], 500, '请在每天21：00-23：00签到打卡！您也可以转发邀请您的亲朋好友来一起签到打卡领礼品！');
         }
         $where = [
             'date' => date('Y-m-d', time()),

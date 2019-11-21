@@ -23,7 +23,7 @@
             <h3 class="box-title"></h3>
 
             <div class="box-tools">
-              <form action="/admin/order" method="get">
+              <form action="/admin/order/<?=$page?>" method="get">
                 <div class="input-group input-group" style="width: 250px;">
                   <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索" value="<?=$keyword?>">
                   <div class="input-group-btn">

@@ -25,8 +25,6 @@ class Hospitals extends Admin_Controller {
         $inParams = array();
         $likeParam = array();
 
-        $this->data['business_types'] = $this->hospital_model->getBusiness_type();
-
         //搜索筛选
         $this->data['search'] = $this->input->get('search', TRUE);
         $keyword = $this->input->get('keyword', TRUE);
@@ -81,11 +79,6 @@ class Hospitals extends Admin_Controller {
             if ($this->data['update_time_start'] && $this->data['update_time_end']) {
                 $param['update_time >='] = date('Y-m-d', strtotime($this->data['update_time_start']));
                 $param['update_time <'] = date('Y-m-d', strtotime($this->data['update_time_end']));
-            }
-
-            $this->data['business_type'] = $this->input->get('business_type', TRUE);
-            if($this->data['business_type'] !== '') {
-                $param['business_type'] = $this->data['business_type'];
             }
 
             $this->data['distance'] = $this->input->get('distance', TRUE);

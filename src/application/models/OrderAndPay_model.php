@@ -66,6 +66,29 @@ class OrderAndPay_model extends CI_Model
 
         return $query->result();
     }
+
+    function orderMoneySum($where)
+    {
+        $this->db->select('sum(now_price) as total');
+        if (!empty($where) && is_array($where)) {
+            foreach($where as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->where($k, $val);
+                }
+            }
+        }
+        if (!empty($orwhere) && is_array($orwhere)) {
+            foreach($orwhere as $k=>$val) {
+                if(!is_array($val) && !is_object($val)) {
+                    $this->db->or_where($k, $val);
+                }
+            }
+        }
+
+        $this->db->from($this->order_table);
+        $total = $this->db->get();
+        return $total->row();
+    }
     /*
     * 根据where和orwhere查询订单数据总数
     */
@@ -160,7 +183,7 @@ class OrderAndPay_model extends CI_Model
                 }
             }
         }
-
+        $this->db->join('users as u', 'u.id = o.user_id', 'left');
         $this->db->from($this->order_join_table);
 
         $total = $this->db->count_all_results();

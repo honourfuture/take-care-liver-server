@@ -226,6 +226,16 @@ class User_Model extends Base_Model
 		$query = $this->db->get('users');
 		return $query->row();		
 	}
+
+    /*
+    * 查找
+    */
+    function getCard($idCard)
+    {
+        $this->db->where('id_card', $idCard);
+        $query = $this->db->get('users');
+        return $query->row();
+    }
 	/*
 	* 创建
 	*/

@@ -116,15 +116,10 @@
                         <div class="form-group">
                             <label for="business_type" class="col-sm-2 control-label">营业时间</label>
                             <div class="col-sm-3">
-                                <select name="business_type" id="business_type"  class="form-control">
-                                    <option value="">请选择</option>
-                                    <?php if ($business_types != null) : ?>
-                                        <?php foreach ($business_types as $key=>$value) : ?>
-                                            <option value="<?php echo $key; ?>" <?php if ($data['business_type'] === (string)$key || set_value('business_type') === (string)$key) : ?>selected="selected"<?php endif; ?>><?php echo $value; ?></option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                                <?php echo form_error('business_type'); ?>
+                                <input class="form-control" id="business_type" name="business_type" value="<?php echo $data['business_type'] ?>"
+                                       data-msg="营业时间"
+                                       required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
+                                />
                             </div>
                         </div>
 

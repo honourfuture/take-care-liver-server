@@ -160,6 +160,7 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('order', 'index') ?>"><a href="/admin/order/index"><i class="fa fa-circle-o"></i>所有订单</a></li>
                         <li class="<?= active_link_method('order', 'wait') ?>"><a href="/admin/order/wait"><i class="fa fa-circle-o"></i>待支付订单</a></li>
+                        <li class="<?= active_link_method('order', 'over') ?>"><a href="/admin/order/over"><i class="fa fa-circle-o"></i>已支付订单</a></li>
                     </ul>
                 </li>
 
@@ -316,11 +317,11 @@
 
                 <li class="header">人员管理</li>
 				<li class="<?= active_link_controller('administrators') ?>"><a href="/admin/administrators"><i class="fa fa-circle-o"></i> <span>管理员</span></a></li>
-                <li class="<?= active_link_controller('admin_logs') ?>"><a href="/admin/admin_logs/index"><i class="fa fa-circle-o"></i> <span>管理员操作记录</span></a></li>
+<!--                <li class="--><?//= active_link_controller('admin_logs') ?><!--"><a href="/admin/admin_logs/index"><i class="fa fa-circle-o"></i> <span>管理员操作记录</span></a></li>-->
                 <li class="<?= active_link_controller('roles') ?>"><a href="/admin/roles"><i class="fa fa-user"></i>
                         <span>角色管理</span></a></li>
-                <li class="<?= active_link_controller('permissions') ?>"><a href="/admin/permissions"><i
-                                class="fa fa-unlock-alt"></i> <span>权限管理</span></a></li>
+<!--                <li class="--><?//= active_link_controller('permissions') ?><!--"><a href="/admin/permissions"><i-->
+<!--                                class="fa fa-unlock-alt"></i> <span>权限管理</span></a></li>-->
                 <li class="<?= active_link_controller('users') ?>"><a href="/admin/users"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
                 <li class="<?= active_link_controller('employee') ?>"><a href="/admin/employee/index"><i class="fa fa-user"></i> <span>内部员工管理</span></a></li>
                 <li class="treeview <?= active_link_controller('employee') ?> ">
@@ -349,8 +350,8 @@
                         <!--<li class="<?= active_link_method('settings', 'index') ?>"><a href="/admin/settings"><i class="fa fa-circle-o"></i> 系统参数</a></li>
                         <li class="<?= active_link_method('smslogs', 'index') ?>"><a href="/admin/smslogs"><i class="fa fa-circle-o"></i> 短信记录</a></li>
                         <li class="<?= active_link_method('pages', 'index') ?>"><a href="/admin/pages"><i class="fa fa-circle-o"></i> 静态页面</a></li>-->
-                        <li class="<?= active_link_method('help', 'index') ?>"><a href="/admin/help"><i class="fa fa-circle-o"></i> 帮助管理</a></li>
-                        <li class="<?= active_link_method('feedback', 'index') ?>"><a href="/admin/feedback"><i class="fa fa-circle-o"></i> 意见反馈</a></li>
+<!--                        <li class="--><?//= active_link_method('help', 'index') ?><!--"><a href="/admin/help"><i class="fa fa-circle-o"></i> 帮助管理</a></li>-->
+<!--                        <li class="--><?//= active_link_method('feedback', 'index') ?><!--"><a href="/admin/feedback"><i class="fa fa-circle-o"></i> 意见反馈</a></li>-->
                         <li class="<?= active_link_method('notice', 'index') ?>"><a href="/admin/notice"><i class="fa fa-circle-o"></i> 系统通知</a></li>
                     </ul>
                 </li>
@@ -367,20 +368,20 @@
                         <li class="<?= active_link_method('appsettings', 'index') ?>"><a href="/admin/appsettings"><i class="fa fa-circle-o"></i> APP参数设置</a></li>
                     </ul>
                 </li>-->
-                <li class="treeview <?= active_link_controller('generator') ?>
-           <?= active_link_controller('example') ?>
-           ?>">
-                    <a href="#">
-                        <i class="fa  fa-mobile"></i> <span>开发中心</span>
-						<span class="pull-right-container">
-						  <i class="fa fa-angle-left pull-right"></i>
-						</span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?= active_link_method('generator', 'index') ?>"><a href="/admin/generator/index"><i class="fa fa-circle-o"></i> 代码生成</a></li>
-                        <li class="<?= active_link_method('example', 'index') ?>"><a href="/admin/example/index"><i class="fa fa-circle-o"></i> Example</a></li>
-                    </ul>
-                </li>
+<!--                <li class="treeview --><?//= active_link_controller('generator') ?>
+<!--           --><?//= active_link_controller('example') ?>
+<!--           ?>">-->
+<!--                    <a href="#">-->
+<!--                        <i class="fa  fa-mobile"></i> <span>开发中心</span>-->
+<!--						<span class="pull-right-container">-->
+<!--						  <i class="fa fa-angle-left pull-right"></i>-->
+<!--						</span>-->
+<!--                    </a>-->
+<!--                    <ul class="treeview-menu">-->
+<!--                        <li class="--><?//= active_link_method('generator', 'index') ?><!--"><a href="/admin/generator/index"><i class="fa fa-circle-o"></i> 代码生成</a></li>-->
+<!--                        <li class="--><?//= active_link_method('example', 'index') ?><!--"><a href="/admin/example/index"><i class="fa fa-circle-o"></i> Example</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->

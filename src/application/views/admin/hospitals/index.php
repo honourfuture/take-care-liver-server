@@ -65,7 +65,7 @@
                                    <!-- <td><?php /*echo $value['pic']; */?></td>-->
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
-                                    <td><?php echo $business_types[$value['business_type']]; ?></td>
+                                    <td><?php echo $value['business_type']; ?></td>
                                     <td><?php echo $value['distance']; ?></td>
                                     <td>
                                         <button data-toggle="modal" data-target="#boxModal"

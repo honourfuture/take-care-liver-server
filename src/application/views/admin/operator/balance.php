@@ -51,7 +51,7 @@
                         if($user['type'] == 1){
                             echo '提现';
                         }else if($user['type'] == 2){
-                            echo '用户购买年卡';
+                            echo $user['username'].'购买年卡';
                         }else if($user['type'] == 3){
                             echo '购买商品';
                         }else if($user['type'] == 4){

@@ -21,10 +21,9 @@ class Dashboard extends Admin_Controller {
         $this->data['vipCount'] = $this->User_model->getAllPageTotal(['is_vip'=> 1]);
         $this->data['operatorCount'] = $this->User_model->getAllPageTotal(['is_operator'=> 1]);
         $this->data['orderCount'] = $this->OrderAndPay_model->getOrderCount();
+        $this->data['orderMoneyCount'] = $this->OrderAndPay_model->orderMoneySum(['status' => 20]);
         $this->data['orders'] = $this->OrderAndPay_model->getOrderAll(['status' => 20]);
-//        $this->data['products'] = $this->Product_model->getAll(['type' => 3]);
 
-//        print_r($this->data['products']);die;
 		$this->template->admin_load('admin/dashboard', $this->data);
 	}
 

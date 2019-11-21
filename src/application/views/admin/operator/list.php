@@ -39,6 +39,7 @@
               <thead>
               <tr>
                 <th>编号</th>
+                <th>昵称</th>
                 <th>姓名</th>
                 <th>手机号</th>
                 <th>余额</th>
@@ -50,10 +51,10 @@
                 <tr>
                   <td><?=$user->id?></td>
                   <td><?=$user->username?></td>
+                  <td><?=$user->real_name?></td>
                   <td><?=$user->mobile?></td>
                     <td><?=$user->balance?></td>
                   <td>
-                    <button data-toggle="modal" data-target="#boxModal" onclick="loadModal('/admin/users/del/<?=$user->id?>')" style="margin-right: 5px;" class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除</button>
                     <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
                     <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
                     <a href="/admin/operator/member?user_id=<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看会员</a>

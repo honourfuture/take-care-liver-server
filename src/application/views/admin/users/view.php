@@ -39,7 +39,16 @@
                                     <div class="form-group">
                                         <label for="first_name" class="col-sm-2 control-label">性别</label>
                                         <div class="col-sm-3">
-                                            <span class="form-control"><?=($user->gender>0?'女':'男')?></span>
+
+                                            <span class="form-control"><?php
+                                                if($user->gender == 0){
+                                                    echo '女';
+                                                }else if($user->gender == 1){
+                                                    echo '男';
+                                                }else{
+                                                    echo '暂未录入性别';
+                                                }
+                                                ?></span>
                                         </div>
                                     </div>
 
