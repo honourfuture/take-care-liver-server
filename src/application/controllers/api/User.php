@@ -172,6 +172,7 @@ class User extends REST_Controller {
             return $this->getParentInfo($parentInfo->parent_id);
         }
     }
+
     /**
      * @SWG\Post(path="/user/apply_operator",
      *   consumes={"multipart/form-data"},
@@ -366,6 +367,64 @@ class User extends REST_Controller {
         return $this->response($result);
     }
 
+    /**
+     * @SWG\Post(path="/user/update_form_id",
+     *   consumes={"multipart/form-data"},
+     *   tags={"User"},
+     *   summary="更新用户formId",
+     *   description="更新用户formId",
+     *   operationId="userUpdateFormId",
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="formId",
+     *     description="formId",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   produces={"application/json"},
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function update_form_id_post()
+    {
+        $in = array();
+        $user_id = $this->user_id;
+        if(!$user_id){
+            $result['msg'] = '请登录';
+            $result['status'] = '401';
+            $result['data'] = [];
+            return $this->response($result);
+        }
+
+        if($this->input->post('formId')){
+            $in["formId"] = $this->input->post('formId');
+        }else{
+            $result['msg'] = 'formId不能为空!';
+            $result['status'] = '500';
+            $result['data'] = [];
+            return $this->response($result);
+        }
+
+        $updateStatus = $this->User_model->update_info($user_id, $in);
+
+        if($updateStatus){
+            $result['msg'] = '修改用户信息成功!';
+            $result['status'] = '200';
+            $result['data'] = [];
+        }else{
+            $result['msg'] = '修改用户信息失败!';
+            $result['status'] = '500';
+            $result['data'] = [];
+        }
+        return $this->response($result);
+    }
 	/**
      * @SWG\Get(path="/user/get_info",
      *   tags={"User"},

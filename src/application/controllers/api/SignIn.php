@@ -120,10 +120,10 @@ class SignIn extends REST_Controller
      */
     public function add_post()
     {
-
         if (!$this->user_id) {
 //            return $this->json([], 401, '请登录');
         }
+
         $hour = date('H', time());
         if($hour < 21 || $hour > 23){
             return $this->json([], 500, '请在每天21：00-23：00签到打卡！您也可以转发邀请您的亲朋好友来一起签到打卡领礼品！');
@@ -177,6 +177,13 @@ class SignIn extends REST_Controller
      *     required=true,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="address_id",
+     *     description="地址id",
+     *     required=true,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
@@ -185,6 +192,11 @@ class SignIn extends REST_Controller
         if (!$this->user_id) {
             return $this->json([], 401, '请登录');
         }
+        $address_id = $this->input->post('address_id');
+        if (!$address_id) {
+            return $this->json([], 500, '请选择地址');
+        }
+
 
         $where = [
             'user_id' => $this->user_id,
@@ -196,8 +208,10 @@ class SignIn extends REST_Controller
             return $this->json([], 500, '未到达领取条件，请继续努力');
         }
         $data = [
-          'is_apply' => 2
+            'is_apply' => 2,
+            'address_id' => $address_id
         ];
+
         if($this->SignIn_model->update($lastData['id'], $data)) {
             return $this->json([], 200, '领取成功，请等待发货！');
         } else {
