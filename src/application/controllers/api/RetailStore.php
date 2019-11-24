@@ -27,20 +27,6 @@ class RetailStore extends REST_Controller
      *   description="获取我的分销数据",
      *   operationId="retailStoreInfo",
      *   produces={"application/json"},
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="cur_page",
-     *     description="当前页",
-     *     required=true,
-     *     type="integer"
-     *   ),
-     *  @SWG\Parameter(
-     *     in="query",
-     *     name="per_page",
-     *     description="每页数量 [默认10条]",
-     *     required=false,
-     *     type="integer"
-     *   ),
      *   @SWG\Parameter(
      *     in="header",
      *     name="token",
@@ -55,11 +41,11 @@ class RetailStore extends REST_Controller
     {
         $this->config->config['base_url'];
 
-        $page = $this->input->get('page');
+//        $page = $this->input->get('page');
 
-        if(!$page){
-            $page = 1;
-        }
+//        if(!$page){
+//            $page = 1;
+//        }
         if(!$this->user_id){
             return  $this->json([], 401, '请登录');
         }
@@ -72,7 +58,8 @@ class RetailStore extends REST_Controller
             'parent_id' => $this->user_id,
         ];
 
-        $sonUsers = $this->User_model->getAllPage($where,$this->per_page, $this->offset, $this->user_id);
+//        $sonUsers = $this->User_model->getAllPage($where,$this->per_page, $this->offset, $this->user_id);
+        $sonUsers = $this->User_model->getAllPage($where,0, 0, $this->user_id);
         $nextMembers = [];
 
         foreach ($sonUsers as $sonUser){

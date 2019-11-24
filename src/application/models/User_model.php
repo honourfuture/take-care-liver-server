@@ -320,8 +320,13 @@ class User_Model extends Base_Model
         if($user_id){
             $this->db->or_where('share_id', $user_id);
         }
+
         $this->db->order_by('id', 'desc');
-        $this->db->limit($page, $offset);
+        
+        if($page){
+            $this->db->limit($page, $offset);
+        }
+
 
         $this->db->from($this->table);
         $query = $this->db->get();
