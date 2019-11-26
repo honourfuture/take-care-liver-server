@@ -551,6 +551,8 @@ $config['wechatpay_config'] = array (
     //APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）， 请妥善保管， 避免密钥泄露
     'app_secret'=>"f8a0fecf7b3e26c0089d06203ff6d632",
 
+    //签到模版id
+    'sign_template_id' => 'pxl7oYSh6LSJtPLufu5o_RcQMSxgIwbBxs-LJWGODfM',
     /**
      * 设置商户证书路径
      * 证书路径,注意应该填写绝对路径（仅退款、撤销订单时需要，可登录商户平台下载，

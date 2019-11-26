@@ -197,7 +197,6 @@ class SignIn extends REST_Controller
             return $this->json([], 500, '请选择地址');
         }
 
-
         $where = [
             'user_id' => $this->user_id,
             'continue >=' => 21,

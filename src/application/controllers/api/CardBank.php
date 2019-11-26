@@ -106,6 +106,11 @@ class CardBank extends REST_Controller
         $wheres = array('user_id' => $this->user_id);
         $results = $this->Card_bank_model->get($wheres);
 
+        foreach ($results as &$result){
+            $result['bank_icon'] = config_item('base_url').$result['bank_icon'];
+            $result['bank_background'] = config_item('base_url').$result['bank_background'];
+        }
+
         return $this->json($results);
     }
     /**

@@ -330,6 +330,7 @@ class Operator extends Admin_Controller {
             }
 
             $data['is_operator'] = $name = $this->input->post('is_operator');
+            $data['operator_time'] = date('Y-m-d H:i:s');
 
             $isSuccess = $this->User_model->update($id, $data);
             if ($isSuccess) {

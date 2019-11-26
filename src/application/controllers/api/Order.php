@@ -59,6 +59,7 @@ class Order extends REST_Controller
             $this->json([], 401, $message = '未登录');
         }
         $this->load->model('OrderAndPay_model');
+        $where['status'] = 20;
         $orwhere = [];
         $data = $this->OrderAndPay_model->getOrderAll($where, $orwhere, $this->per_page, $this->offset);
         if ($data) {

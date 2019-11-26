@@ -43,7 +43,8 @@
                 <th>姓名</th>
                 <th>手机号</th>
                 <th>余额</th>
-                <th width="470">操作</th>
+                <th>最后审核时间</th>
+                <th width="410">操作</th>
               </tr>
               </thead>
               <tbody>
@@ -53,7 +54,9 @@
                   <td><?=$user->username?></td>
                   <td><?=$user->real_name?></td>
                   <td><?=$user->mobile?></td>
-                    <td><?=$user->balance?></td>
+                  <td><?=$user->balance?></td>
+                    <td><?=$user->operator_time?></td>
+
                   <td>
                     <a href="/admin/users/edit/<?=$user->id?>" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
                     <a href="/admin/users/view/<?=$user->id?>" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看</a>
