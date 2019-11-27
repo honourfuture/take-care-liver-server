@@ -133,7 +133,7 @@ class Hospital_model extends Base_model
     }
 
 
-    public function getFinance( $page, $offset, $from_date ='', $end_date ='', $is_count=0, $keyword = '')
+    public function getFinance( $page, $offset, $from_date ='', $end_date ='', $is_count=0, $keyword = '', $hospitalId = 0)
     {
         if($is_count){
             $this->db->select('cpr.id');
@@ -146,7 +146,10 @@ class Hospital_model extends Base_model
 
         if (!empty($keyword)) {
             $this->db->like('h.name', $keyword, 'both');
-            $this->db->like('cp.check_position', $keyword, 'both');
+//            $this->db->like('cp.check_position', $keyword, 'both');
+        }
+        if($hospitalId){
+            $this->db->where('cp.hospital_id', $hospitalId);
         }
         if($from_date){
             $this->db->where('cpr.date >=', $from_date);

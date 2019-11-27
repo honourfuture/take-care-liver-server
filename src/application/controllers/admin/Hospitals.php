@@ -337,6 +337,7 @@ class Hospitals extends Admin_Controller {
 
         //搜索筛选
         $this->data['start_date'] = $this->input->get('start_date');
+        $this->data['hospital_id'] = $this->input->get('hospital_id');
         $this->data['end_date'] = $this->input->get('end_date');
         $keyword = $this->input->get('keyword', TRUE);
         $this->data['keyword'] = $keyword;
@@ -369,11 +370,10 @@ class Hospitals extends Admin_Controller {
         $suffix = $urlGet;   //GET参数
 
         //获取数据
-
-        $result = $this->hospital_model->getFinance( $this->per_page, $this->offset, $this->data['start_date'], $this->data['end_date']);
+        $result = $this->hospital_model->getFinance( $this->per_page, $this->offset, $this->data['start_date'], $this->data['end_date'],false,$this->data['keyword'], $this->data['hospital_id']);
 
         //生成分页链接
-        $total = $this->hospital_model->getFinance($this->per_page, $this->offset, $this->data['start_date'], $this->data['end_date'], true);
+        $total = $this->hospital_model->getFinance($this->per_page, $this->offset, $this->data['start_date'], $this->data['end_date'], true,$this->data['keyword'], $this->data['hospital_id']);
 
         $this->initPage($pageUrl.$suffix, $total, $this->per_page);
 

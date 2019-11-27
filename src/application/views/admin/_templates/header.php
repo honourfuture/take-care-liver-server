@@ -223,7 +223,7 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('hospitals', 'index') ?>"><a href="/admin/hospitals/index"><i class="fa fa-circle-o"></i> 医院列表</a></li>
                         <li class="<?= active_link_method('hospitals', 'save') ?>"><a href="/admin/hospitals/save"><i class="fa fa-circle-o"></i> 新建医院</a></li>
-                        <li class="<?= active_link_method('hospitals', 'finance') ?>"><a href="/admin/hospitals/finance"><i class="fa fa-circle-o"></i> 检测分成</a></li>
+<!--                        <li class="--><?//= active_link_method('hospitals', 'finance') ?><!--"><a href="/admin/hospitals/finance"><i class="fa fa-circle-o"></i> 检测分成</a></li>-->
                     </ul>
                 </li>
 

@@ -47,10 +47,8 @@
                             <!--<th>简介</th>-->
                             <!--<th>图片</th>-->
                             <th>创建时间</th>
-                            <th>更新时间</th>
                             <th>营业时间</th>
-                            <th>距离</th>
-                            <th width="250">操作</th>
+                            <th width="290">操作</th>
               </tr>
               </thead>
               <tbody>
@@ -64,13 +62,13 @@
                                  <!--   <td><?php /*echo $value['detail']; */?></td>-->
                                    <!-- <td><?php /*echo $value['pic']; */?></td>-->
                                     <td><?php echo $value['create_time']; ?></td>
-                                    <td><?php echo $value['update_time']; ?></td>
                                     <td><?php echo $value['business_type']; ?></td>
-                                    <td><?php echo $value['distance']; ?></td>
                                     <td>
+                                        <a href="/admin/hospitals/finance?hospital_id=<?php echo $value['id']; ?>" class="btn btn-primary btn-sm pull-right"
+                                           style="margin-right: 5px;"><i class="fa fa-edit"></i>检测点</a>
                                         <button data-toggle="modal" data-target="#boxModal"
                                                 onclick="loadModal('/admin/hospitals/del/<?php echo $value['id']; ?>')"
-                                                class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除
+                                                class="btn btn-danger btn-sm pull-right"  style="margin-right: 5px;"><i class="fa fa-remove"></i> 删除
                                         </button>
                                         <a href="/admin/hospitals/save/<?php echo $value['id']; ?>" class="btn btn-primary btn-sm pull-right"
                                            style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</a>
