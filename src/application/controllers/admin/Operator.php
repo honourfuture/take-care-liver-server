@@ -278,7 +278,6 @@ class Operator extends Admin_Controller {
             $user_id = $this->input->get("user_id");
 
             $wheres = [
-                'is_operator' => 0,
                 'parent_id' => $user_id
             ];
 
