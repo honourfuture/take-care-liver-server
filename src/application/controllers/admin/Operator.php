@@ -285,6 +285,10 @@ class Operator extends Admin_Controller {
             if(!empty($keyword)){
                 $base_url .="?keyword=".$keyword;
             }
+
+            if($user_id){
+                $base_url .="?user_id=".$user_id;
+            }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->User_model->getCount($keyword, $wheres);
             $config['per_page'] = 20;
