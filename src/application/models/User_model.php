@@ -178,6 +178,10 @@ class User_Model extends Base_Model
             }
         }
 
+        if(isset($wheres['parent_id'])){
+            $this->db->or_where('share_id', $wheres['parent_id']);
+        }
+
         $this->db->from('users');
         
         $total = $this->db->count_all_results();
@@ -211,7 +215,11 @@ class User_Model extends Base_Model
             $this->db->where_in("employee_id", $whereIns);
         }
 
-		$this->db->order_by('id','desc');
+        if(isset($wheres['parent_id'])){
+            $this->db->or_where('share_id', $wheres['parent_id']);
+        }
+
+        $this->db->order_by('id','desc');
 		$this->db->limit($num,$offset);
 		$query = $this->db->get();
 

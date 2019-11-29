@@ -278,12 +278,15 @@ class Operator extends Admin_Controller {
             $user_id = $this->input->get("user_id");
 
             $wheres = [
-                'is_operator' => 0,
                 'parent_id' => $user_id
             ];
 
             if(!empty($keyword)){
                 $base_url .="?keyword=".$keyword;
+            }
+
+            if($user_id){
+                $base_url .="?user_id=".$user_id;
             }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->User_model->getCount($keyword, $wheres);

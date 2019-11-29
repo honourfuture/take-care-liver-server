@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/assets/plugins/datatables/dataTables.bootstrap.css">
-<?php $page_title = '举报列表' ?>
+<?php $page_title = '提现列表' ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
