@@ -174,7 +174,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('operator', 'list') ?>"><a href="/admin/operator/list"><i class="fa fa-circle-o"></i>经营者列表</a></li>
-                        <li class="<?= active_link_method('operator', 'apply') ?>"><a href="/admin/operator/apply"><i class="fa fa-circle-o"></i>经验者申请</a></li>
+                        <li class="<?= active_link_method('operator', 'apply') ?>"><a href="/admin/operator/apply"><i class="fa fa-circle-o"></i>经营者申请</a></li>
                         <li class="<?= active_link_method('config', 'money') ?>"><a href="/admin/config/money"><i class="fa fa-circle-o"></i>分销金额设定</a></li>
                     </ul>
                 </li>
