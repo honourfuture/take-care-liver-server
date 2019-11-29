@@ -42,6 +42,7 @@
                                 <th>开户行</th>
                                 <th>银行卡号</th>
                                 <th>预留电话</th>
+                                <th>提现金额</th>
                                 <th>提现状态</th>
                                 <th>申请时间</th>
                                 <th width="150">操作</th>
@@ -54,6 +55,7 @@
                                     <td><?= $role->bank_name ?></td>
                                     <td><?= $role->card_number ?></td>
                                     <td><?= $role->phone ?></td>
+                                    <td><?= $role->cash_out_money ?></td>
                                     <td>
                                         <?php
                                         if($role->status == 0){
@@ -69,7 +71,7 @@
                                     <td>
                                         <?php
                                              if($role->status == 0) {
-                                                 ?>
+                                         ?>
                                             <a href="/admin/finance/edit/<?= $role->id ?>/2"
                                                class="btn btn-danger btn-sm pull-right" style="margin-right: 5px;"><i
                                                         class="fa fa-edit"></i> 拒绝</a>
