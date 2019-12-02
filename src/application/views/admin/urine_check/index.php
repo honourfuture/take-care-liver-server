@@ -45,10 +45,8 @@
                             <th><b>ID</b></th>
                             <th>试纸颜色</th>
                             <th>尿检结果</th>
-                           <!-- <th>尿检详情</th>-->
                             <th>创建时间</th>
                             <th>更新时间</th>
-                            <th>严重程度</th>
                             <th width="250">操作</th>
               </tr>
               </thead>
@@ -59,10 +57,8 @@
                                     <td> <?php echo $value['id']; ?></td>
                                     <td><span class="label label-success" style="background: <?php echo $value['color']; ?>!important;"><?php echo $value['color']; ?></td>
                                     <td><?php echo $value['summary']; ?></td>
-                                   <!-- <td><?php /*echo $value['details']; */?></td>-->
                                     <td><?php echo $value['create_time']; ?></td>
                                     <td><?php echo $value['update_time']; ?></td>
-                                    <td><span class="label label-success" style="background: <?php echo $waring_types[$value['waring_type']]; ?> !important;"><?php echo $waring_types[$value['waring_type']]; ?></td>
                                     <td>
                                         <button data-toggle="modal" data-target="#boxModal"
                                                 onclick="loadModal('/admin/urine_check/del/<?php echo $value['id']; ?>')"
