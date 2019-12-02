@@ -99,8 +99,6 @@
         });
         $("#summary").change(function () {
             var id = $("#summary option:selected").data("values");
-            $("#color").val(id);
-            $("#color").css("background",id);
         });
         $("#waring_type").change(function () {
             var text = $("#waring_type option:selected").text();
