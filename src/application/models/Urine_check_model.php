@@ -32,7 +32,7 @@ class Urine_check_model extends Base_Model
             'color'
         ]);
         $this->db->from($this->table);
-        $this->db->order_by("create_time", "DESC");
+        $this->db->order_by("waring_type", "asc");
         $query = $this->db->get();
 
         return $query->result_array();

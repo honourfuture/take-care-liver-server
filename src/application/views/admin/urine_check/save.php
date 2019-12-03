@@ -40,15 +40,10 @@
                                     <div class="form-group">
                                         <label for="summary" class="col-sm-2 control-label">尿检结果</label>
                                         <div class="col-sm-3">
-                                            <select name="summary" id="summary"  class="form-control">
-                                                <option value="">请选择</option>
-                                                <?php if ($summarys != null) : ?>
-                                                    <?php foreach ($summarys as $key=>$value) : ?>
-                                                        <option value="<?php echo $value; ?>" data-values="<?php echo $key; ?>" <?php if ($data['summary'] === (string)$value) : ?>selected="selected"<?php endif; ?>><?php echo $value; ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                            <?php echo form_error('summary'); ?>
+                                            <input class="form-control" id="summary" name="summary" value="<?php echo $data['summary']; ?>"
+                                                   data-msg="请填写尿检结果"
+                                                   required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
+                                            />
                                         </div>
                                     </div>
 
@@ -56,7 +51,7 @@
                                         <label for="color" class="col-sm-2 control-label">试纸颜色</label>
                                         <div class="col-sm-3">
                                             <input class="form-control" id="color" name="color" value="<?php echo $data['color']; ?>"
-                                                   data-msg="请填写color" readonly="readonly" style="background:<?php echo $data['color']; ?> "
+                                                   data-msg="请填写color"  style="background:<?php echo $data['color']; ?> "
                                                    required minlength="1" data-msg-minlength="请至少输入1个以上的字符"
                                              />
                                         </div>
@@ -91,23 +86,6 @@
                                             </div>
                                         </div>
                                     </div>-->
-                                    <div class="form-group">
-                                        <label for="waring_type" class="col-sm-2 control-label">严重程度</label>
-                                        <div class="col-sm-2">
-                                            <select name="waring_type" id="waring_type"  class="form-control">
-                                                <option value="">请选择</option>
-                                                <?php if ($waring_types != null) : ?>
-                                                    <?php foreach ($waring_types as $key=>$value) : ?>
-                                                        <option style="background: <?php echo $value; ?>" value="<?php echo $key; ?>" <?php if ($data['waring_type'] === (string)$key || set_value('waring_type') === (string)$key) : ?>selected="selected"<?php endif; ?>><?php echo $value; ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                            <?php echo form_error('waring_type'); ?>
-                                        </div>
-                                        <div class="col-sm-1">
-                                           <div id="background" style="width:80px;height:30px;background: <?php echo $waring_types[$data['waring_type']]; ?>"></div>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
