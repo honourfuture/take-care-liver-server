@@ -56,37 +56,12 @@
                                              />
                                         </div>
                                     </div>
-
-
                                     <div class="form-group">
                                         <label for="details" class="col-sm-2 control-label">尿检详情</label>
                                         <div class="col-sm-3">
                                             <textarea type="text" name="details" id="details" rows="15" class="form-control"><?php echo $data['details'] ?></textarea>
                                         </div>
                                     </div>
-                                   <!-- <div class="form-group">
-                                        <label for="create_time" class="col-sm-2 control-label">创建时间</label>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" data-msg="请填写create_time" name="create_time" class="form-control pull-right" id="create_time" value="<?php /*echo $data['create_time'] */?>" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="update_time" class="col-sm-2 control-label">更新时间</label>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" data-msg="请填写update_time" name="update_time" class="form-control pull-right" id="update_time" value="<?php /*echo $data['update_time'] */?>" />
-                                            </div>
-                                        </div>
-                                    </div>-->
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button type="submit" class="btn btn-primary btn-flat"
@@ -124,8 +99,6 @@
         });
         $("#summary").change(function () {
             var id = $("#summary option:selected").data("values");
-            $("#color").val(id);
-            $("#color").css("background",id);
         });
         $("#waring_type").change(function () {
             var text = $("#waring_type option:selected").text();
