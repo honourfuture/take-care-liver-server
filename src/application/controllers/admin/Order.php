@@ -127,6 +127,15 @@ class Order extends Admin_Controller {
             $wheres = [
               'status' => 10
             ];
+            $this->data['start_date'] = $this->input->get('start_date');
+            $this->data['end_date'] = $this->input->get('end_date');
+            if($this->data['start_date']){
+                $this->db->where('o.create_time >=', $this->data['start_date']);
+            }
+
+            if($this->data['end_date']){
+                $this->db->where('o.create_time <=', $this->data['end_date']);
+            }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->OrderAndPay_model->getCount($keyword, $wheres);
             $config['per_page'] = 20;
@@ -200,6 +209,16 @@ class Order extends Admin_Controller {
             $wheres = [
                 'status' => 20
             ];
+
+            $this->data['start_date'] = $this->input->get('start_date');
+            $this->data['end_date'] = $this->input->get('end_date');
+            if($this->data['start_date']){
+                $this->db->where('o.create_time >=', $this->data['start_date']);
+            }
+
+            if($this->data['end_date']){
+                $this->db->where('o.create_time <=', $this->data['end_date']);
+            }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->OrderAndPay_model->getCount($keyword, $wheres);
             $config['per_page'] = 20;
