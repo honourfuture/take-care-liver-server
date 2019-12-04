@@ -79,7 +79,7 @@ class Hospital extends REST_Controller
         $latitude = trim($this->input->get('latitude'));
         $data = $this->Hospital_model->getAllByPosi($this->per_page, $this->offset,$longitude,$latitude);
         if ($data) {
-            $this->json([]);
+            $this->json($data);
         } else {
             $this->json([], 200, $message = '没有数据');
         }
