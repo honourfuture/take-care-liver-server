@@ -197,7 +197,12 @@ class Users extends Customer_Controller {
 				$base_url .="?keyword=".$keyword;
 			}
 			$config['base_url'] = $base_url;
-			$config['total_rows'] = $this->User_model->getCount($keyword);
+			$param = array("is_operator"=>"0");
+			$param['is_link'] = 0;
+
+			$level = $this->checkLogin('LevelName');
+			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
+			$config['total_rows'] = $this->User_model->getCount($keyword,$param,$employee_ids);
 			$config['per_page'] = 20;
 
 			if($page > 1){
@@ -217,11 +222,7 @@ class Users extends Customer_Controller {
 			$this->data['users_show_begin'] = $show_begin;
 			$this->data['users_show_end'] = $show_end;
 			$this->data['users_total_rows'] = $config['total_rows'];
-			$param = array("is_operator"=>"0");
-			$param['is_link'] = 0;
 
-			$level = $this->checkLogin('LevelName');
-			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
 			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword,$param,$employee_ids);
 
 			//初始化分页
