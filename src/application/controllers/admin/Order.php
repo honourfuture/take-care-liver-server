@@ -11,6 +11,8 @@ class Order extends Admin_Controller {
 
 	public function index()
 	{
+        $this->data['start_date'] = $this->input->get('start_date');
+        $this->data['end_date'] = $this->input->get('end_date');
 		$admin_id = $this->checkLogin('A');
 		if(!empty($admin_id)){
 			$keyword = $this->input->get("keyword");
@@ -54,6 +56,13 @@ class Order extends Admin_Controller {
 			else{
 				$page = 0;
 			}
+            if($this->data['start_date']){
+                $this->db->where('o.create_time >=', $this->data['start_date']);
+            }
+
+            if($this->data['end_date']){
+                $this->db->where('o.create_time <=', $this->data['end_date']);
+            }
 
 			$show_begin = $config['per_page'] * $page;
 			if($config['total_rows'] > 0)$show_begin = $show_begin+1;

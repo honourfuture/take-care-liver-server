@@ -54,7 +54,12 @@
                 <td>
                     <?php
                     if($user->is_operator == 0){
-                        echo '普通用户';
+                        if($user->is_vip){
+                            echo 'VIP会员';
+                        }else{
+                            echo '普通用户';
+                        }
+
                     }else if($user->is_operator == 1){
                         echo '经营者';
                     }else if($user->is_operator == 2){

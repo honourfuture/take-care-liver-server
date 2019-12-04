@@ -244,7 +244,7 @@
                 <li class="treeview <?= active_link_controller('user_urine') ?>  <?= active_link_controller('urine_check') ?>">
                     <a href="#">
                         <i class="fa fa-pie-chart"></i>
-                        <span>尿检管理</span>
+                        <span>检测管理</span>
                         <span class="pull-right-container">
 					  <i class="fa fa-angle-left pull-right"></i>
 					</span>
@@ -252,6 +252,7 @@
                     <ul class="treeview-menu">
                         <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/urine_check/index"><i class="fa fa-circle-o"></i> 尿检结果</a></li>
                         <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/index"><i class="fa fa-circle-o"></i> 用户尿检记录</a></li>
+                        <li class="<?= active_link_method('user_urine', 'index') ?>"><a href="/admin/user_urine/liver"><i class="fa fa-circle-o"></i> 用户肝检记录</a></li>
                     </ul>
                 </li>
                 <li class="treeview <?= active_link_controller('check_postion') ?>  <?= active_link_controller('check_postion_record') ?>">

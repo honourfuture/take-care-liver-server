@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/assets/plugins/datatables/dataTables.bootstrap.css">
-<?php $page_title = '用户尿检记录' ?>
+<?php $page_title = '用户肝检记录' ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -50,7 +50,7 @@
                             <th>类型</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
-                            <th>尿检时间</th>
+                            <th>肝检时间</th>
                             <th width="250">操作</th>
               </tr>
               </thead>
@@ -72,7 +72,7 @@
                                                 onclick="loadModal('/admin/user_urine/del/<?php echo $value['id']; ?>')"
                                                 class="btn btn-danger btn-sm pull-right"><i class="fa fa-remove"></i> 删除
                                         </button>
-                                        <a href="/admin/urine_check/view/<?php echo $value['urine_check_id']; ?>?type=<?=$value['type']?>"
+                                        <a href="/admin/user_urine/liverView/<?php echo $value['urine_check_id']; ?>?type=<?=$value['type']?>"
                                            class="btn btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-eye"></i> 查看结果</a>
                                     </td>
                                 </tr>
