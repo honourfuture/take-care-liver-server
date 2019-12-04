@@ -20,15 +20,27 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                       <h3 class="box-title"></h3>
+                       <h3 class="box-title">
+                           <a href="/admin/finance/export" class="btn btn-block btn-primary btn-flat"><i
+                                   class="fa fa-plus"></i> 导出</a>
+                       </h3>
                         <div class="box-tools">
                             <form action="/admin/finance/cash_out" method="get">
-                                <div class="input-group input-group" style="width: 250px;">
+                                <div class="input-group-btn" style="width: 250px;">
+                                    <select name="status"  class="form-control pull-right">
+                                        <option value="">提现状态</option>
+                                        <option value="0" <?php echo strlen($status) !=0 && $status===0?"selected":"" ?>>待审核</option>
+                                        <option value="1" <?php echo $status===1?"selected":"" ?>>已通过</option>
+                                        <option value="2" <?php echo $status===2?"selected":"" ?>>已拒绝</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group-btn" style="width: 250px;">
                                     <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索"
                                            value="<?= $keyword ?>">
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
+                                </div>
+                                <div class="input-group-btn" style="width: 250px;">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </form>
                         </div>

@@ -182,7 +182,7 @@
                 <li class="treeview <?= active_link_controller('finance') ?> ">
                     <a href="#">
                         <i class="fa fa-server "></i>
-                        <span>用户财务管理</span>
+                        <span>财务管理</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
                         </span>
