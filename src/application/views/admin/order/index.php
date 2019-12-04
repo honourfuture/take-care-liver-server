@@ -20,10 +20,28 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title"></h3>
-
-            <div class="box-tools">
               <form action="/admin/order/<?=$page?>" method="get">
+
+            <h3 class="box-title"></h3>
+              <div class="form-group">
+                  <div class="col-sm-2">
+                      <div class="input-group date">
+                          <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                          </div>
+                          <input type="text"  name="start_date" class="form-control pull-right" id="start_date" value="<?php echo $start_date ?>" />
+                      </div>
+
+                  </div>
+                  <div class="col-sm-2">
+                      <div class="input-group date">
+                          <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                          </div>
+                          <input type="text"  name="end_date" class="form-control pull-right" id="end_date" value="<?php echo $end_date ?>" />
+                      </div>
+                  </div>
+            <div class="box-tools">
                 <div class="input-group input-group" style="width: 250px;">
                   <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索" value="<?=$keyword?>">
                   <div class="input-group-btn">
@@ -41,10 +59,10 @@
                 <th>编号</th>
                 <th>姓名</th>
                 <th>手机号</th>
-                  <th>订单编号</th>
-                  <th>下单时间</th>
-                  <th>商品名称</th>
-                  <th>商品价格</th>
+                <th>订单编号</th>
+                <th>下单时间</th>
+                <th>商品名称</th>
+                <th>商品价格</th>
                 <th>订单状态</th>
               </tr>
               </thead>
@@ -111,3 +129,21 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+    $(function () {
+
+        $('#start_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('#end_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+    });
+</script>
