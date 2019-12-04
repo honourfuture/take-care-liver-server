@@ -131,7 +131,6 @@ class Hospital extends REST_Controller
         if ($data) {
             $data = $data[0];
             $data['business'] = $data['business_type'];
-            return $this->json([], 200, $message = '没有数据');
             $this->json($data);
         } else {
             $this->json([], 200, $message = '没有数据');
