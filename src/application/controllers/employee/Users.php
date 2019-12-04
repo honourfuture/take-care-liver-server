@@ -45,7 +45,12 @@ class Users extends Employee_Controller {
 				$base_url .="?keyword=".$keyword;
 			}
 			$config['base_url'] = $base_url;
-			$config['total_rows'] = $this->User_model->getCount($keyword);
+
+			$level = $this->checkLogin('LevelName');
+			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
+			$param = array("is_operator"=>"0");
+
+			$config['total_rows'] = $this->User_model->getCount($keyword, $param, $employee_ids);
 			$config['per_page'] = 20;
 
 			if($page > 1){
@@ -66,9 +71,7 @@ class Users extends Employee_Controller {
 			$this->data['users_show_end'] = $show_end;
 			$this->data['users_total_rows'] = $config['total_rows'];
 
-			$level = $this->checkLogin('LevelName');
-			$employee_ids = $this->Employee_model->get_k_ids($level, $admin_id);
-			$param = array("is_operator"=>"0");
+
 			$this->data['users_list'] = $this->User_model->getAll($config['per_page'], $offset, $keyword, $param, $employee_ids);
 
 			//初始化分页
