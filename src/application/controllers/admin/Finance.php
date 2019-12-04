@@ -19,6 +19,10 @@ class Finance extends Admin_Controller
 
             $keyword = $this->input->get("keyword");
             $this->data['keyword'] = $keyword;
+            $start_date = $this->input->get("start_date");
+            $this->data['start_date'] = $start_date;
+            $end_date = $this->input->get("end_date");
+            $this->data['end_date'] = $end_date;
             $status = $this->input->get("status");
             if(strlen($status)>0 && ($status == 0 || $status == 1 || $status == 2)){
                 $this->data['status'] = $status;
@@ -29,9 +33,9 @@ class Finance extends Admin_Controller
             if (!empty($keyword)) {
                 $base_url .= "?keyword=" . $keyword;
             }
-            $total_rows = $this->Cash_out_model->getCount($keyword,$status);
+            $total_rows = $this->Cash_out_model->getCount($keyword,$status,$start_date ,$end_date);
             $this->initPage($base_url, $total_rows, $this->admin_pre_page);
-            $this->data['report_list'] = $this->Cash_out_model->getAll($this->per_page, $this->offset, $keyword,$this->data['status']);
+            $this->data['report_list'] = $this->Cash_out_model->getAll($this->per_page, $this->offset, $keyword,$this->data['status'],$start_date ,$end_date);
             //加载模板
             $this->template->admin_load('admin/finance/cash_out', $this->data);
 
@@ -153,12 +157,16 @@ class Finance extends Admin_Controller
             //搜索筛选
             $this->data['keyword'] = $this->input->get('keyword', TRUE);
             $status = $this->input->get("status");
+            $start_date = $this->input->get("start_date");
+            $this->data['start_date'] = $start_date;
+            $end_date = $this->input->get("end_date");
+            $this->data['end_date'] = $end_date;
             if(strlen($status)>0 && ($status == 0 || $status == 1 || $status == 2)){
                 $this->data['status'] = $status;
             }else{
                 $status = null;
             }
-            $result = $this->Cash_out_model->getAll(null, null,  $this->data['keyword'], $this->data['status']);
+            $result = $this->Cash_out_model->getAll(null, null,  $this->data['keyword'], $this->data['status'],$start_date ,$end_date);
             if (!empty($result)) {
                 foreach($result as $item){
                     if($item->status === '0'){

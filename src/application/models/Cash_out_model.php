@@ -66,7 +66,7 @@ class Cash_out_model extends CI_Model
      * @param string $keyword
      * @return mixed
      */
-    public function getAll($num = 30, $offset = 0, $keyword = '',$status)
+    public function getAll($num = 30, $offset = 0, $keyword = '',$status,$start_date ,$end_date)
     {
         $select = array(
             'co.cash_out_money',
@@ -85,9 +85,13 @@ class Cash_out_model extends CI_Model
         if (!empty($keyword)) {
             $this->db->like('u.username', $keyword, 'both');
         }
-        if(!is_null($status) && ($status == 0 || $status == 1 || $status == 2)){
-            $this->db->where('co.status', $status);
+        if($start_date){
+            $this->db->where('co.apply_time>=', $start_date);
         }
+        if($end_date){
+            $this->db->where('co.apply_time<=', $end_date);
+        }
+
 
         $this->db->from($this->joinTable);
         $this->db->join('card_banks as cb', 'cb.id = co.card_bank_id', 'left');
@@ -104,7 +108,7 @@ class Cash_out_model extends CI_Model
      * @param $keyword
      * @return mixed
      */
-    public function getCount($keyword,$status)
+    public function getCount($keyword,$status,$start_date ,$end_date)
     {
         $this->db->select("*");
 
@@ -113,6 +117,12 @@ class Cash_out_model extends CI_Model
         }
         if(!is_null($status) && ($status == 0 || $status == 1 || $status == 2)){
             $this->db->where('co.status', $status);
+        }
+        if($start_date){
+            $this->db->where('co.apply_time>=', $start_date);
+        }
+        if($end_date){
+            $this->db->where('co.apply_time<=', $end_date);
         }
         $this->db->from($this->joinTable);
         $this->db->join('card_banks as cb', 'cb.id = co.card_bank_id', 'left');
