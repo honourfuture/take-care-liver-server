@@ -130,11 +130,11 @@ class Order extends Admin_Controller {
             $this->data['start_date'] = $this->input->get('start_date');
             $this->data['end_date'] = $this->input->get('end_date');
             if($this->data['start_date']){
-                $this->db->where('o.create_time >=', $this->data['start_date']);
+                $wheres['o.create_time >='] = $this->data['start_date'];
             }
 
             if($this->data['end_date']){
-                $this->db->where('o.create_time <=', $this->data['end_date']);
+                $wheres['o.create_time <='] = $this->data['end_date'];
             }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->OrderAndPay_model->getCount($keyword, $wheres);
@@ -213,11 +213,11 @@ class Order extends Admin_Controller {
             $this->data['start_date'] = $this->input->get('start_date');
             $this->data['end_date'] = $this->input->get('end_date');
             if($this->data['start_date']){
-                $this->db->where('o.create_time >=', $this->data['start_date']);
+                $wheres['o.create_time >='] = $this->data['start_date'];
             }
 
             if($this->data['end_date']){
-                $this->db->where('o.create_time <=', $this->data['end_date']);
+                $wheres['o.create_time <='] = $this->data['end_date'];
             }
             $config['base_url'] = $base_url;
             $config['total_rows'] = $this->OrderAndPay_model->getCount($keyword, $wheres);
