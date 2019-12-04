@@ -20,7 +20,7 @@ class Finance extends Admin_Controller
             $keyword = $this->input->get("keyword");
             $this->data['keyword'] = $keyword;
             $status = $this->input->get("status");
-            if(!is_null($status) && ($status === 0 || $status === 1 || $status === 2)){
+            if(strlen($status)>0 && ($status == 0 || $status == 1 || $status == 2)){
                 $this->data['status'] = $status;
             }else{
                 $status = null;
@@ -31,7 +31,7 @@ class Finance extends Admin_Controller
             }
             $total_rows = $this->Cash_out_model->getCount($keyword,$status);
             $this->initPage($base_url, $total_rows, $this->admin_pre_page);
-            $this->data['report_list'] = $this->Cash_out_model->getAll($this->per_page, $this->offset, $keyword,$status);
+            $this->data['report_list'] = $this->Cash_out_model->getAll($this->per_page, $this->offset, $keyword,$this->data['status']);
             //加载模板
             $this->template->admin_load('admin/finance/cash_out', $this->data);
 
@@ -153,12 +153,12 @@ class Finance extends Admin_Controller
             //搜索筛选
             $this->data['keyword'] = $this->input->get('keyword', TRUE);
             $status = $this->input->get("status");
-            if(!is_null($status) && ($status === 0 || $status === 1 || $status === 2)){
+            if(strlen($status)>0 && ($status == 0 || $status == 1 || $status == 2)){
                 $this->data['status'] = $status;
             }else{
                 $status = null;
             }
-            $result = $this->Cash_out_model->getAll(null, null,  $this->data['keyword'], $status);
+            $result = $this->Cash_out_model->getAll(null, null,  $this->data['keyword'], $this->data['status']);
             if (!empty($result)) {
                 foreach($result as $item){
                     if($item->status === '0'){
@@ -171,6 +171,8 @@ class Finance extends Admin_Controller
                 }
                 $fields_array = array('cash_out_money', 'username', 'bank_name', 'card_number', 'phone', 'apply_time','status');
                 return $this->exportExcel($result, "导出数据.xlsx", $fields_array);
+            }else{
+                $message = "暂无数据";
             }
 
       //  }

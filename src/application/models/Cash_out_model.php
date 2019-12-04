@@ -85,7 +85,7 @@ class Cash_out_model extends CI_Model
         if (!empty($keyword)) {
             $this->db->like('u.username', $keyword, 'both');
         }
-        if(!is_null($status) && ($status === 0 || $status === 1 || $status === 2)){
+        if(!is_null($status) && ($status == 0 || $status == 1 || $status == 2)){
             $this->db->where('co.status', $status);
         }
 
@@ -111,7 +111,7 @@ class Cash_out_model extends CI_Model
         if (!empty($keyword)) {
             $this->db->like('u.username', $keyword, 'both');
         }
-        if(!is_null($status) && ($status === 0 || $status === 1 || $status === 2)){
+        if(!is_null($status) && ($status == 0 || $status == 1 || $status == 2)){
             $this->db->where('co.status', $status);
         }
         $this->db->from($this->joinTable);
