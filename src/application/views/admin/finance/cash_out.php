@@ -25,6 +25,22 @@
                        </h3>
                         <div class="box-tools">
 
+                            <div class="input-group-btn" style="width: 250px;">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input placeholder="开始时间" type="text" name="start_date" class="form-control pull-right" id="start_date" value="<?php echo $start_date ?>" />
+                                </div>
+                            </div>
+                            <div class="input-group-btn" style="width: 250px;">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" placeholder="结束时间" name="end_date" class="form-control pull-right" id="end_date" value="<?php echo $end_date ?>" />
+                                </div>
+                            </div>
                                 <div class="input-group-btn" style="width: 250px;">
                                     <select name="status"  class="form-control pull-right">
                                         <option value="">提现状态</option>
@@ -154,3 +170,21 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+    $(function () {
+
+        $('#start_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('#end_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+    });
+</script>
