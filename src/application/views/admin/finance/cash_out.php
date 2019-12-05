@@ -20,18 +20,49 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                       <h3 class="box-title"></h3>
+                        <form action="/admin/finance/cash_out" method="get">
+                       <h3 class="box-title">
+                       </h3>
                         <div class="box-tools">
-                            <form action="/admin/finance/cash_out" method="get">
-                                <div class="input-group input-group" style="width: 250px;">
+
+                            <div class="input-group-btn" style="width: 250px;">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input placeholder="开始时间" type="text" name="start_date" class="form-control pull-right" id="start_date" value="<?php echo $start_date ?>" />
+                                </div>
+                            </div>
+                            <div class="input-group-btn" style="width: 250px;">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" placeholder="结束时间" name="end_date" class="form-control pull-right" id="end_date" value="<?php echo $end_date ?>" />
+                                </div>
+                            </div>
+                                <div class="input-group-btn" style="width: 250px;">
+                                    <select name="status"  class="form-control pull-right">
+                                        <option value="">提现状态</option>
+                                        <option value="0" <?php echo strlen($status) !=0 && $status==0?"selected":"" ?>>待审核</option>
+                                        <option value="1" <?php echo $status==1?"selected":"" ?>>已通过</option>
+                                        <option value="2" <?php echo $status==2?"selected":"" ?>>已拒绝</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group-btn" style="width: 250px;">
                                     <input type="text" name="keyword" class="form-control pull-right" placeholder="搜索"
                                            value="<?= $keyword ?>">
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
                                 </div>
-                            </form>
+                                <div class="input-group-btn" style="width: 250px;">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    <a href="/admin/finance/export?status=<?= $status ?>&keyword=<?= $keyword ?>" class="btn btn-primary btn-flat"><i
+                                            class="fa fa-plus"></i> 导出</a>
+
+                                </div>
+
                         </div>
+                        </form>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
@@ -139,3 +170,21 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+    $(function () {
+
+        $('#start_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('#end_date').datepicker({
+            language: 'zh-CN',//选择语言
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+    });
+</script>

@@ -38,7 +38,6 @@
                               </div>
                               <input type="text"  name="end_date" class="form-control pull-right" id="end_date" value="<?php echo $end_date ?>" />
                           </div>
-
                       </div>
                   </div>
 

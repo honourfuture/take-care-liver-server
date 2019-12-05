@@ -12,6 +12,9 @@ class User_urine extends Admin_Controller {
         parent::__construct();
 
         $this->load->model('User_urine_model');
+        $this->load->model('Urine_model');
+        $this->load->model('Liver_model');
+
         //检查登录
         //$this->backend_lib->checkLoginOrJump();
                 
@@ -73,7 +76,7 @@ class User_urine extends Admin_Controller {
         //计算分页起始条目
         //$pageNum = intval($this->uri->segment($pageUri)) ? intval($this->uri->segment($pageUri)) : 1;
         //$startRow = ($pageNum - 1) * $pagePer;
-
+        $param['type'] = 1;
         //获取数据
         $result = $this->User_urine_model->getList($param, $this->per_page, $this->offset, $orderBySQL, $likeParam1);
 
@@ -94,6 +97,83 @@ class User_urine extends Admin_Controller {
 
         //加载模板
         $this->template->admin_load('admin/user_urine/index',$this->data); //$this->data
+    }
+
+    public function liver() {
+        //$data = array();
+        $param = array();
+        $inParams = array();
+        $likeParam1 = array();
+        $likeParam = array();
+
+        $this->data['types'] = $this->User_urine_model->getType();
+
+        //搜索筛选
+        $this->data['keyword'] = $this->input->get('keyword', TRUE);
+        $this->data['user_id'] = $this->input->get('user_id', TRUE);
+        if($this->data['keyword']) {
+            $likeParam1['user_id'] = $this->data['keyword'];
+            $likeParam1['username'] = $this->data['keyword'];
+            $likeParam1['date'] = $this->data['keyword'];
+            $likeParam1['mobile'] = $this->data['keyword'];
+        }
+        if($this->data['user_id']) {
+            $param['user_id'] = $this->data['user_id'];
+        }
+
+        //自动获取get参数
+        $urlGet = '';
+        $gets = $this->input->get();
+        if ($gets) {
+            $i = 0;
+            foreach ($gets as $getKey => $get) {
+                if ($i) {
+                    $urlGet .= "&$getKey=$get";
+                } else {
+                    $urlGet .= "/?$getKey=$get";
+                }
+                $i++;
+            }
+        }
+
+        //排序
+        $orderBy = $this->input->get('orderBy', TRUE);
+        $orderBySQL = 'id DESC';
+        if ($orderBy == 'idASC') {
+            $orderBySQL = 'id ASC';
+        }
+        $this->data['orderBy'] = $orderBy;
+
+        //分页参数
+        $pageUrl = B_URL.'user_urine/liver';  //分页链接
+        $suffix = $urlGet;   //GET参数
+
+        //$pageUri = 4;   //URL参数位置
+        //$pagePer = 20;  //每页数量
+        //计算分页起始条目
+        //$pageNum = intval($this->uri->segment($pageUri)) ? intval($this->uri->segment($pageUri)) : 1;
+        //$startRow = ($pageNum - 1) * $pagePer;
+        $param['type'] = 2;
+        //获取数据
+        $result = $this->User_urine_model->getList($param, $this->per_page, $this->offset, $orderBySQL, $likeParam1);
+
+        //生成分页链接
+        $total = $this->User_urine_model->count($param, $inParams, $likeParam);
+
+        $this->initPage($pageUrl.$suffix, $total, $this->per_page);
+        //$this->backend_lib->createPage($pageUrl, $pageUri, $pagePer, $total, $suffix);  //创建分页链接
+
+        //获取联表结果
+        //if ($result) {
+        //    foreach ($result as $key => $value) {
+
+        //    }
+        //}
+
+        $this->data['result'] = $result;
+
+        //加载模板
+        $this->template->admin_load('admin/user_urine/liver',$this->data); //$this->data
     }
 
     public function save() {
@@ -240,27 +320,36 @@ class User_urine extends Admin_Controller {
         $this->load->view('admin/user_urine/modals/del', $this->data);
     }
 
-        //详情
-        public function view()
-        {
-            $id = $this->uri->segment(4);
+    //详情
+    public function view()
+    {
+        $id = $this->uri->segment(4);
 
-            //获取数据
-            $obj = $this->User_urine_model->getRow(array("id" => $id));
-            if(empty($obj)){
-                redirect('admin/user_urine/index', 'refresh');
-            }        $this->data['types'] = $this->User_urine_model->getType();
+        //获取数据
+        $obj = $this->User_urine_model->getRow(array("id" => $id));
+        if(empty($obj)){
+            redirect('admin/user_urine/index', 'refresh');
+        }        $this->data['types'] = $this->User_urine_model->getType();
 
-            // 传递数据
-            $this->data['data']  = $obj;
+        // 传递数据
+        $this->data['data']  = $obj;
 
-            //当前列表页面的url
-            $form_url = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
-            if(strripos($form_url,"admin/user_urine") === FALSE){
-                $form_url = "/admin/user_urine/index";
-            }
-            $this->data['form_url'] = $form_url;
-            //加载模板
-            $this->template->admin_load('admin/user_urine/view', $this->data);
+        //当前列表页面的url
+        $form_url = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
+        if(strripos($form_url,"admin/user_urine") === FALSE){
+            $form_url = "/admin/user_urine/index";
         }
+        $this->data['form_url'] = $form_url;
+        //加载模板
+        $this->template->admin_load('admin/user_urine/view', $this->data);
+    }
+
+    public function liverView(){
+        $id = $this->uri->segment(4);
+        $data = $this->Liver_model->find($id);
+        if ($data) {
+            $this->data['data'] = json_decode($data->info, true);
+            $this->template->admin_load('admin/user_urine/liverView', $this->data);
+        }
+    }
    }

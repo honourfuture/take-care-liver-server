@@ -116,7 +116,7 @@ class Urine_check extends Admin_Controller {
         //$startRow = ($pageNum - 1) * $pagePer;
 
         //获取数据
-        $result = $this->Urine_check_model->getResult($param, $this->per_page, $this->offset, $orderBySQL, $inParams, $likeParam1);
+        $result = $this->Urine_check_model->getResult($param, $this->per_page, $this->offset, 'waring_type asc', $inParams, $likeParam1);
 
         //生成分页链接
         $total = $this->Urine_check_model->count($param, $inParams, $likeParam);

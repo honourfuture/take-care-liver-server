@@ -161,7 +161,7 @@ class User_Model extends Base_Model
     //#########   for admin panel begin   ########
 
 	//总数
-	public function getCount($keyword='', $wheres=[])
+	public function getCount($keyword='', $wheres=[], $whereIns=array())
 	{
 		$this->db->select('id');
 
@@ -177,6 +177,11 @@ class User_Model extends Base_Model
                 }
             }
         }
+        //查询
+        if (!empty($whereIns) && is_array($whereIns)) {
+            $this->db->where_in("employee_id", $whereIns);
+        }
+
 
         if(isset($wheres['parent_id'])){
             $this->db->or_where('share_id', $wheres['parent_id']);
