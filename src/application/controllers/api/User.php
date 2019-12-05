@@ -356,7 +356,7 @@ class User extends REST_Controller {
         if($this->input->post('weight'))
             $in["weight"] = $this->input->post('weight');
         if($this->input->post('height'))
-            $in["weight"] = $this->input->post('height');
+            $in["height"] = $this->input->post('height');
         if($this->input->post('username'))
             $in["username"] = $this->input->post('username');
         if($this->input->post('id_card'))
