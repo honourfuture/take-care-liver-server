@@ -500,7 +500,7 @@ class User extends REST_Controller {
      *     in="query",
      *     name="query",
      *     description="query",
-     *     required=false,
+     *     required=true,
      *     type="string"
      *   ),
      *   @SWG\Parameter(
