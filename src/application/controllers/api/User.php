@@ -510,22 +510,29 @@ class User extends REST_Controller {
      *     required=false,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="is_delete",
+     *     description="不传1和空为删除",
+     *     required=false,
+     *     type="string"
+     *   ),
      *   @SWG\Response(response="200", description="成功")
      * )
      */
     public function get_qCode_get(){
         $user_id = $this->user_id;
         $user = $this->User_model->find($user_id);
-        if($user->qCode){
+        $isDelete = $this->input->get('is_delete');
+        if(!$isDelete){
+            $isDelete = 1;
+        }
+        if($user->qCode && $isDelete == 1){
             return $this->json(config_item('base_url').$user->qCode);
         }
 
         $query = $this->input->get('query');
         $width = $this->input->get('width');
-        $isHyaline = $this->input->get('isHyaline');
-        if(!$isHyaline){
-            $isHyaline = false;
-        }
 
         if(!$width){
             $width = 400;
@@ -541,6 +548,7 @@ class User extends REST_Controller {
         }else{
             return $this->json([], 500, '获取token失败');
         }
+
         $sendUrl = "https://api.weixin.qq.com/wxa/getwxacode?access_token={$accessToken}";
         $data = [
             'path' => $query,
