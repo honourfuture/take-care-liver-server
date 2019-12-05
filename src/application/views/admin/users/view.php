@@ -60,6 +60,13 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="first_name" class="col-sm-2 control-label">身高</label>
+                                        <div class="col-sm-3">
+                                            <span class="form-control"><?=$user->height?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="first_name" class="col-sm-2 control-label">身份证</label>
                                         <div class="col-sm-3">
                                             <span class="form-control"><?=$user->id_card?></span>
