@@ -71,6 +71,7 @@ class Cash_out_model extends CI_Model
         $select = array(
             'co.cash_out_money',
             'u.username',
+            'u.real_name',
             'cb.bank_name',
             'cb.card_number',
             'cb.card_name',

@@ -70,6 +70,7 @@
                             <thead>
                             <tr>
                                 <th>真实姓名</th>
+                                <th>昵称</th>
                                 <th>开户行</th>
                                 <th>银行卡号</th>
                                 <th>预留电话</th>
@@ -82,6 +83,7 @@
                             <tbody>
                             <?php foreach ($report_list as $key=>$role) { ?>
                                 <tr>
+                                    <td><?= $role->real_name ?></a></td>
                                     <td><?= $role->username ?></a></td>
                                     <td><?= $role->bank_name ?></td>
                                     <td><?= $role->card_number ?></td>
