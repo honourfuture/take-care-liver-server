@@ -305,6 +305,13 @@ class User extends REST_Controller {
      *     required=false,
      *     type="string"
      *   ),
+     *   @SWG\Parameter(
+     *     in="formData",
+     *     name="height",
+     *     description="身高",
+     *     required=false,
+     *     type="string"
+     *   ),
 	 *   @SWG\Parameter(
      *     in="formData",
      *     name="username",
@@ -348,6 +355,8 @@ class User extends REST_Controller {
             $in["head_pic"] = $this->input->post('head_pic');
         if($this->input->post('weight'))
             $in["weight"] = $this->input->post('weight');
+        if($this->input->post('height'))
+            $in["height"] = $this->input->post('height');
         if($this->input->post('username'))
             $in["username"] = $this->input->post('username');
         if($this->input->post('id_card'))
@@ -464,6 +473,7 @@ class User extends REST_Controller {
                     'active'	=> $result->active,//态状  1:正常    -1:冻结'
                     'head_pic'	    => $result->head_pic,
                     'weight'	    => $result->weight,
+                    'height'	    => $result->height,
                     'id_card'	    => $result->id_card,
                     'is_vip'	    => $result->is_vip,
                     'is_operator'	=> $result->is_operator, //是否是经营者 0 否 1 是 2 待审核
@@ -471,6 +481,94 @@ class User extends REST_Controller {
             }
         }
         $this->json($user);
+    }
+    /**
+     * @SWG\Get(path="/user/get_qCode",
+     *   tags={"User"},
+     *   summary="获得二维码",
+     *   description="获得二维码",
+     *   operationId="userGetCode",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *     in="header",
+     *     name="token",
+     *     description="token",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="query",
+     *     description="query",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="width",
+     *     description="width",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     in="query",
+     *     name="is_delete",
+     *     description="不传1和空为删除",
+     *     required=false,
+     *     type="string"
+     *   ),
+     *   @SWG\Response(response="200", description="成功")
+     * )
+     */
+    public function get_qCode_get(){
+        $user_id = $this->user_id;
+        $user = $this->User_model->find($user_id);
+        $isDelete = $this->input->get('is_delete');
+        if(!$isDelete){
+            $isDelete = 1;
+        }
+        if($user->qCode && $isDelete == 1){
+            return $this->json(config_item('base_url').$user->qCode);
+        }
+
+        $query = $this->input->get('query');
+        $width = $this->input->get('width');
+
+        if(!$width){
+            $width = 400;
+        }
+        $appid = config_item('wechatpay_config')['app_id'];
+        $appSecret = config_item('wechatpay_config')['app_secret'];
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$appSecret}";
+        $accessToken = file_get_contents($url);
+//
+        $info = json_decode($accessToken, true);
+        if(isset($info['access_token'])){
+            $accessToken = $info['access_token'];
+        }else{
+            return $this->json([], 500, '获取token失败');
+        }
+
+        $sendUrl = "https://api.weixin.qq.com/wxa/getwxacode?access_token={$accessToken}";
+        $data = [
+            'path' => $query,
+            'width' => $width,
+        ];
+        $result = $this->_curl($sendUrl, $data);
+        $base64   = base64_encode($result['result']);
+        $time = time() . $user_id;
+        $f = file_put_contents("./upload/qCode/{$time}.jpg", base64_decode($base64));
+
+        if($f){
+            $insertQCode = "/upload/qCode/{$time}.jpg";
+            $qCode = config_item('base_url')."/upload/qCode/{$time}.jpg";
+
+            $update = $this->User_model->update($user_id, ['qCode' => $insertQCode]);
+
+            return $this->json($qCode);
+        }else{
+            return $this->json([], 500, '未知错误');
+        }
     }
     /**
      * @SWG\Post(path="/user/send_verify_code",
@@ -522,6 +620,43 @@ class User extends REST_Controller {
         }else{
             return false;
         }
+    }
+
+    private function _curl($url, $data)
+    {
+
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        if(!$data){
+            return 'data is null';
+        }
+        if(is_array($data))
+        {
+            $data = json_encode($data);
+        }
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length:' . strlen($data),
+            'Cache-Control: no-cache',
+            'Pragma: no-cache'
+        ));
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($curl);
+        $errorno = curl_errno($curl);
+        if ($errorno) {
+            return ['errrno' => $errorno, 'status' => 500];
+        }
+        curl_close($curl);
+
+        return ['status' => 200, 'result' => $res];
+
     }
 }
 

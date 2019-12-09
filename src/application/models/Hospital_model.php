@@ -21,7 +21,7 @@ class Hospital_model extends Base_model
 
     public function getAllByPosi( $page, $offset,$longitude='', $latitude='',$id=0)
     {
-        $sql = "select hs.id,hs.name,hs.telphone,hs.position,hs.pic,hs.detail,hs.business_type,hs.create_time,hs.distance1 as distance ".
+        $sql = "select hs.id,hs.name,hs.telphone,hs.position,hs.pic,hs.detail,hs.business_type,hs.create_time,hs.distance1 as distance,hs.longitude,hs.latitude ".
             " from (select info.*, convert((st_distance(point(info.longitude,info.latitude),".
             " point(?,?))*111195)/1000,decimal(10,2) ) as distance1 ".
             " from hospitals info ) hs ";
