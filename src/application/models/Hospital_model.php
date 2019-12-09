@@ -31,7 +31,7 @@ class Hospital_model extends Base_model
         if($id){
             $sql = $sql." where hs.id =?";
         }
-        $sql = $sql. "order by hs.create_time DESC";
+        $sql = $sql. "order by hs.distance asc";
         $param = array();
         if(!empty($id)){
             $param = array($longitude, $latitude,$id );
