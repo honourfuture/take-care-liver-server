@@ -246,7 +246,7 @@ class User extends REST_Controller {
         }
 
         if($this->input->post('id_card')){
-            $hasUser = $this->User_model->getCard($this->input->post('id_card'));
+            $hasUser = $this->User_model->getCard($this->input->post('id_card'), $this->user_id);
             if($hasUser){
                 return $this->json([], 500, '该身份证号码已提交审核！');
             }
