@@ -100,7 +100,7 @@ class Cash_out_model extends CI_Model
         if($num && $offset) {
             $this->db->limit($num, $offset);
         }
-
+        $this->db->order_by("apply_time", "DESC");
         $query = $this->db->get();
         return $query->result();
     }
